@@ -19,7 +19,7 @@
     z-index: -1;
 		animation: stars-move-in 1000ms 300ms forwards;
     opacity: 0;
-    left: 0px;
+    left: 0;
 }
 
 @keyframes stars-move-in {
