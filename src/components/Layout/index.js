@@ -1,7 +1,6 @@
 import s from "./style.module.css";
 
 const Layout = ({ title, descr, urlBg, colorBg }) => {
-console.log(urlBg)
     const img = urlBg ? {
         background : `linear-gradient(rgba(6, 46, 73, 0.5), rgba(6, 46, 73, 0.5)), url(${urlBg})`,
         color:'white',

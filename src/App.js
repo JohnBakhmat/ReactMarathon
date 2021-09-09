@@ -15,9 +15,9 @@ function App() {
     <div className="App">
       <Logo />
       <Header title="Zar Marathon" descr="Yevhenii Bakhmat's Homework" />
-      <Layout title="Layout1 title" descr={lorem} urlBg={img1} colorBg="" />
+      <Layout title="Layout1 title" descr={lorem} urlBg={img1}/>
       <Layout title="Layout2 title" descr={lorem} colorBg={color} />
-      <Layout title="Layout3 title" descr={lorem} urlBg={img2} colorBg="" />
+      <Layout title="Layout3 title" descr={lorem} urlBg={img2} />
       <Footer />
     </div>
   );
