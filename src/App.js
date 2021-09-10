@@ -5,7 +5,7 @@ import Header from "./components/Header/index";
 import Layout from "./components/Layout/index";
 import PokemonCard from "./components/PokemonCard/index";
 import Logo from "./components/Logo/index";
-import { lorem } from "./lorem.json";
+// import { lorem } from "./lorem.json";
 import img1 from "./assets/img1.png";
 import img2 from "./assets/img2.jpg";
 import pokemons from "./pokemonDb.json";
