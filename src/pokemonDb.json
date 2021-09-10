@@ -1,11 +1,6 @@
-
 [
   {
-    "abilities": [
-      "keen-eye",
-      "tangled-feet",
-      "big-pecks"
-    ],
+    "abilities": ["keen-eye", "tangled-feet", "big-pecks"],
     "stats": {
       "hp": 63,
       "attack": 60,
@@ -28,11 +23,7 @@
     }
   },
   {
-    "abilities": [
-      "intimidate",
-      "shed-skin",
-      "unnerve"
-    ],
+    "abilities": ["intimidate", "shed-skin", "unnerve"],
     "stats": {
       "hp": 60,
       "attack": 95,
@@ -55,10 +46,7 @@
     }
   },
   {
-    "abilities": [
-      "static",
-      "lightning-rod"
-    ],
+    "abilities": ["static", "lightning-rod"],
     "stats": {
       "hp": 35,
       "attack": 55,
@@ -81,10 +69,7 @@
     }
   },
   {
-    "abilities": [
-      "overgrow",
-      "chlorophyll"
-    ],
+    "abilities": ["overgrow", "chlorophyll"],
     "stats": {
       "hp": 45,
       "attack": 49,
@@ -107,10 +92,7 @@
     }
   },
   {
-    "abilities": [
-      "blaze",
-      "solar-power"
-    ],
+    "abilities": ["blaze", "solar-power"],
     "stats": {
       "hp": 39,
       "attack": 52,
