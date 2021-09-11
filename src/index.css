@@ -36,5 +36,5 @@ a:active {
 }
 @font-face {
   font-family: Pocket Monk;
-  src: url(./assets/Pocket\ Monk.otf) format('opentype');
+  src: url(./assets/Pocket\ Monk.otf) format("opentype");
 }
