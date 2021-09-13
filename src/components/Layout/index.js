@@ -1,5 +1,5 @@
 import s from "./style.module.css";
-import cn from 'classnames'
+import cn from "classnames";
 const Layout = ({ title, children, urlBg, colorBg }) => {
   const img = urlBg
     ? {

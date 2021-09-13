@@ -1,22 +1,26 @@
-import s from './styles.module.css'
+import s from "./styles.module.css";
 import Footer from "../../components/Footer/index";
 import Header from "../../components/Header/index";
 import Layout from "../../components/Layout/index";
 import PokemonCard from "../../components/PokemonCard/index";
-import Logo from "../../components/Logo/index";
+import MenuHeader from "../../components/MenuHeader/index";
 import img1 from "../../assets/img1.png";
 import img2 from "../../assets/img2.jpg";
 import pokemons from "../../pokemonDb.json";
 
-const HomePage = ({onRedirect})=> {
+const HomePage = ({ onRedirect }) => {
   const color = "#F79C1E";
-  const handleRedirect=(path)=>{
-    onRedirect && onRedirect(path)
-  }
+  const handleRedirect = (path) => {
+    onRedirect && onRedirect(path);
+  };
   return (
     <div className="App">
-      <Logo />
-      <Header title="Zar Marathon" descr="Yevhenii Bakhmat's Homework" onRedirect={handleRedirect} />
+      <MenuHeader onRedirect={handleRedirect} />
+      <Header
+        title="Zar Marathon"
+        descr="Yevhenii Bakhmat's Homework"
+        onRedirect={handleRedirect}
+      />
       <Layout title="Layout1 title" urlBg={img1}>
         <p>
           In the game two players face off against one another, one side playing
@@ -28,7 +32,15 @@ const HomePage = ({onRedirect})=> {
       <Layout title="Cards" colorBg={color}>
         <div className={s.flex}>
           {pokemons.map((item) => (
-            <PokemonCard key={item.id} id={item.id} name={item.name} img={item.img} stats={item.stats} type={item.type} values={item.values}  />
+            <PokemonCard
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              img={item.img}
+              stats={item.stats}
+              type={item.type}
+              values={item.values}
+            />
           ))}
         </div>
       </Layout>
@@ -48,6 +60,6 @@ const HomePage = ({onRedirect})=> {
       <Footer />
     </div>
   );
-}
+};
 
 export default HomePage;

@@ -9,14 +9,16 @@ const PokemonCard = ({ img, name, stats, type, values, id }) => {
   };
   return (
     <div className={s.root} onClick={handleClick}>
-      <div className={`${cn(s.pokemonCard, {[s.active] : isActive})}`}>
+      <div className={`${cn(s.pokemonCard, { [s.active]: isActive })}`}>
         <div className={s.cardFront}>
-          <div className={`${cn(s.wrap , s.front)}`}>
+          <div className={`${cn(s.wrap, s.front)}`}>
             <div className={`${cn(s.pokemon, s[type])}`}>
               <div className={s.values}>
                 <div className={`${cn(s.count, s.top)}`}>{values.top}</div>
                 <div className={`${cn(s.count, s.right)}`}>{values.right}</div>
-                <div className={`${cn(s.count, s.bottom)}`}>{values.bottom}</div>
+                <div className={`${cn(s.count, s.bottom)}`}>
+                  {values.bottom}
+                </div>
                 <div className={`${cn(s.count, s.left)}`}>{values.left}</div>
               </div>
               <div className={s.imgContainer}>
