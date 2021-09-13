@@ -19,8 +19,6 @@ button:visited {
   box-sizing: border-box;
   background: purple;
   border-radius: 20px;
-  border: 1px solid transparent;
-  color: #fafafa;
   font-weight: bold;
   outline: none;
 }
