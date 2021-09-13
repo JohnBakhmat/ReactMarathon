@@ -72,12 +72,12 @@
 
 .menuButton.active > span::before {
   transform: rotate(-225deg);
-  top: 0px;
+  top: 0;
 }
 
 .menuButton.active > span::after {
   transform: rotate(225deg);
-  top: 0px;
+  top: 0;
 }
 
 @media only screen and (max-width: 849px) {

@@ -17,10 +17,6 @@ button:visited {
   transition: all ease-in-out 0.25s;
   cursor: pointer;
   box-sizing: border-box;
-}
-
-button,
-button:visited {
   background: purple;
   border-radius: 20px;
   border: 1px solid transparent;

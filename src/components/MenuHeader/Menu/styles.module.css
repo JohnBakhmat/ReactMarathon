@@ -105,9 +105,6 @@
   margin-left: -80px;
   opacity: 0;
   animation: slide-out 200ms forwards;
-}
-
-.menuContainer ul {
   list-style-type: none !important;
   font-size: 3rem;
 }
@@ -115,7 +112,7 @@
 @keyframes slide-out {
   from {
     opacity: 1;
-    margin-left: 0px;
+    margin-left: 0;
   }
   to {
     opacity: 0;
