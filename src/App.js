@@ -15,7 +15,7 @@ const App = () => {
     case "home":
       return <HomePage onRedirect={handleRedirect} />;
     default: {
-      console.log("Error");
+      return <HomePage onRedirect={handleRedirect} />;
     }
   }
 };
