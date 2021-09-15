@@ -2,7 +2,7 @@ import { useState } from "react";
 import Menu from "./Menu";
 import NavBar from "./NavBar";
 const MenuHeader = ({ onRedirect }) => {
-  const [isActive, setActive] = useState(false);
+  const [isActive, setActive] = useState(null);
   const handleActivity = () => {
     setActive(!isActive);
   };

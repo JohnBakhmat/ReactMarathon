@@ -11,7 +11,12 @@ const Menu = ({ isActive, onRedirect }) => {
     handleRedirect("game");
   };
   return (
-    <div className={cn(s.menuContainer, isActive ? s.active : s.deactive)}>
+    <div
+      className={cn(s.menuContainer, {
+        [s.active]: isActive === true,
+        [s.deactive]: isActive === false,
+      })}
+    >
       <div className={s.overlay} />
       <div className={s.menuItems}>
         <ul>

@@ -12,7 +12,10 @@ const NavBar = ({ isActive, onChangeActivity }) => {
           <Logo />
           LOGO
         </p>
-        <a href="#home" className={cn(s.menuButton, { [s.active]: isActive })}>
+        <a
+          href="#home"
+          className={cn(s.menuButton, { [s.active]: isActive === true })}
+        >
           <span />
         </a>
       </div>
