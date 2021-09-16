@@ -1,5 +1,8 @@
 import HomePage from "./routes/HomePage";
 import GamePage from "./routes/GamePage";
+import NotFound from "./routes/NotFound";
+import AboutPage from "./routes/AboutPage";
+import ContactPage from "./routes/ContactPage";
 import MenuHeader from "./components/MenuHeader";
 import Footer from "./components/Footer";
 import s from './styles.module.css'
@@ -13,7 +16,7 @@ const App = () => {
 
   return (
       <Switch>
-        <Route path="/404" render={() => <h1>404 NotFound</h1>} />
+        <Route path="/404" component={NotFound} />
         <Route>
           <>
             <MenuHeader bgActive={!match.isExact} />
@@ -22,7 +25,8 @@ const App = () => {
                 <Route path="/" exact component={HomePage} />
                 {/* <Route path="/home" component={HomePage} /> */}
                 <Route path="/game" component={GamePage} />
-                <Route path="/about" render={() => <h1>This is about page</h1>} />
+                <Route path="/about" component={AboutPage} />
+                <Route path="/contact" component={ContactPage} />
                 <Route render={()=>(
                   <Redirect to="/404" />
                 )} />

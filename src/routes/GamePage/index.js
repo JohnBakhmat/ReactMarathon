@@ -1,14 +1,10 @@
-import MenuHeader from "../../components/MenuHeader";
+function GamePage() {
+	return (
+		<div>
+			<h1>This is GamePage</h1>
+		</div>
+	)
+}
 
-const GamePage = ({ onRedirect }) => {
-  const handleRedirect = (path) => {
-    onRedirect && onRedirect(path);
-  };
+export default GamePage
 
-  return (
-    <div>
-      <div>aaaaaaaaaaaaaaaaaaaaaaaaa</div>
-    </div>
-  );
-};
-export default GamePage;
