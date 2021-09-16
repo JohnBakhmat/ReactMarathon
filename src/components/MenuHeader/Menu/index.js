@@ -20,16 +20,11 @@ const Links = [
   }
 ]
 
-const Menu = ({ isActive, onRedirect }) => {
-  const handleRedirect = (path) => {
-    onRedirect && onRedirect(path);
+const Menu = ({ isActive,onChangeActivity }) => {
+  const handleClick = () => {
+    onChangeActivity && onChangeActivity();
   };
-  const handleHomeClick = () => {
-    handleRedirect("home");
-  };
-  const handleGameClick = () => {
-    handleRedirect("game");
-  };
+
   return (
     <div
       className={cn(s.menuContainer, {
@@ -43,7 +38,7 @@ const Menu = ({ isActive, onRedirect }) => {
           {
           Links.map(({label,to},index)=>(
             <li key={index}>
-              <Link to={to}>
+              <Link to={to} onClick={handleClick}>
                 {label}
               </Link>
             </li>

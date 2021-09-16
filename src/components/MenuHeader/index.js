@@ -1,13 +1,10 @@
 import { useState } from "react";
 import Menu from "./Menu";
 import NavBar from "./NavBar";
-const MenuHeader = ({ onRedirect, bgActive }) => {
+const MenuHeader = ({ bgActive }) => {
   const [isActive, setActive] = useState(null);
   const handleActivity = () => {
     setActive(!isActive);
-  };
-  const handleRedirect = (path) => {
-    onRedirect && onRedirect(path);
   };
 
   return (
@@ -15,7 +12,6 @@ const MenuHeader = ({ onRedirect, bgActive }) => {
       <Menu
         isActive={isActive}
         onChangeActivity={handleActivity}
-        onRedirect={handleRedirect}
       />
       <NavBar
         isActive={isActive}
