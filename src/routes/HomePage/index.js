@@ -1,18 +1,26 @@
 import s from "./styles.module.css";
-import Footer from "../../components/Footer/index";
+
 import Header from "../../components/Header/index";
 import Layout from "../../components/Layout/index";
 import PokemonCard from "../../components/PokemonCard/index";
-import MenuHeader from "../../components/MenuHeader/index";
+
 import img1 from "../../assets/img1.png";
 import img2 from "../../assets/img2.jpg";
-import pokemons from "../../pokemonDb.json";
+import pDb from "../../data/pokemons.json";
 
+import {useState} from 'react'
 const HomePage = ({ onRedirect }) => {
   const color = "#F79C1E";
   const handleRedirect = (path) => {
     onRedirect && onRedirect(path);
   };
+  const [pokemons,setPokemons] = useState(pDb)
+	const handleFlipEvent=(id)=>{
+		let newArray = [...pokemons]
+		let pokeId = newArray.findIndex(p=>p.id===id)
+		newArray[pokeId].isActive ^= true
+		setPokemons(newArray)
+	}
   return (
     <div className="App">
       <Header
@@ -39,6 +47,8 @@ const HomePage = ({ onRedirect }) => {
               stats={item.stats}
               type={item.type}
               values={item.values}
+              isActive={item.isActive}
+              onClickEvent={handleFlipEvent}
             />
           ))}
         </div>
