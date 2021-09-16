@@ -17,7 +17,11 @@ const MenuHeader = ({ onRedirect, bgActive }) => {
         onChangeActivity={handleActivity}
         onRedirect={handleRedirect}
       />
-      <NavBar isActive={isActive} bgActive={bgActive} onChangeActivity={handleActivity} />
+      <NavBar
+        isActive={isActive}
+        bgActive={bgActive}
+        onChangeActivity={handleActivity}
+      />
     </>
   );
 };

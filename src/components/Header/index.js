@@ -1,8 +1,12 @@
 import s from "./style.module.css";
+import {useHistory} from 'react-router-dom';
+
 const Header = ({ title, descr, onRedirect }) => {
+  const history = useHistory();
+
   const handleRedirect = () => {
-    onRedirect && onRedirect("game");
-  };
+    history.push('/game')
+  }
   return (
     <header className={s.root}>
       <div className={s.forest}></div>
@@ -14,4 +18,5 @@ const Header = ({ title, descr, onRedirect }) => {
     </header>
   );
 };
+
 export default Header;

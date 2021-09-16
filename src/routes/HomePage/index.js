@@ -15,7 +15,6 @@ const HomePage = ({ onRedirect }) => {
   };
   return (
     <div className="App">
-      <MenuHeader onRedirect={handleRedirect} />
       <Header
         title="Zar Marathon"
         descr="Yevhenii Bakhmat's Homework"
@@ -57,7 +56,6 @@ const HomePage = ({ onRedirect }) => {
           the player's color instead.{" "}
         </p>
       </Layout>
-      <Footer />
     </div>
   );
 };
