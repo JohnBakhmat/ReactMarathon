@@ -8,19 +8,19 @@ import img1 from "../../assets/img1.png";
 import img2 from "../../assets/img2.jpg";
 import pDb from "../../data/pokemons.json";
 
-import {useState} from 'react'
+import { useState } from "react";
 const HomePage = ({ onRedirect }) => {
   const color = "#F79C1E";
   const handleRedirect = (path) => {
     onRedirect && onRedirect(path);
   };
-  const [pokemons,setPokemons] = useState(pDb)
-	const handleFlipEvent=(id)=>{
-		let newArray = [...pokemons]
-		let pokeId = newArray.findIndex(p=>p.id===id)
-		newArray[pokeId].isActive ^= true
-		setPokemons(newArray)
-	}
+  const [pokemons, setPokemons] = useState(pDb);
+  const handleFlipEvent = (id) => {
+    let newArray = [...pokemons];
+    let pokeId = newArray.findIndex((p) => p.id === id);
+    newArray[pokeId].isActive ^= true;
+    setPokemons(newArray);
+  };
   return (
     <div className="App">
       <Header

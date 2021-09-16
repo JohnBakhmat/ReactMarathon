@@ -1,19 +1,19 @@
-.face{
-	border-radius: 20% 5% 5% 20%;
+.face {
+  border-radius: 20% 5% 5% 20%;
 }
-.wrap{
-	display: flex;
-	flex-direction: row;
+.wrap {
+  display: flex;
+  flex-direction: row;
 }
-.textBlock{
-	padding-left: 4rem;
+.textBlock {
+  padding-left: 4rem;
 }
-.name{
-	font-family: "Buckwheat";
-	font-size: xxx-large;
+.name {
+  font-family: "Buckwheat";
+  font-size: xxx-large;
 }
 @font-face {
-	font-family: "Buckwheat";
-	src: url(./assets/fonts/Buckwheat\ TC\ Sans\ Painted.otf) format("opentype"),
-	url(./assets/fonts/Buckwheat\ TC\ Sans\ SVG.ttf) format("truetype");
+  font-family: "Buckwheat";
+  src: url(./assets/fonts/Buckwheat\ TC\ Sans\ Painted.otf) format("opentype"),
+    url(./assets/fonts/Buckwheat\ TC\ Sans\ SVG.ttf) format("truetype");
 }

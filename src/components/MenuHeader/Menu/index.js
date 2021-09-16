@@ -1,26 +1,26 @@
 import s from "./styles.module.css";
 import cn from "classnames";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 const Links = [
   {
-    label: 'HOME',
-    to:'/'
+    label: "HOME",
+    to: "/",
   },
   {
-    label: 'GAME',
-    to:'/game'
+    label: "GAME",
+    to: "/game",
   },
   {
-    label: 'ABOUT',
-    to:'/about'
+    label: "ABOUT",
+    to: "/about",
   },
   {
-    label: 'CONTACTS',
-    to:'/contacts'
-  }
-]
+    label: "CONTACTS",
+    to: "/contacts",
+  },
+];
 
-const Menu = ({ isActive,onChangeActivity }) => {
+const Menu = ({ isActive, onChangeActivity }) => {
   const handleClick = () => {
     onChangeActivity && onChangeActivity();
   };
@@ -35,15 +35,13 @@ const Menu = ({ isActive,onChangeActivity }) => {
       <div className={s.overlay} />
       <div className={s.menuItems}>
         <ul>
-          {
-          Links.map(({label,to},index)=>(
+          {Links.map(({ label, to }, index) => (
             <li key={index}>
               <Link to={to} onClick={handleClick}>
                 {label}
               </Link>
             </li>
-          ))
-          }
+          ))}
         </ul>
       </div>
     </div>

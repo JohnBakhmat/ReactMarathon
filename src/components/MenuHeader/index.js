@@ -9,10 +9,7 @@ const MenuHeader = ({ bgActive }) => {
 
   return (
     <>
-      <Menu
-        isActive={isActive}
-        onChangeActivity={handleActivity}
-      />
+      <Menu isActive={isActive} onChangeActivity={handleActivity} />
       <NavBar
         isActive={isActive}
         bgActive={bgActive}
