@@ -8,7 +8,7 @@ import Footer from "./components/Footer";
 import s from "./styles.module.css";
 
 import cn from "classnames";
-import { useState } from "react";
+
 import { useRouteMatch, Route, Switch, Redirect } from "react-router-dom";
 
 const App = () => {

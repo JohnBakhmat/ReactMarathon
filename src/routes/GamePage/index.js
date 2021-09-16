@@ -1,4 +1,4 @@
-import Layout from "../../components/Layout";
+
 import PokemonCard from "../../components/PokemonCard/";
 import pDb from "../../data/pokemons.json";
 import s from "./styles.module.css";
