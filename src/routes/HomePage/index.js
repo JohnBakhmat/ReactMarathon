@@ -6,21 +6,39 @@ import PokemonCard from "../../components/PokemonCard/index";
 
 import img1 from "../../assets/img1.png";
 import img2 from "../../assets/img2.jpg";
-import pDb from "../../data/pokemons.json";
 
-import { useState } from "react";
+
+import { useState,useEffect } from "react";
+import database from '../../services/firebase'
+
 const HomePage = ({ onRedirect }) => {
   const color = "#F79C1E";
   const handleRedirect = (path) => {
     onRedirect && onRedirect(path);
   };
-  const [pokemons, setPokemons] = useState(pDb);
+  const [pokemons, setPokemons] = useState({});
+
+  useEffect(()=>{
+    database.ref("pokemons").once('value',(snapshot)=>{
+      setPokemons(snapshot.val())
+    })    
+  },[])
+
   const handleFlipEvent = (id) => {
-    let newArray = [...pokemons];
-    let pokeId = newArray.findIndex((p) => p.id === id);
-    newArray[pokeId].isActive ^= true;
-    setPokemons(newArray);
+    setPokemons(prevState => {
+      return Object.entries(prevState).reduce((acc, item) => {
+          const pokemon = {...item[1]};
+          if (pokemon.id === id) {
+              pokemon.isActive = true;
+          };
+  
+          acc[item[0]] = pokemon;
+  
+          return acc;
+      }, {});
+  });
   };
+
   return (
     <div className="App">
       <Header
@@ -38,9 +56,10 @@ const HomePage = ({ onRedirect }) => {
       </Layout>
       <Layout title="Cards" colorBg={color}>
         <div className={s.flex}>
-          {pokemons.map((item) => (
+          {
+          Object.entries(pokemons).map(([key,item]) => (
             <PokemonCard
-              key={item.id}
+              key={key}
               id={item.id}
               name={item.name}
               img={item.img}

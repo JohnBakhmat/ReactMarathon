@@ -1,21 +1,41 @@
+// @ts-nocheck
 
 import PokemonCard from "../../components/PokemonCard/";
-import pDb from "../../data/pokemons.json";
 import s from "./styles.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import database from "../../services/firebase"
+
+
+
 function GamePage() {
-  const [pokemons, setPokemons] = useState(pDb);
+
+  const [pokemons, setPokemons] = useState({});
+
+  useEffect(()=>{
+    database.ref("pokemons").once('value',(snapshot)=>{
+      setPokemons(snapshot.val())
+    })    
+  },[])
   const handleFlipEvent = (id) => {
-    let newArray = [...pokemons];
-    let pokeId = newArray.findIndex((p) => p.id === id);
-    newArray[pokeId].isActive ^= true;
-    setPokemons(newArray);
+    setPokemons(prevState => {
+      return Object.entries(prevState).reduce((acc, item) => {
+          const pokemon = {...item[1]};
+          if (pokemon.id === id) {
+              pokemon.isActive = true;
+          };
+  
+          acc[item[0]] = pokemon;
+  
+          return acc;
+      }, {});
+  });
   };
   return (
     <div className={s.section}>
-      {pokemons.map((item) => (
+      {
+      Object.entries(pokemons).map(([key,item]) => (
         <PokemonCard
-          key={item.id}
+          key={key}
           id={item.id}
           name={item.name}
           img={item.img}
