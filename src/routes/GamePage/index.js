@@ -17,11 +17,16 @@ function GamePage() {
     })    
   },[])
   const handleFlipEvent = (id) => {
+    
+
+
+
     setPokemons(prevState => {
       return Object.entries(prevState).reduce((acc, item) => {
           const pokemon = {...item[1]};
           if (pokemon.id === id) {
-              pokemon.isActive = true;
+              pokemon.isActive = !pokemon.isActive;
+              database.ref(`pokemons/${item[0]}`).set(pokemon)
           };
   
           acc[item[0]] = pokemon;
