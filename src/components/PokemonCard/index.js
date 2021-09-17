@@ -1,11 +1,21 @@
 import s from "./style.module.css";
 import cardBack from "./assets/card-back-side.jpg";
-import { useState } from "react";
+// import { useState } from "react";
 import cn from "classnames";
-const PokemonCard = ({ img, name, stats, type, values, id }) => {
-  const [isActive, setActive] = useState(false);
+const PokemonCard = ({
+  img,
+  name,
+  stats,
+  type,
+  values,
+  id,
+  isActive,
+  onClickEvent,
+}) => {
+  // const [isActive, setActive] = useState(false);
   const handleClick = () => {
-    setActive(!isActive);
+    onClickEvent && onClickEvent(id);
+    // setActive(!isActive);
   };
   return (
     <div className={s.root} onClick={handleClick}>

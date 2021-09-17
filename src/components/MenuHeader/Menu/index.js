@@ -1,15 +1,30 @@
 import s from "./styles.module.css";
 import cn from "classnames";
-const Menu = ({ isActive, onRedirect }) => {
-  const handleRedirect = (path) => {
-    onRedirect && onRedirect(path);
+import { Link } from "react-router-dom";
+const Links = [
+  {
+    label: "HOME",
+    to: "/",
+  },
+  {
+    label: "GAME",
+    to: "/game",
+  },
+  {
+    label: "ABOUT",
+    to: "/about",
+  },
+  {
+    label: "CONTACTS",
+    to: "/contacts",
+  },
+];
+
+const Menu = ({ isActive, onChangeActivity }) => {
+  const handleClick = () => {
+    onChangeActivity && onChangeActivity();
   };
-  const handleHomeClick = () => {
-    handleRedirect("home");
-  };
-  const handleGameClick = () => {
-    handleRedirect("game");
-  };
+
   return (
     <div
       className={cn(s.menuContainer, {
@@ -20,22 +35,13 @@ const Menu = ({ isActive, onRedirect }) => {
       <div className={s.overlay} />
       <div className={s.menuItems}>
         <ul>
-          <li>
-            <a href="#home" onClick={handleHomeClick}>
-              HOME
-            </a>
-          </li>
-          <li>
-            <a href="#game" onClick={handleGameClick}>
-              GAME
-            </a>
-          </li>
-          <li>
-            <a href="#about">ABOUT</a>
-          </li>
-          <li>
-            <a href="#contact">CONTACT</a>
-          </li>
+          {Links.map(({ label, to }, index) => (
+            <li key={index}>
+              <Link to={to} onClick={handleClick}>
+                {label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
