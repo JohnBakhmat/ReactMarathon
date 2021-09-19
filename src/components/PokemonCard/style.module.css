@@ -33,7 +33,6 @@
 .pokemonCard.active {
   animation: flipFront 1000ms 300ms forwards;
 }
-
 @keyframes flipFront {
   from {
     transform: rotateY(180deg);
