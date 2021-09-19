@@ -10,12 +10,12 @@ import database from "../../services/firebase"
 function GamePage() {
 
   const [pokemons, setPokemons] = useState({});
-
-  useEffect(()=>{
-    database.ref("pokemons").once('value',(snapshot)=>{
-      setPokemons(snapshot.val())
-    })    
-  },[])
+  const fireGet =()=> {
+    database.ref("pokemons").once('value', (snapshot) => {
+      setPokemons(snapshot.val());
+    });
+  }
+  useEffect(fireGet,[])
 
   const handleFlipEvent = (id) => {
     setPokemons(prevState => {
@@ -32,7 +32,7 @@ function GamePage() {
       }, {});
   });
   };
-
+  
   const handleAddPokemon = ()=>{
     const data = {
       "abilities": [
@@ -64,9 +64,7 @@ function GamePage() {
     }
     const newKey = database.ref().child('pokemons').push().key;
     database.ref('pokemons/' + newKey).set(data);
-    database.ref("pokemons").once('value',(snapshot)=>{
-      setPokemons(snapshot.val())
-    }) 
+    fireGet(); 
   }
 
   return (
