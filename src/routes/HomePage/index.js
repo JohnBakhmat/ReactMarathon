@@ -9,34 +9,34 @@ import img2 from "../../assets/img2.jpg";
 
 import { useContext } from "react";
 import { FireBaseContext } from "../../context/firebaseContext";
-import { useState,useEffect } from "react";
-import database from '../../services/firebase'
+import { useState, useEffect } from "react";
+import database from "../../services/firebase";
 
 const HomePage = ({ onRedirect }) => {
-  const firebase = useContext(FireBaseContext)
+  const firebase = useContext(FireBaseContext);
   const color = "#F79C1E";
   const handleRedirect = (path) => {
     onRedirect && onRedirect(path);
   };
   const [pokemons, setPokemons] = useState({});
 
-  useEffect(()=>{
-    firebase.getPokemonOnce()   
-  },[])
+  useEffect(() => {
+    firebase.getPokemonOnce();
+  }, []);
 
   const handleFlipEvent = (id) => {
-    setPokemons(prevState => {
+    setPokemons((prevState) => {
       return Object.entries(prevState).reduce((acc, item) => {
-          const pokemon = {...item[1]};
-          if (pokemon.id === id) {
-              pokemon.isActive = true;
-          };
-  
-          acc[item[0]] = pokemon;
-          firebase.postPokemon(item[0],pokemon)
-          return acc;
+        const pokemon = { ...item[1] };
+        if (pokemon.id === id) {
+          pokemon.isActive = true;
+        }
+
+        acc[item[0]] = pokemon;
+        firebase.postPokemon(item[0], pokemon);
+        return acc;
       }, {});
-  });
+    });
   };
 
   return (
@@ -56,8 +56,7 @@ const HomePage = ({ onRedirect }) => {
       </Layout>
       <Layout title="Cards" colorBg={color}>
         <div className={s.flex}>
-          {
-          Object.entries(pokemons).map(([key,item]) => (
+          {Object.entries(pokemons).map(([key, item]) => (
             <PokemonCard
               key={key}
               id={item.id}

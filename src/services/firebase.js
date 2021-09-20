@@ -11,34 +11,39 @@ const firebaseConfig = {
   storageBucket: "jb-react-marathon.appspot.com",
   messagingSenderId: "204321349034",
   appId: "1:204321349034:web:413032aa758b303cdf1fd3",
-  measurementId: "G-B0M4LYHTMT"
+  measurementId: "G-B0M4LYHTMT",
 };
 
 class Firebase {
-  constructor(){
+  constructor() {
     firebase.initializeApp(firebaseConfig);
 
     this.fire = firebase;
     this.database = this.fire.database();
   }
 
-  getPokemonOnce = async ()=>{
-    return await this.database.ref('pokemons').once('value').then(snapshot=>snapshot.val())
-  }
-  postPokemon = (key,pokemon)=>{
-    this.database.ref(`pokemons/${key}`).set(pokemon)
-  }
-  addPokemon= (data, callBack)=>{
-    const newKey = this.database.ref().child('pokemons').push().key;
-    this.database.ref('pokemons/' + newKey).set(data).then(()=>callBack());
-  }
+  getPokemonOnce = async () => {
+    return await this.database
+      .ref("pokemons")
+      .once("value")
+      .then((snapshot) => snapshot.val());
+  };
+  postPokemon = (key, pokemon) => {
+    this.database.ref(`pokemons/${key}`).set(pokemon);
+  };
+  addPokemon = (data, callBack) => {
+    const newKey = this.database.ref().child("pokemons").push().key;
+    this.database
+      .ref("pokemons/" + newKey)
+      .set(data)
+      .then(() => callBack());
+  };
 
-  getPokemonSocket = (callBack)=>{
-    this.database.ref('pokemons').on('value',(snapshot)=>{
-      callBack(snapshot.val())
-    })
-  }
+  getPokemonSocket = (callBack) => {
+    this.database.ref("pokemons").on("value", (snapshot) => {
+      callBack(snapshot.val());
+    });
+  };
 }
-
 
 export default Firebase;
