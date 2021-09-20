@@ -4,18 +4,19 @@ import PokemonCard from "../../components/PokemonCard/";
 import s from "./styles.module.css";
 import { useState, useEffect } from "react";
 import database from "../../services/firebase"
+import { useContext } from "react";
+import { FireBaseContext } from "../../context/firebaseContext";
 
 
 
 function GamePage() {
+  const firebase = useContext(FireBaseContext)
 
   const [pokemons, setPokemons] = useState({});
-  const fireGet =()=> {
-    database.ref("pokemons").once('value', (snapshot) => {
-      setPokemons(snapshot.val());
-    });
-  }
-  useEffect(fireGet,[])
+
+  useEffect(()=>{firebase.getPokemonSocket((pokemons)=>{
+    setPokemons(pokemons)
+  })},[])
 
   const handleFlipEvent = (id) => {
     setPokemons(prevState => {
@@ -23,11 +24,12 @@ function GamePage() {
           const pokemon = {...item[1]};
           if (pokemon.id === id) {
               pokemon.isActive = !pokemon.isActive;
-              database.ref(`pokemons/${item[0]}`).set(pokemon)
           };
   
           acc[item[0]] = pokemon;
-  
+          
+          firebase.postPokemon(item[0],pokemon)
+
           return acc;
       }, {});
   });
@@ -62,9 +64,7 @@ function GamePage() {
         "left": 2
       }
     }
-    const newKey = database.ref().child('pokemons').push().key;
-    database.ref('pokemons/' + newKey).set(data);
-    fireGet(); 
+    firebase.addPokemon(data)
   }
 
   return (

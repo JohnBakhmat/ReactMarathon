@@ -7,11 +7,13 @@ import PokemonCard from "../../components/PokemonCard/index";
 import img1 from "../../assets/img1.png";
 import img2 from "../../assets/img2.jpg";
 
-
+import { useContext } from "react";
+import { FireBaseContext } from "../../context/firebaseContext";
 import { useState,useEffect } from "react";
 import database from '../../services/firebase'
 
 const HomePage = ({ onRedirect }) => {
+  const firebase = useContext(FireBaseContext)
   const color = "#F79C1E";
   const handleRedirect = (path) => {
     onRedirect && onRedirect(path);
@@ -19,9 +21,7 @@ const HomePage = ({ onRedirect }) => {
   const [pokemons, setPokemons] = useState({});
 
   useEffect(()=>{
-    database.ref("pokemons").once('value',(snapshot)=>{
-      setPokemons(snapshot.val())
-    })    
+    firebase.getPokemonOnce()   
   },[])
 
   const handleFlipEvent = (id) => {
@@ -33,7 +33,7 @@ const HomePage = ({ onRedirect }) => {
           };
   
           acc[item[0]] = pokemon;
-  
+          firebase.postPokemon(item[0],pokemon)
           return acc;
       }, {});
   });

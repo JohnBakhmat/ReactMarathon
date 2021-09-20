@@ -10,6 +10,8 @@ import s from "./styles.module.css";
 import cn from "classnames";
 
 import { useRouteMatch, Route, Switch, Redirect } from "react-router-dom";
+import { FireBaseContext } from "./context/firebaseContext";
+import Firebase from "./services/firebase";
 
 
 
@@ -17,6 +19,7 @@ const App = () => {
   const match = useRouteMatch("/");
 
   return (
+    <FireBaseContext.Provider value={new Firebase()}>
     <Switch>
       <Route path="/404" component={NotFound} />
       <Route>
@@ -36,6 +39,7 @@ const App = () => {
         </>
       </Route>
     </Switch>
+    </FireBaseContext.Provider>
   );
 };
 

@@ -2,11 +2,7 @@
 import firebase from "firebase/compat/app";
 import { getAnalytics } from "firebase/analytics";
 import "firebase/compat/database";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDLNEG_jj29h-DJ0YwGJTNXGx7c-WEhMqA",
   authDomain: "jb-react-marathon.firebaseapp.com",
@@ -18,10 +14,31 @@ const firebaseConfig = {
   measurementId: "G-B0M4LYHTMT"
 };
 
-// Initialize Firebase
-export const fire = firebase.initializeApp(firebaseConfig);
-export const analytics = getAnalytics(fire);
-const database = firebase.database()
+class Firebase {
+  constructor(){
+    firebase.initializeApp(firebaseConfig);
+
+    this.fire = firebase;
+    this.database = this.fire.database();
+  }
+
+  getPokemonOnce = async ()=>{
+    return await this.database.ref('pokemons').once('value').then(snapshot=>snapshot.val())
+  }
+  postPokemon = (key,pokemon)=>{
+    this.database.ref(`pokemons/${key}`).set(pokemon)
+  }
+  addPokemon= (data, callBack)=>{
+    const newKey = this.database.ref().child('pokemons').push().key;
+    this.database.ref('pokemons/' + newKey).set(data).then(()=>callBack());
+  }
+
+  getPokemonSocket = (callBack)=>{
+    this.database.ref('pokemons').on('value',(snapshot)=>{
+      callBack(snapshot.val())
+    })
+  }
+}
 
 
-export default database;
+export default Firebase;
