@@ -1,13 +1,13 @@
 // @ts-nocheck
 
-import PokemonCard from "../../components/PokemonCard/";
+import PokemonCard from "../../../../components/PokemonCard";
 import s from "./styles.module.css";
 import { useState, useEffect } from "react";
-import database from "../../services/firebase";
+import database from "../../../../services/firebase";
 import { useContext } from "react";
-import { FireBaseContext } from "../../context/firebaseContext";
+import { FireBaseContext } from "../../../../context/firebaseContext";
 
-function GamePage() {
+function StartPage() {
   const firebase = useContext(FireBaseContext);
 
   const [pokemons, setPokemons] = useState({});
@@ -87,4 +87,4 @@ function GamePage() {
   );
 }
 
-export default GamePage;
+export default StartPage;

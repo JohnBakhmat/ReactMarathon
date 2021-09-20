@@ -1,5 +1,5 @@
 import HomePage from "./routes/HomePage";
-import GamePage from "./routes/GamePage";
+// import StartPage from "./routes/Game/routes/Start";
 import NotFound from "./routes/NotFound";
 import AboutPage from "./routes/AboutPage";
 import ContactPage from "./routes/ContactPage";
@@ -12,6 +12,7 @@ import cn from "classnames";
 import { useRouteMatch, Route, Switch, Redirect } from "react-router-dom";
 import { FireBaseContext } from "./context/firebaseContext";
 import Firebase from "./services/firebase";
+import GamePage from "./routes/Game";
 
 const App = () => {
   const match = useRouteMatch("/");
