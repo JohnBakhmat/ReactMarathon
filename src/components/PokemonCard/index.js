@@ -13,14 +13,20 @@ const PokemonCard = ({
   onClickEvent,
   minimize,
   className,
+  isSelected,
+  firebasekey,
 }) => {
-  // const [isActive, setActive] = useState(false);
   const handleClick = () => {
-    onClickEvent && onClickEvent(id);
-    // setActive(!isActive);
+    onClickEvent && onClickEvent(firebasekey);
   };
   return (
-    <div className={cn(className, s.pokemonCard, { [s.active]: isActive })}>
+    <div
+      onClick={handleClick}
+      className={cn(className, s.pokemonCard, {
+        [s.active]: isActive,
+        [s.selected]: isSelected,
+      })}
+    >
       <div className={s.cardFront}>
         <div className={cn(s.wrap, s.front)}>
           <div className={cn(s.pokemon, s[type])}>
