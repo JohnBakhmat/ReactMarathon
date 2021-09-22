@@ -73,7 +73,7 @@ function StartPage() {
       <button
         type="button"
         onClick={handleGameStart}
-        disabled={Object.keys(pokemonContext.pokemon).length < 5}
+        disabled={Object.keys(pokemonContext.playerOneHand).length < 5}
       >
         Start Game
       </button>
@@ -93,7 +93,7 @@ function StartPage() {
             className={s.pokemonCard}
             onClickEvent={() => {
               if (
-                Object.keys(pokemonContext.pokemon).length < 5 ||
+                Object.keys(pokemonContext.playerOneHand).length < 5 ||
                 item.isSelected
               ) {
                 handleFlipEvent(key);

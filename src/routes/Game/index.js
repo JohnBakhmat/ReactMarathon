@@ -6,10 +6,11 @@ import { PokemonContext } from "../../context/pokemonContext";
 import { useState } from "react";
 const GamePage = () => {
   const match = useRouteMatch();
-  const [deck, setDeck] = useState({});
+  const [deck1, setDeck1] = useState({});
+  const [deck2, setDeck2] = useState({});
 
   const handlePokemonSelect = (key, pokemon) => {
-    setDeck((prevState) => {
+    setDeck1((prevState) => {
       if (prevState[key]) {
         const copyState = { ...prevState };
         delete copyState[key];
@@ -18,11 +19,17 @@ const GamePage = () => {
       return { ...prevState, [key]: pokemon };
     });
   };
+
+  const savePlayerTwoDeck= (deck)=>{
+    setDeck2(deck)
+  }
   return (
     <PokemonContext.Provider
       value={{
-        pokemon: deck,
+        playerOneHand: deck1,
+        playerTwoHand: deck2,
         addToDeck: handlePokemonSelect,
+        savePlayerTwoDeck:savePlayerTwoDeck
       }}
     >
       <Switch>

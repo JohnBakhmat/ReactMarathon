@@ -13,8 +13,6 @@ import PlayerHand from "./PlayerHand";
 const winCounter = (board, playerOne, playerTwo) => {
   let handOneCount = playerOne.length;
   let handTwoCount = playerTwo.length;
-
-  console.log(board);
   board.forEach((item) => {
     if (item.card.possession === "red") {
       handTwoCount++;
@@ -28,14 +26,14 @@ const winCounter = (board, playerOne, playerTwo) => {
 };
 
 const BoardPage = () => {
-  const { pokemon } = useContext(PokemonContext);
+  const { playerOneHand,playerTwoHand,savePlayerTwoDeck } = useContext(PokemonContext);
 
   const [turns, setTurns] = useState(0);
   const [board, setBoard] = useState([]);
-  const [playerTwo, setPlayerTwo] = useState([]);
   const [chosenCard, setChosenCard] = useState(null);
+  const [playerTwo, setPlayerTwo] = useState([]);
   const [playerOne, setPlayerOne] = useState(() => {
-    return Object.values(pokemon).map((item) => ({
+    return Object.values(playerOneHand).map((item) => ({
       ...item,
       possession: "blue",
     }));
@@ -43,7 +41,7 @@ const BoardPage = () => {
 
   const history = useHistory();
 
-  if (!Object.keys(pokemon).length) {
+  if (!Object.keys(playerOneHand).length) {
     history.replace("/game");
   }
 
@@ -55,11 +53,14 @@ const BoardPage = () => {
     createPlayer().then((resp) => {
       let data = resp.data.data;
       setPlayerTwo(() => {
+        savePlayerTwoDeck(data)
         return data.map((item) => ({
           ...item,
           possession: "red",
         }));
       });
+      
+      console.log(playerTwoHand)
     });
   }, []);
 
@@ -101,6 +102,7 @@ const BoardPage = () => {
       } else {
         alert("Tie!");
       }
+      history.push("/game/finish");
     }
   }, [board, playerOne, playerTwo, turns]);
 
