@@ -5,12 +5,11 @@ import { PokemonContext } from "../../../../context/pokemonContext";
 
 function FinishPage() {
   const { pokemon } = useContext(PokemonContext);
-  const history = useHistory()
+  const history = useHistory();
 
-  if(!Object.keys(pokemon).length){
-    history.replace('/game')
+  if (!Object.keys(pokemon).length) {
+    history.replace("/game");
   }
-
 
   return <div>You won!</div>;
 }
