@@ -1,5 +1,4 @@
-// import axios from "axios";
-const axios = require("axios")
+import axios from "axios";
 const service = axios.create({
 	baseURL: 'https://reactmarathon-api.netlify.app/api',
 	headers: {
@@ -22,6 +21,6 @@ const playerTurn=(params,callback)=>{
 		callback(resp.data)
 	})
 }
-// getBoard((data)=>{console.log(data)})
-createPlayer((data)=>{console.log(data)})
-// playerTurn((data)=>{console.log(data)})
+export {
+	getBoard, createPlayer
+}
