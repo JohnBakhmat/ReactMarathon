@@ -22,6 +22,7 @@
   align-items: center;
   padding: 6px;
   cursor: pointer;
+  font-size: 64px;
 }
 .boardPlate:hover {
   background: rgba(255, 255, 255, 0.1);
@@ -42,6 +43,13 @@
   position: absolute;
   top: 4.3vw;
   left: 5vw;
-  width: 250px;
+  width: 18vw;
+  height: 50.3vw;
+}
+.playerTwo {
+  position: absolute;
+  top: 4.3vw;
+  right: 5vw;
+  width: 18vw;
   height: 50.3vw;
 }

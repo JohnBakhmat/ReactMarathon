@@ -3,24 +3,18 @@ const service = axios.create({
 	baseURL: 'https://reactmarathon-api.netlify.app/api',
 	headers: {
 	  'Content-Type': 'application/json',
+	  "Access-Control-Allow-Origin": "*"
 	},
   })
-const getBoard= (callback)=>{
-	service.get('/board').then(resp=>{
-		callback(resp.data.data)
-	})
+const getBoard= ()=>{
+	return service.get('/board')
 }
-const createPlayer=(callback)=>{
-	service.get('/create-player').then(resp=>{
-		callback(resp.data.data)
-	})
-
+const createPlayer=()=>{
+	return service.get('/create-player')
 }
-const playerTurn=(params,callback)=>{
-	service.post('/player-turn',JSON.stringify(params)).then(resp=>{
-		callback(resp.data)
-	})
+const playerTurn=(params)=>{
+	return service.post('/players-turn',JSON.stringify(params))
 }
 export {
-	getBoard, createPlayer
+	getBoard, createPlayer,playerTurn
 }
