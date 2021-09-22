@@ -1,5 +1,5 @@
 import HomePage from "./routes/HomePage";
-import GamePage from "./routes/GamePage";
+// import StartPage from "./routes/Game/routes/Start";
 import NotFound from "./routes/NotFound";
 import AboutPage from "./routes/AboutPage";
 import ContactPage from "./routes/ContactPage";
@@ -9,33 +9,38 @@ import s from "./styles.module.css";
 
 import cn from "classnames";
 
-import { useRouteMatch, Route, Switch, Redirect } from "react-router-dom";
-
-
+import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import { FireBaseContext } from "./context/firebaseContext";
+import Firebase from "./services/firebase";
+import GamePage from "./routes/Game";
 
 const App = () => {
-  const match = useRouteMatch("/");
+  const location = useLocation("/");
+  const paddingActive =
+    location.pathname === "/" || location.pathname === "/game/board";
 
   return (
-    <Switch>
-      <Route path="/404" component={NotFound} />
-      <Route>
-        <>
-          <MenuHeader bgActive={!match.isExact} />
-          <div className={cn(s.wrap, { [s.isHomePage]: match.isExact })}>
-            <Switch>
-              <Route path="/" exact component={HomePage} />
-              {/* <Route path="/home" component={HomePage} /> */}
-              <Route path="/game" component={GamePage} />
-              <Route path="/about" component={AboutPage} />
-              <Route path="/contact" component={ContactPage} />
-              <Route render={() => <Redirect to="/404" />} />
-            </Switch>
-          </div>
-          <Footer />
-        </>
-      </Route>
-    </Switch>
+    <FireBaseContext.Provider value={new Firebase()}>
+      <Switch>
+        <Route path="/404" component={NotFound} />
+        <Route>
+          <>
+            <MenuHeader bgActive={!paddingActive} />
+            <div className={cn(s.wrap, { [s.isHomePage]: paddingActive })}>
+              <Switch>
+                <Route path="/" exact component={HomePage} />
+                {/* <Route path="/home" component={HomePage} /> */}
+                <Route path="/game" component={GamePage} />
+                <Route path="/about" component={AboutPage} />
+                <Route path="/contact" component={ContactPage} />
+                <Route render={() => <Redirect to="/404" />} />
+              </Switch>
+            </div>
+            <Footer />
+          </>
+        </Route>
+      </Switch>
+    </FireBaseContext.Provider>
   );
 };
 

@@ -4,3 +4,9 @@
   align-items: center;
   flex-wrap: wrap;
 }
+.pokemonCard {
+  width: 268px;
+  height: 388px;
+  margin: 16px;
+  perspective: 1000px;
+}
