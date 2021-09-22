@@ -3,7 +3,7 @@ import StartPage from "./routes/Start";
 import BoardPage from "./routes/Board";
 import FinishPage from "./routes/Finish";
 import { PokemonContext } from "../../context/pokemonContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 const GamePage = () => {
   const match = useRouteMatch();
   const [deck, setDeck] = useState({});

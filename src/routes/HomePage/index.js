@@ -10,7 +10,6 @@ import img2 from "../../assets/img2.jpg";
 import { useContext } from "react";
 import { FireBaseContext } from "../../context/firebaseContext";
 import { useState, useEffect } from "react";
-import database from "../../services/firebase";
 
 const HomePage = ({ onRedirect }) => {
   const firebase = useContext(FireBaseContext);
@@ -22,7 +21,7 @@ const HomePage = ({ onRedirect }) => {
 
   useEffect(() => {
     firebase.getPokemonOnce();
-  }, []);
+  }, [firebase]);
 
   const handleFlipEvent = (id) => {
     setPokemons((prevState) => {
