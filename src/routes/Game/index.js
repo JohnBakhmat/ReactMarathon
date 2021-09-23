@@ -19,6 +19,9 @@ const GamePage = () => {
       return { ...prevState, [key]: pokemon };
     });
   };
+  const savePlayerOneDeck = (deck)=>{
+    setDeck1(deck)
+  }
 
   const savePlayerTwoDeck= (deck)=>{
     setDeck2(deck)
@@ -29,7 +32,8 @@ const GamePage = () => {
         playerOneHand: deck1,
         playerTwoHand: deck2,
         addToDeck: handlePokemonSelect,
-        savePlayerTwoDeck:savePlayerTwoDeck
+        savePlayerTwoDeck:savePlayerTwoDeck,
+        savePlayerOneDeck:savePlayerOneDeck
       }}
     >
       <Switch>

@@ -51,17 +51,6 @@ function StartPage() {
       [key]: { ...prevState[key], isSelected: !prevState[key].isSelected },
     }));
 
-    // setPokemons((prevState) => {
-    //   return Object.entries(prevState).reduce((acc, item) => {
-    //     const pokemon = { ...item[1] };
-    //     if (pokemon.id === id) {
-    //       pokemon.isSelected ^=true;
-    //     }
-
-    //     acc[item[0]] = pokemon;
-    //     return acc;
-    //   }, {});
-    // });
   };
 
   const handleGameStart = () => {
