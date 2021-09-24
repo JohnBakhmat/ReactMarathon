@@ -26,7 +26,9 @@ const winCounter = (board, playerOne, playerTwo) => {
 };
 
 const BoardPage = () => {
-  const { playerOneHand,playerTwoHand,savePlayerTwoDeck } = useContext(PokemonContext);
+  const { playerOneHand, savePlayerTwoDeck, setGameStatus } = useContext(
+    PokemonContext
+  );
 
   const [turns, setTurns] = useState(0);
   const [board, setBoard] = useState([]);
@@ -53,16 +55,16 @@ const BoardPage = () => {
     createPlayer().then((resp) => {
       let data = resp.data.data;
       setPlayerTwo(() => {
-        savePlayerTwoDeck(data)
+        savePlayerTwoDeck(data);
         return data.map((item) => ({
           ...item,
           possession: "red",
         }));
       });
-      
-      console.log(playerTwoHand)
+
+      setGameStatus("InProgress");
     });
-  }, []);
+  }, [savePlayerTwoDeck, setGameStatus]);
 
   const handleCellClick = (position) => {
     if (chosenCard) {
@@ -96,15 +98,18 @@ const BoardPage = () => {
       const [scoreOne, scoreTwo] = winCounter(board, playerOne, playerTwo);
 
       if (scoreOne > scoreTwo) {
+        setGameStatus("Won");
         alert("You won");
       } else if (scoreOne < scoreTwo) {
+        setGameStatus("Lost");
         alert("You lost!");
       } else {
+        setGameStatus("Tie");
         alert("Tie!");
       }
       history.push("/game/finish");
     }
-  }, [board, playerOne, playerTwo, turns]);
+  }, [board, history, playerOne, playerTwo, setGameStatus, turns]);
 
   return (
     <div className={s.root}>

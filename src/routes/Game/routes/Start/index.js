@@ -50,7 +50,6 @@ function StartPage() {
       ...prevState,
       [key]: { ...prevState[key], isSelected: !prevState[key].isSelected },
     }));
-
   };
 
   const handleGameStart = () => {
