@@ -64,7 +64,7 @@ const BoardPage = () => {
 
       setGameStatus("InProgress");
     });
-  }, [savePlayerTwoDeck, setGameStatus]);
+  }, []);
 
   const handleCellClick = (position) => {
     if (chosenCard) {

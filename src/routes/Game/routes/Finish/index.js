@@ -73,7 +73,11 @@ function FinishPage() {
           />
         ))}
       </div>
-      <button type="button" onClick={handleGameEnd}>
+      <button
+        type="button"
+        disabled={(stolenCard === null)&&gameStatus === "Won"}
+        onClick={handleGameEnd}
+      >
         End Game
       </button>
       <div className={s.row}>
