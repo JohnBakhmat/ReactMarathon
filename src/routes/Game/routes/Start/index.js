@@ -50,18 +50,6 @@ function StartPage() {
       ...prevState,
       [key]: { ...prevState[key], isSelected: !prevState[key].isSelected },
     }));
-
-    // setPokemons((prevState) => {
-    //   return Object.entries(prevState).reduce((acc, item) => {
-    //     const pokemon = { ...item[1] };
-    //     if (pokemon.id === id) {
-    //       pokemon.isSelected ^=true;
-    //     }
-
-    //     acc[item[0]] = pokemon;
-    //     return acc;
-    //   }, {});
-    // });
   };
 
   const handleGameStart = () => {
@@ -73,7 +61,7 @@ function StartPage() {
       <button
         type="button"
         onClick={handleGameStart}
-        disabled={Object.keys(pokemonContext.pokemon).length < 5}
+        disabled={Object.keys(pokemonContext.playerOneHand).length < 5}
       >
         Start Game
       </button>
@@ -93,7 +81,7 @@ function StartPage() {
             className={s.pokemonCard}
             onClickEvent={() => {
               if (
-                Object.keys(pokemonContext.pokemon).length < 5 ||
+                Object.keys(pokemonContext.playerOneHand).length < 5 ||
                 item.isSelected
               ) {
                 handleFlipEvent(key);
