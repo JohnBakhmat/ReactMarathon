@@ -1,6 +1,6 @@
-import s from "./style.module.css";
+import s from './style.module.css'
 // import { useState } from "react";
-import cn from "classnames";
+import cn from 'classnames'
 const PokemonCard = ({
   img,
   name,
@@ -17,8 +17,8 @@ const PokemonCard = ({
   possession,
 }) => {
   const handleClick = () => {
-    onClickEvent && onClickEvent(firebasekey);
-  };
+    onClickEvent && onClickEvent(firebasekey)
+  }
   return (
     <div
       onClick={handleClick}
@@ -56,6 +56,6 @@ const PokemonCard = ({
         <div className={cn(s.wrap, s.back)} />
       </div>
     </div>
-  );
-};
-export default PokemonCard;
+  )
+}
+export default PokemonCard

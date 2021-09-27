@@ -1,26 +1,26 @@
-import HomePage from "./routes/HomePage";
+import HomePage from './routes/HomePage'
 // import StartPage from "./routes/Game/routes/Start";
-import NotFound from "./routes/NotFound";
-import AboutPage from "./routes/AboutPage";
-import ContactPage from "./routes/ContactPage";
-import MenuHeader from "./components/MenuHeader";
-import Footer from "./components/Footer";
-import s from "./styles.module.css";
+import NotFound from './routes/NotFound'
+import AboutPage from './routes/AboutPage'
+import ContactPage from './routes/ContactPage'
+import MenuHeader from './components/MenuHeader'
+import Footer from './components/Footer'
+import s from './styles.module.css'
 
-import cn from "classnames";
+import cn from 'classnames'
 
-import { useLocation, Route, Switch, Redirect } from "react-router-dom";
-import { FireBaseContext } from "./context/firebaseContext";
-import Firebase from "./services/firebase";
-import GamePage from "./routes/Game";
+import { useLocation, Route, Switch, Redirect } from 'react-router-dom'
+import { FireBaseContext } from './context/firebaseContext'
+import Firebase from './services/firebase'
+import GamePage from './routes/Game'
 
 const App = () => {
-  const location = useLocation("/");
+  const location = useLocation('/')
   const paddingActive =
-    location.pathname === "/" || location.pathname === "/game/board";
+    location.pathname === '/' || location.pathname === '/game/board'
 
   return (
-    <FireBaseContext.Provider value={new Firebase()}>
+    <FireBaseContext.Provider value={Firebase}>
       <Switch>
         <Route path="/404" component={NotFound} />
         <Route>
@@ -41,7 +41,7 @@ const App = () => {
         </Route>
       </Switch>
     </FireBaseContext.Provider>
-  );
-};
+  )
+}
 
-export default App;
+export default App

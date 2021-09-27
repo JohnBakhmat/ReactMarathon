@@ -1,10 +1,10 @@
-import s from "./styles.module.css";
-import Logo from "../../Logo/index";
-import cn from "classnames";
+import s from './styles.module.css'
+import Logo from '../../Logo/index'
+import cn from 'classnames'
 const NavBar = ({ isActive, bgActive = false, onChangeActivity }) => {
   const handleClick = () => {
-    onChangeActivity && onChangeActivity();
-  };
+    onChangeActivity && onChangeActivity()
+  }
   return (
     <nav
       id={s.navbar}
@@ -23,6 +23,6 @@ const NavBar = ({ isActive, bgActive = false, onChangeActivity }) => {
         </div>
       </div>
     </nav>
-  );
-};
-export default NavBar;
+  )
+}
+export default NavBar

@@ -38,7 +38,7 @@
 .menuButton span::before,
 .menuButton span::after {
   position: absolute;
-  content: "";
+  content: '';
   width: 30px;
   height: 3px;
   background: #fafafa;

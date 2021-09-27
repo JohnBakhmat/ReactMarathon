@@ -1,4 +1,4 @@
-import s from "./style.module.css";
+import s from './style.module.css'
 
 const Footer = () => {
   return (
@@ -8,6 +8,6 @@ const Footer = () => {
         <p>© 2021 #ReactMarathon.</p>
       </div>
     </footer>
-  );
-};
-export default Footer;
+  )
+}
+export default Footer

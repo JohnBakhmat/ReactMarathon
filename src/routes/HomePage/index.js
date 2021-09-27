@@ -1,42 +1,42 @@
-import s from "./styles.module.css";
+import s from './styles.module.css'
 
-import Header from "../../components/Header/index";
-import Layout from "../../components/Layout/index";
-import PokemonCard from "../../components/PokemonCard/index";
+import Header from '../../components/Header/index'
+import Layout from '../../components/Layout/index'
+import PokemonCard from '../../components/PokemonCard/index'
 
-import img1 from "../../assets/img1.png";
-import img2 from "../../assets/img2.jpg";
+import img1 from '../../assets/img1.png'
+import img2 from '../../assets/img2.jpg'
 
-import { useContext } from "react";
-import { FireBaseContext } from "../../context/firebaseContext";
-import { useState, useEffect } from "react";
+import { useContext } from 'react'
+import { FireBaseContext } from '../../context/firebaseContext'
+import { useState, useEffect } from 'react'
 
 const HomePage = ({ onRedirect }) => {
-  const firebase = useContext(FireBaseContext);
-  const color = "#F79C1E";
+  const firebase = useContext(FireBaseContext)
+  const color = '#F79C1E'
   const handleRedirect = (path) => {
-    onRedirect && onRedirect(path);
-  };
-  const [pokemons, setPokemons] = useState({});
+    onRedirect && onRedirect(path)
+  }
+  const [pokemons, setPokemons] = useState({})
 
   useEffect(() => {
-    firebase.getPokemonOnce();
-  }, [firebase]);
+    firebase.getPokemonOnce()
+  }, [firebase])
 
   const handleFlipEvent = (id) => {
     setPokemons((prevState) => {
       return Object.entries(prevState).reduce((acc, item) => {
-        const pokemon = { ...item[1] };
+        const pokemon = { ...item[1] }
         if (pokemon.id === id) {
-          pokemon.isActive = true;
+          pokemon.isActive = true
         }
 
-        acc[item[0]] = pokemon;
-        firebase.postPokemon(item[0], pokemon);
-        return acc;
-      }, {});
-    });
-  };
+        acc[item[0]] = pokemon
+        firebase.postPokemon(item[0], pokemon)
+        return acc
+      }, {})
+    })
+  }
 
   return (
     <div className="App">
@@ -80,11 +80,11 @@ const HomePage = ({ onRedirect }) => {
           opponent's card is higher than the player's card, the player's card
           will be captured and turned into the opponent's color. If the player's
           rank is higher, the opponent's card will be captured and changed into
-          the player's color instead.{" "}
+          the player's color instead.{' '}
         </p>
       </Layout>
     </div>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

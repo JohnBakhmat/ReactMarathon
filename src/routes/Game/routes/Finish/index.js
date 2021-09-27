@@ -1,10 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { useContext, useState } from "react";
-import { PokemonContext } from "../../../../context/pokemonContext";
-import PokemonCard from "../../../../components/PokemonCard";
-import s from "./styles.module.css";
-import firebase from "../../../../services/firebase";
+import React from 'react'
+import { useHistory } from 'react-router-dom'
+import { useContext, useState } from 'react'
+import { PokemonContext } from '../../../../context/pokemonContext'
+import PokemonCard from '../../../../components/PokemonCard'
+import s from './styles.module.css'
+import firebase from '../../../../services/firebase'
+import { useDispatch, useSelector } from 'react-redux'
+import {selectPlayerTwoHand} from '../../../../store/board'
 function FinishPage() {
   const {
     playerOneHand,
@@ -12,44 +14,36 @@ function FinishPage() {
     savePlayerOneDeck,
     savePlayerTwoDeck,
     gameStatus,
-  } = useContext(PokemonContext);
-  const history = useHistory();
+  } = useContext(PokemonContext)
+  const history = useHistory()
   if (!Object.keys(playerOneHand).length) {
-    history.replace("/game");
+    history.replace('/game')
   }
-  const [stolenCard, setStolenCard] = useState(null);
-  // const [playerTwo,setPlayerTwo] = useState([])
-  // useEffect(() => {
-  //   createPlayer().then((resp) => {
-  //     let data = resp.data.data;
+  const [stolenCard, setStolenCard] = useState(null)
 
-  //     setPlayerTwo(() => {
-  //       return data
-  //     });
-
-  //   });
-  // }, []);
+  const dispatch = useDispatch()
+  const playerTwoHandRedux = useSelector(selectPlayerTwoHand)
 
   const handleCardSelect = (id) => {
-    if (gameStatus !== "Won") return;
+    if (gameStatus !== 'Won') return
     savePlayerTwoDeck((prevState) => {
-      let newArray = prevState.map((i) => ({ ...i, isSelected: false }));
-      newArray.find((i) => i.id === id).isSelected ^= true;
-      setStolenCard(newArray.find((i) => i.id === id));
-      return [...newArray];
-    });
-  };
+      let newArray = prevState.map((i) => ({ ...i, isSelected: false }))
+      newArray.find((i) => i.id === id).isSelected ^= true
+      setStolenCard(newArray.find((i) => i.id === id))
+      return [...newArray]
+    })
+  }
 
   const handleGameEnd = () => {
-    if (gameStatus === "Won") {
-      let card = stolenCard;
-      card.isSelected = false;
-      new firebase().addPokemon(card, () => {});
+    if (gameStatus === 'Won') {
+      let card = stolenCard
+      card.isSelected = false
+      new firebase().addPokemon(card, () => {})
     }
-    savePlayerOneDeck({});
-    savePlayerTwoDeck({});
-    history.replace("/game");
-  };
+    savePlayerOneDeck({})
+    savePlayerTwoDeck({})
+    history.replace('/game')
+  }
 
   // useEffect(()=>{
   //   console.dir(stolenCard)
@@ -75,7 +69,7 @@ function FinishPage() {
       </div>
       <button
         type="button"
-        disabled={(stolenCard === null)&&gameStatus === "Won"}
+        disabled={stolenCard === null && gameStatus === 'Won'}
         onClick={handleGameEnd}
       >
         End Game
@@ -83,7 +77,7 @@ function FinishPage() {
       <div className={s.row}>
         {
           // Object.values(playerTwoHand)
-          Object.values(playerTwoHand).map((item) => (
+          Object.values(playerTwoHandRedux).map((item) => (
             <PokemonCard
               key={item.id}
               id={item.id}
@@ -96,14 +90,14 @@ function FinishPage() {
               isSelected={item.isSelected}
               className={s.pokemonCard}
               onClickEvent={() => {
-                handleCardSelect(item.id);
+                handleCardSelect(item.id)
               }}
             />
           ))
         }
       </div>
     </div>
-  );
+  )
 }
 
-export default FinishPage;
+export default FinishPage

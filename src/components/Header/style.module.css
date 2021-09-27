@@ -10,7 +10,7 @@
 }
 
 .root:before {
-  content: "";
+  content: '';
   position: fixed;
   background: url(https://raw.githubusercontent.com/yagoestevez/fcc-portfolio/master/src/Images/Stars.svg?sanitize=true);
   background-attachment: fixed;

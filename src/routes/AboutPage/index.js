@@ -1,6 +1,6 @@
-import AboutLink from "../../components/AboutLink";
-import face from "./assets/face.jpg";
-import s from "./styles.module.css";
+import AboutLink from '../../components/AboutLink'
+import face from './assets/face.jpg'
+import s from './styles.module.css'
 function AboutPage() {
   return (
     <div>
@@ -10,7 +10,7 @@ function AboutPage() {
           <h1 className={s.name}>Yevhenii Bakhmat</h1>
           <h1>Kharkiv National University of Radioelectronics</h1>
           <AboutLink
-            path={"https://github.com/Yevhenii-Bakhmat"}
+            path={'https://github.com/Yevhenii-Bakhmat'}
             label="GitHub"
           >
             <i class="fab fa-github-square"></i>
@@ -18,7 +18,7 @@ function AboutPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default AboutPage;
+export default AboutPage

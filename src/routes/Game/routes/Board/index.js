@@ -1,70 +1,69 @@
-import { useContext, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import PokemonCard from "../../../../components/PokemonCard";
-import { PokemonContext } from "../../../../context/pokemonContext";
-import s from "./style.module.css";
+import { useContext, useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import PokemonCard from '../../../../components/PokemonCard'
+import { PokemonContext } from '../../../../context/pokemonContext'
+import s from './style.module.css'
 import {
   getBoard,
-  createPlayer,
   playerTurn,
-} from "../../../../services/zarApiService";
-import PlayerHand from "./PlayerHand";
+} from '../../../../services/zarApiService'
+import PlayerHand from './PlayerHand'
+import { useDispatch, useSelector } from 'react-redux'
+import { getPlayerTwoHand,selectPlayerTwoHand,selectPlayerOneHand,setGameStatus } from '../../../../store/board'
 
 const winCounter = (board, playerOne, playerTwo) => {
-  let handOneCount = playerOne.length;
-  let handTwoCount = playerTwo.length;
+  let handOneCount = playerOne.length
+  let handTwoCount = playerTwo.length
   board.forEach((item) => {
-    if (item.card.possession === "red") {
-      handTwoCount++;
+    if (item.card.possession === 'red') {
+      handTwoCount++
     }
-    if (item.card.possession === "blue") {
-      handOneCount++;
+    if (item.card.possession === 'blue') {
+      handOneCount++
     }
-  });
+  })
 
-  return [handOneCount, handTwoCount];
-};
+  return [handOneCount, handTwoCount]
+}
 
 const BoardPage = () => {
-  const { playerOneHand, savePlayerTwoDeck, setGameStatus } = useContext(
-    PokemonContext
-  );
+  const { playerOneHand } =
+    useContext(PokemonContext)
+  const dispatch = useDispatch()
+  const [turns, setTurns] = useState(0)
+  const [board, setBoard] = useState([])
+  
+  const [chosenCard, setChosenCard] = useState(null)
 
-  const [turns, setTurns] = useState(0);
-  const [board, setBoard] = useState([]);
-  const [chosenCard, setChosenCard] = useState(null);
-  const [playerTwo, setPlayerTwo] = useState([]);
+  const [playerTwo, setPlayerTwo] = useState({})
   const [playerOne, setPlayerOne] = useState(() => {
     return Object.values(playerOneHand).map((item) => ({
       ...item,
-      possession: "blue",
-    }));
-  });
+      possession: 'blue',
+    }))
+  })
 
-  const history = useHistory();
+  const playerTwoHandRedux = useSelector(selectPlayerTwoHand)
+  const playerOneHandRedux = useSelector(selectPlayerOneHand)
 
-  if (!Object.keys(playerOneHand).length) {
-    history.replace("/game");
+  const history = useHistory()
+
+  if (!Object.keys(playerOneHandRedux).length) {
+    history.replace('/game')
   }
 
   useEffect(() => {
     getBoard().then((resp) => {
-      setBoard(resp.data.data);
-    });
+      setBoard(resp.data.data)
+    })
+    dispatch(getPlayerTwoHand())
+    dispatch(setGameStatus('InProgress'))
+  }, [])
 
-    createPlayer().then((resp) => {
-      let data = resp.data.data;
-      setPlayerTwo(() => {
-        savePlayerTwoDeck(data);
-        return data.map((item) => ({
-          ...item,
-          possession: "red",
-        }));
-      });
 
-      setGameStatus("InProgress");
-    });
-  }, []);
+  useEffect(()=>{
+    setPlayerTwo(playerTwoHandRedux)
+  },[playerTwoHandRedux])
 
   const handleCellClick = (position) => {
     if (chosenCard) {
@@ -72,51 +71,51 @@ const BoardPage = () => {
         position,
         card: chosenCard,
         board,
-      };
+      }
 
       if (chosenCard.player === 1) {
         setPlayerOne((prevState) =>
           prevState.filter((i) => i.id !== chosenCard.id)
-        );
+        )
       } else if (chosenCard.player === 2) {
         setPlayerTwo((prevState) =>
           prevState.filter((i) => i.id !== chosenCard.id)
-        );
+        )
       }
       playerTurn(params).then((response) => {
-        setBoard(response.data.data);
+        setBoard(response.data.data)
         setTurns((prevState) => {
-          const count = prevState + 1;
-          return count;
-        });
-      });
+          const count = prevState + 1
+          return count
+        })
+      })
     }
-  };
+  }
 
   useEffect(() => {
     if (turns === 9) {
-      const [scoreOne, scoreTwo] = winCounter(board, playerOne, playerTwo);
+      const [scoreOne, scoreTwo] = winCounter(board, playerOne, playerTwo)
 
       if (scoreOne > scoreTwo) {
-        setGameStatus("Won");
-        alert("You won");
+        dispatch(setGameStatus('Won'))
+        alert('You won')
       } else if (scoreOne < scoreTwo) {
-        setGameStatus("Lost");
-        alert("You lost!");
+        dispatch(setGameStatus('Lost'))
+        alert('You lost!')
       } else {
-        setGameStatus("Tie");
-        alert("Tie!");
+        dispatch(setGameStatus('Tie'))
+        alert('Tie!')
       }
-      history.push("/game/finish");
+      history.push('/game/finish')
     }
-  }, [board, history, playerOne, playerTwo, setGameStatus, turns]);
+  }, [board, history, playerOne, playerTwo, setGameStatus, turns])
 
   return (
     <div className={s.root}>
       <div className={s.playerOne}>
         <PlayerHand
           player={1}
-          cards={playerOne}
+          cards={playerOneHandRedux}
           onCardClick={(card) => setChosenCard(card)}
         />
       </div>
@@ -143,7 +142,7 @@ const BoardPage = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BoardPage;
+export default BoardPage

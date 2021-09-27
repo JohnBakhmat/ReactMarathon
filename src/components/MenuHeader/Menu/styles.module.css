@@ -52,7 +52,7 @@
 
 .menuContainer::before,
 .menuContainer::after {
-  content: "";
+  content: '';
   position: absolute;
   width: 100%;
   min-height: 100vh;
@@ -149,14 +149,14 @@
 }
 
 .menuContainer ul li a::after {
-  content: " »";
+  content: ' »';
   font-size: 2.5rem;
   color: transparent;
   transition: color 200ms;
 }
 
 .menuContainer ul li a:hover::after {
-  content: " »";
+  content: ' »';
   color: #f300b4;
 }
 
