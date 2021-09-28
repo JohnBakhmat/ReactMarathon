@@ -1,6 +1,6 @@
-import s from "./style.module.css";
+import s from './style.module.css';
 // import { useState } from "react";
-import cn from "classnames";
+import cn from 'classnames';
 const PokemonCard = ({
   img,
   name,

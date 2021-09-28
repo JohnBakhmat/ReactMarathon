@@ -1,51 +1,34 @@
-import PokemonCard from "../../../../components/PokemonCard";
-import s from "./styles.module.css";
-import { useState, useEffect } from "react";
-import { useContext } from "react";
-import { FireBaseContext } from "../../../../context/firebaseContext";
-import { PokemonContext } from "../../../../context/pokemonContext";
-import { useHistory } from "react-router-dom";
-// const data = {
-//   abilities: ["keen-eye", "tangled-feet", "big-pecks"],
-//   base_experience: 270,
-//   height: 4,
-//   weight: 40,
-//   id: 151,
-//   img: "https://cdn2.bulbagarden.net/upload/thumb/b/b1/151Mew.png/500px-151Mew.png",
-//   name: "Mew",
-//   stats: {
-//     hp: 63,
-//     attack: 60,
-//     defense: 55,
-//     "special-attack": 50,
-//     "special-defense": 50,
-//     speed: 71,
-//   },
-//   type: "psychic",
-//   values: {
-//     top: 7,
-//     right: 5,
-//     bottom: 1,
-//     left: 2,
-//   },
-// };
+import PokemonCard from '../../../../components/PokemonCard';
+import s from './styles.module.css';
+import { useState, useEffect } from 'react';
+
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import {
+  getPokemonsAsync,
+  selectPokemonsData,
+} from '../../../../store/pokemons';
+import { setPlayerHand } from '../../../../store/board';
+
 function StartPage() {
-  const firebase = useContext(FireBaseContext);
-  const pokemonContext = useContext(PokemonContext);
   const history = useHistory();
 
+  const dispatch = useDispatch();
+  const pokemonsRedux = useSelector(selectPokemonsData);
   const [pokemons, setPokemons] = useState({});
+  const isButtonEnabled =
+    Object.values(pokemons).filter((i) => i.isSelected).length < 5;
 
   useEffect(() => {
-    firebase.getPokemonSocket((pokemons) => {
-      setPokemons(pokemons);
-    });
-  }, [firebase]);
+    dispatch(getPokemonsAsync());
+  }, []);
+
+  useEffect(() => {
+    setPokemons(pokemonsRedux);
+  }, [pokemonsRedux]);
 
   const handleFlipEvent = (key) => {
-    const pokemon = { ...pokemons[key] };
-    pokemonContext.addToDeck(key, pokemon);
-
     setPokemons((prevState) => ({
       ...prevState,
       [key]: { ...prevState[key], isSelected: !prevState[key].isSelected },
@@ -53,7 +36,10 @@ function StartPage() {
   };
 
   const handleGameStart = () => {
-    history.push("/game/board");
+    const hand = Object.values(pokemons).filter((item) => item.isSelected);
+    dispatch(setPlayerHand(1, hand));
+    dispatch(setPlayerHand(2));
+    history.push('/game/board');
   };
 
   return (
@@ -61,7 +47,7 @@ function StartPage() {
       <button
         type="button"
         onClick={handleGameStart}
-        disabled={Object.keys(pokemonContext.playerOneHand).length < 5}
+        disabled={isButtonEnabled}
       >
         Start Game
       </button>
@@ -81,7 +67,8 @@ function StartPage() {
             className={s.pokemonCard}
             onClickEvent={() => {
               if (
-                Object.keys(pokemonContext.playerOneHand).length < 5 ||
+                Object.values(pokemons).filter((i) => i.isSelected).length <
+                  5 ||
                 item.isSelected
               ) {
                 handleFlipEvent(key);

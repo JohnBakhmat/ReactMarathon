@@ -1,38 +1,42 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { useContext, useState } from "react";
-import { PokemonContext } from "../../../../context/pokemonContext";
-import PokemonCard from "../../../../components/PokemonCard";
-import s from "./styles.module.css";
-import firebase from "../../../../services/firebase";
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
+
+import PokemonCard from '../../../../components/PokemonCard';
+import s from './styles.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { savePokemon } from '../../../../store/pokemons';
+import {
+  selectPlayer,
+  selectGameStatus,
+  resetGame,
+} from '../../../../store/board';
 function FinishPage() {
-  const {
-    playerOneHand,
-    playerTwoHand,
-    savePlayerOneDeck,
-    savePlayerTwoDeck,
-    gameStatus,
-  } = useContext(PokemonContext);
+  const playerTwoHandRedux = useSelector(selectPlayer(2));
+  const playerOneHandRedux = useSelector(selectPlayer(1));
+  const gameStatus = useSelector(selectGameStatus);
+
   const history = useHistory();
-  if (!Object.keys(playerOneHand).length) {
-    history.replace("/game");
+  if (
+    !playerOneHandRedux.data.length &&
+    !playerTwoHandRedux.data.length &&
+    !playerOneHandRedux.isLoading &&
+    !playerTwoHandRedux.isLoading
+  ) {
+    history.replace('/game');
   }
   const [stolenCard, setStolenCard] = useState(null);
-  // const [playerTwo,setPlayerTwo] = useState([])
-  // useEffect(() => {
-  //   createPlayer().then((resp) => {
-  //     let data = resp.data.data;
+  const [playerTwoHandState, setPlayerTwoHandState] = useState([]);
+  const dispatch = useDispatch();
 
-  //     setPlayerTwo(() => {
-  //       return data
-  //     });
-
-  //   });
-  // }, []);
+  useEffect(() => {
+    setPlayerTwoHandState(playerTwoHandRedux.data);
+  }, [playerTwoHandRedux]);
 
   const handleCardSelect = (id) => {
-    if (gameStatus !== "Won") return;
-    savePlayerTwoDeck((prevState) => {
+    if (gameStatus !== 'Won') return;
+    setPlayerTwoHandState((prevState) => {
       let newArray = prevState.map((i) => ({ ...i, isSelected: false }));
       newArray.find((i) => i.id === id).isSelected ^= true;
       setStolenCard(newArray.find((i) => i.id === id));
@@ -41,24 +45,19 @@ function FinishPage() {
   };
 
   const handleGameEnd = () => {
-    if (gameStatus === "Won") {
+    if (gameStatus === 'Won') {
       let card = stolenCard;
       card.isSelected = false;
-      new firebase().addPokemon(card, () => {});
+      dispatch(savePokemon(card));
     }
-    savePlayerOneDeck({});
-    savePlayerTwoDeck({});
-    history.replace("/game");
+    dispatch(resetGame());
+    history.replace('/game');
   };
-
-  // useEffect(()=>{
-  //   console.dir(stolenCard)
-  // },[stolenCard])
 
   return (
     <div>
       <div className={s.row}>
-        {Object.values(playerOneHand).map((item) => (
+        {playerOneHandRedux.data.map((item) => (
           <PokemonCard
             key={item.id}
             id={item.id}
@@ -75,32 +74,29 @@ function FinishPage() {
       </div>
       <button
         type="button"
-        disabled={(stolenCard === null)&&gameStatus === "Won"}
+        disabled={stolenCard === null && gameStatus === 'Won'}
         onClick={handleGameEnd}
       >
         End Game
       </button>
       <div className={s.row}>
-        {
-          // Object.values(playerTwoHand)
-          Object.values(playerTwoHand).map((item) => (
-            <PokemonCard
-              key={item.id}
-              id={item.id}
-              name={item.name}
-              img={item.img}
-              stats={item.stats}
-              type={item.type}
-              values={item.values}
-              isActive={true}
-              isSelected={item.isSelected}
-              className={s.pokemonCard}
-              onClickEvent={() => {
-                handleCardSelect(item.id);
-              }}
-            />
-          ))
-        }
+        {Object.values(playerTwoHandState).map((item) => (
+          <PokemonCard
+            key={item.id}
+            id={item.id}
+            name={item.name}
+            img={item.img}
+            stats={item.stats}
+            type={item.type}
+            values={item.values}
+            isActive={true}
+            isSelected={item.isSelected}
+            className={s.pokemonCard}
+            onClickEvent={() => {
+              handleCardSelect(item.id);
+            }}
+          />
+        ))}
       </div>
     </div>
   );

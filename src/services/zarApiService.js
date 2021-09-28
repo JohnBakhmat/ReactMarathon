@@ -1,18 +1,18 @@
-import axios from "axios";
+import axios from 'axios';
 const service = axios.create({
-  baseURL: "https://reactmarathon-api.netlify.app/api",
+  baseURL: 'https://reactmarathon-api.netlify.app/api',
   headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
   },
 });
 const getBoard = () => {
-  return service.get("/board");
+  return service.get('/board');
 };
 const createPlayer = () => {
-  return service.get("/create-player");
+  return service.get('/create-player');
 };
 const playerTurn = (params) => {
-  return service.post("/players-turn", JSON.stringify(params));
+  return service.post('/players-turn', JSON.stringify(params));
 };
 export { getBoard, createPlayer, playerTurn };

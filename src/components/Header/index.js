@@ -1,11 +1,11 @@
-import s from "./style.module.css";
-import { useHistory } from "react-router-dom";
+import s from './style.module.css';
+import { useHistory } from 'react-router-dom';
 
 const Header = ({ title, descr, onRedirect }) => {
   const history = useHistory();
 
   const handleRedirect = () => {
-    history.push("/game");
+    history.push('/game');
   };
   return (
     <header className={s.root}>

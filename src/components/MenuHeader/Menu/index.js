@@ -1,22 +1,22 @@
-import s from "./styles.module.css";
-import cn from "classnames";
-import { Link } from "react-router-dom";
+import s from './styles.module.css';
+import cn from 'classnames';
+import { Link } from 'react-router-dom';
 const Links = [
   {
-    label: "HOME",
-    to: "/",
+    label: 'HOME',
+    to: '/',
   },
   {
-    label: "GAME",
-    to: "/game",
+    label: 'GAME',
+    to: '/game',
   },
   {
-    label: "ABOUT",
-    to: "/about",
+    label: 'ABOUT',
+    to: '/about',
   },
   {
-    label: "CONTACTS",
-    to: "/contacts",
+    label: 'CONTACTS',
+    to: '/contacts',
   },
 ];
 

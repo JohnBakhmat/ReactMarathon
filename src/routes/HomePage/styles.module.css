@@ -1,9 +1,3 @@
-.flex {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
 button,
 button:visited {
   width: 100%;
@@ -51,4 +45,16 @@ button:disabled:hover {
   background: #f300b4;
   border: 1px solid transparent;
   color: #fafafa;
+}
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.pokemonCard {
+  width: 268px;
+  height: 388px;
+  margin: 16px;
+  perspective: 1000px;
 }

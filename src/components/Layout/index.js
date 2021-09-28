@@ -1,11 +1,11 @@
-import s from "./style.module.css";
-import cn from "classnames";
+import s from './style.module.css';
+import cn from 'classnames';
 const Layout = ({ title, children, urlBg, colorBg }) => {
   const img = urlBg
     ? {
         background: `linear-gradient(rgba(6, 46, 73, 0.5), rgba(6, 46, 73, 0.5)), url(${urlBg})`,
-        color: "white",
-        backgroundSize: "cover",
+        color: 'white',
+        backgroundSize: 'cover',
       }
     : {};
   const color = colorBg ? { background: `${colorBg}` } : {};

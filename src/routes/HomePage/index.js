@@ -1,42 +1,47 @@
-import s from "./styles.module.css";
+import s from './styles.module.css';
 
-import Header from "../../components/Header/index";
-import Layout from "../../components/Layout/index";
-import PokemonCard from "../../components/PokemonCard/index";
+import Header from '../../components/Header/index';
+import Layout from '../../components/Layout/index';
+import PokemonCard from '../../components/PokemonCard/index';
 
-import img1 from "../../assets/img1.png";
-import img2 from "../../assets/img2.jpg";
+import img1 from '../../assets/img1.png';
+import img2 from '../../assets/img2.jpg';
 
-import { useContext } from "react";
-import { FireBaseContext } from "../../context/firebaseContext";
-import { useState, useEffect } from "react";
-
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPokemonsData, getPokemonsAsync } from '../../store/pokemons';
 const HomePage = ({ onRedirect }) => {
-  const firebase = useContext(FireBaseContext);
-  const color = "#F79C1E";
+  const color = '#F79C1E';
   const handleRedirect = (path) => {
     onRedirect && onRedirect(path);
   };
   const [pokemons, setPokemons] = useState({});
 
+  const dispatch = useDispatch();
+  const pokemonsRedux = useSelector(selectPokemonsData);
+
   useEffect(() => {
-    firebase.getPokemonOnce();
-  }, [firebase]);
+    dispatch(getPokemonsAsync());
+  }, []);
 
-  const handleFlipEvent = (id) => {
-    setPokemons((prevState) => {
-      return Object.entries(prevState).reduce((acc, item) => {
-        const pokemon = { ...item[1] };
-        if (pokemon.id === id) {
-          pokemon.isActive = true;
-        }
+  useEffect(() => {
+    setPokemons(pokemonsRedux);
+  }, [pokemonsRedux]);
 
-        acc[item[0]] = pokemon;
-        firebase.postPokemon(item[0], pokemon);
-        return acc;
-      }, {});
-    });
-  };
+  // const handleFlipEvent = (id) => {
+  //   setPokemons((prevState) => {
+  //     return Object.entries(prevState).reduce((acc, item) => {
+  //       const pokemon = { ...item[1] }
+  //       if (pokemon.id === id) {
+  //         pokemon.isActive = true
+  //       }
+
+  //       acc[item[0]] = pokemon
+
+  //       return acc
+  //     }, {})
+  //   })
+  // }
 
   return (
     <div className="App">
@@ -54,18 +59,20 @@ const HomePage = ({ onRedirect }) => {
         </p>
       </Layout>
       <Layout title="Cards" colorBg={color}>
-        <div className={s.flex}>
+        <div className={s.section}>
           {Object.entries(pokemons).map(([key, item]) => (
             <PokemonCard
               key={key}
+              firebasekey={key}
               id={item.id}
               name={item.name}
               img={item.img}
               stats={item.stats}
               type={item.type}
               values={item.values}
-              isActive={item.isActive}
-              onClickEvent={handleFlipEvent}
+              isActive={true}
+              isSelected={item.isSelected}
+              className={s.pokemonCard}
             />
           ))}
         </div>
@@ -80,7 +87,7 @@ const HomePage = ({ onRedirect }) => {
           opponent's card is higher than the player's card, the player's card
           will be captured and turned into the opponent's color. If the player's
           rank is higher, the opponent's card will be captured and changed into
-          the player's color instead.{" "}
+          the player's color instead.{' '}
         </p>
       </Layout>
     </div>

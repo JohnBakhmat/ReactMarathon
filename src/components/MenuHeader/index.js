@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Menu from "./Menu";
-import NavBar from "./NavBar";
+import { useState } from 'react';
+import Menu from './Menu';
+import NavBar from './NavBar';
 const MenuHeader = ({ bgActive }) => {
   const [isActive, setActive] = useState(null);
   const handleActivity = () => {

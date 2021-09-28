@@ -1,21 +1,21 @@
-import { useState } from "react";
-import PokemonCard from "../../../../../components/PokemonCard";
-import s from "./styles.module.css";
-import cn from "classnames";
+import { useState } from 'react';
+import PokemonCard from '../../../../../components/PokemonCard';
+import s from './styles.module.css';
+import cn from 'classnames';
 
 const PlayerHand = ({ player, cards, onCardClick }) => {
   const [isSelected, setSelected] = useState(null);
-
+  const handleCardClick = (item) => {
+    setSelected(item.id);
+    onCardClick && onCardClick({ ...item, player });
+  };
   return (
     <>
-      {cards.map((item) => (
+      {Object.values(cards).map((item) => (
         <div
           className={cn(s.hand, { [s.isSelected]: isSelected === item.id })}
           key={item.id}
-          onClick={() => {
-            setSelected(item.id);
-            onCardClick && onCardClick({ ...item, player });
-          }}
+          onClick={()=>handleCardClick(item)}
         >
           <PokemonCard
             name={item.name}

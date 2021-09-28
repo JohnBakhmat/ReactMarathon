@@ -1,23 +1,23 @@
-import { useContext, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import PokemonCard from "../../../../components/PokemonCard";
-import { PokemonContext } from "../../../../context/pokemonContext";
-import s from "./style.module.css";
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import PokemonCard from '../../../../components/PokemonCard';
+import s from './style.module.css';
+import { getBoard, playerTurn } from '../../../../services/zarApiService';
+import PlayerHand from './PlayerHand';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  getBoard,
-  createPlayer,
-  playerTurn,
-} from "../../../../services/zarApiService";
-import PlayerHand from "./PlayerHand";
+  selectPlayer,
+  setGameStatus,
+} from '../../../../store/board';
 
 const winCounter = (board, playerOne, playerTwo) => {
   let handOneCount = playerOne.length;
   let handTwoCount = playerTwo.length;
   board.forEach((item) => {
-    if (item.card.possession === "red") {
+    if (item.card.possession === 'red') {
       handTwoCount++;
     }
-    if (item.card.possession === "blue") {
+    if (item.card.possession === 'blue') {
       handOneCount++;
     }
   });
@@ -26,45 +26,39 @@ const winCounter = (board, playerOne, playerTwo) => {
 };
 
 const BoardPage = () => {
-  const { playerOneHand, savePlayerTwoDeck, setGameStatus } = useContext(
-    PokemonContext
-  );
+  const dispatch = useDispatch();
+  const playerOneHandRedux = useSelector(selectPlayer(1));
+  const playerTwoHandRedux = useSelector(selectPlayer(2));
 
   const [turns, setTurns] = useState(0);
   const [board, setBoard] = useState([]);
+
   const [chosenCard, setChosenCard] = useState(null);
+
   const [playerTwo, setPlayerTwo] = useState([]);
-  const [playerOne, setPlayerOne] = useState(() => {
-    return Object.values(playerOneHand).map((item) => ({
-      ...item,
-      possession: "blue",
-    }));
-  });
+  const [playerOne, setPlayerOne] = useState([]);
 
   const history = useHistory();
 
-  if (!Object.keys(playerOneHand).length) {
-    history.replace("/game");
+  if (
+    !playerOneHandRedux.data.length &&
+    !playerTwoHandRedux.data.length &&
+    !playerOneHandRedux.isLoading &&
+    !playerTwoHandRedux.isLoading
+  ) {
+    history.replace('/game');
   }
-
   useEffect(() => {
     getBoard().then((resp) => {
       setBoard(resp.data.data);
     });
-
-    createPlayer().then((resp) => {
-      let data = resp.data.data;
-      setPlayerTwo(() => {
-        savePlayerTwoDeck(data);
-        return data.map((item) => ({
-          ...item,
-          possession: "red",
-        }));
-      });
-
-      setGameStatus("InProgress");
-    });
+    dispatch(setGameStatus('InProgress'));
   }, []);
+
+  useEffect(() => {
+    setPlayerTwo(playerTwoHandRedux.data);
+    setPlayerOne(playerOneHandRedux.data);
+  }, [playerTwoHandRedux, playerOneHandRedux]);
 
   const handleCellClick = (position) => {
     if (chosenCard) {
@@ -94,22 +88,21 @@ const BoardPage = () => {
   };
 
   useEffect(() => {
-    if (turns === 9) {
-      const [scoreOne, scoreTwo] = winCounter(board, playerOne, playerTwo);
+    if (turns !== 9) return;
+    const [scoreOne, scoreTwo] = winCounter(board, playerOne, playerTwo);
 
-      if (scoreOne > scoreTwo) {
-        setGameStatus("Won");
-        alert("You won");
-      } else if (scoreOne < scoreTwo) {
-        setGameStatus("Lost");
-        alert("You lost!");
-      } else {
-        setGameStatus("Tie");
-        alert("Tie!");
-      }
-      history.push("/game/finish");
+    if (scoreOne > scoreTwo) {
+      dispatch(setGameStatus('Won'));
+      alert('You won');
+    } else if (scoreOne < scoreTwo) {
+      dispatch(setGameStatus('Lost'));
+      alert('You lost!');
+    } else {
+      dispatch(setGameStatus('Tie'));
+      alert('Tie!');
     }
-  }, [board, history, playerOne, playerTwo, setGameStatus, turns]);
+    history.push('/game/finish');
+  }, [board, playerOne, playerTwo, turns]);
 
   return (
     <div className={s.root}>

@@ -1,6 +1,6 @@
-import s from "./styles.module.css";
-import Logo from "../../Logo/index";
-import cn from "classnames";
+import s from './styles.module.css';
+import Logo from '../../Logo/index';
+import cn from 'classnames';
 const NavBar = ({ isActive, bgActive = false, onChangeActivity }) => {
   const handleClick = () => {
     onChangeActivity && onChangeActivity();
