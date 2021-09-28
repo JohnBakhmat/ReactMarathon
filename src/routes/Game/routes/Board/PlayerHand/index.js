@@ -15,7 +15,7 @@ const PlayerHand = ({ player, cards, onCardClick }) => {
         <div
           className={cn(s.hand, { [s.isSelected]: isSelected === item.id })}
           key={item.id}
-          onClick={handleCardClick(item)}
+          onClick={()=>handleCardClick(item)}
         >
           <PokemonCard
             name={item.name}
