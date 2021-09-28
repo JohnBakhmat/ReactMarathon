@@ -7,8 +7,6 @@ import PokemonCard from '../../components/PokemonCard/index'
 import img1 from '../../assets/img1.png'
 import img2 from '../../assets/img2.jpg'
 
-import { useContext } from 'react'
-import { FireBaseContext } from '../../context/firebaseContext'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectPokemonsData, getPokemonsAsync } from '../../store/pokemons'
