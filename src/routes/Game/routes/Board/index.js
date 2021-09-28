@@ -44,8 +44,6 @@ const BoardPage = () => {
     }))
   })
 
-  
-
   const history = useHistory()
 
   if (!Object.keys(playerOneHandRedux).length) {

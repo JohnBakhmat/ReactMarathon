@@ -18,32 +18,42 @@ const board = createSlice({
   name: 'board',
   initialState,
   reducers: {
-    fetchPlayerTwoHand: (state) => {
-      const copy = state
-      copy.playerTwoHand.isLoading = true
-      return copy
-    },
-    fetchPlayerTwoHandResolve: (state, action) => {
-      const copy = state
-      copy.playerTwoHand.data = action.payload
-      copy.playerTwoHand.isLoading = false
-      return copy
-    },
+    fetchPlayerTwoHand: (state) => ({
+      ...state,
+      playerTwoHand: {
+        ...state.playerTwoHand,
+        isLoading:true
+      },
+    }),
+    fetchPlayerTwoHandResolve: (state, action) => ({
+      ...state,
+      playerTwoHand:{
+        ...state.playerTwoHand,
+        data:action.payload,
+        isLoading:false
+      }
+    }),
+
     changeGameStatus: (state, action) => ({
       ...state,
       gameStatus: action.payload,
     }),
-    fetchPlayerOneHand: (state) => {
-      const copy = state
-      copy.playerOneHand.isLoading = true
-      return copy
-    },
-    fetchPlayerOneHandResolve: (state, action) => {
-      const copy = state
-      copy.playerOneHand.isLoading = false
-      copy.playerOneHand.data = action.payload
-      return copy
-    },
+
+    fetchPlayerOneHand: (state) => ({
+      ...state,
+      playerOneHand:{
+        ...state.playerOneHand,
+        isLoading:true
+      }
+    }),
+    fetchPlayerOneHandResolve: (state, action) => ({
+      ...state,
+      playerOneHand:{
+        ...state.playerOneHand,
+        isLoading:false,
+        data: action.payload
+      }
+    }),
     resetGameResolve: () => initialState,
   },
 })
