@@ -6,10 +6,7 @@ import { getBoard, playerTurn } from '../../../../services/zarApiService'
 import PlayerHand from './PlayerHand'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  getPlayerTwoHand,
-  selectPlayerTwoHand,
-  selectPlayerOneHand,
-  setGameStatus,
+  selectPlayer,setGameStatus,setPlayerHand
 } from '../../../../store/board'
 
 const winCounter = (board, playerOne, playerTwo) => {
@@ -29,38 +26,33 @@ const winCounter = (board, playerOne, playerTwo) => {
 
 const BoardPage = () => {
   const dispatch = useDispatch()
-  const playerTwoHandRedux = useSelector(selectPlayerTwoHand)
-  const playerOneHandRedux = useSelector(selectPlayerOneHand)
+  const playerOneHandRedux = useSelector(selectPlayer(1))
+  const playerTwoHandRedux = useSelector(selectPlayer(2))
+
   const [turns, setTurns] = useState(0)
   const [board, setBoard] = useState([])
 
   const [chosenCard, setChosenCard] = useState(null)
 
-  const [playerTwo, setPlayerTwo] = useState({})
-  const [playerOne, setPlayerOne] = useState(() => {
-    return Object.values(playerOneHandRedux).map((item) => ({
-      ...item,
-      possession: 'blue',
-    }))
-  })
+  const [playerTwo, setPlayerTwo] = useState([])
+  const [playerOne, setPlayerOne] = useState([])
 
   const history = useHistory()
+  
 
-  if (!Object.keys(playerOneHandRedux).length) {
+  if (!playerOneHandRedux.data.length && !playerTwoHandRedux.data.length && !playerOneHandRedux.isLoading && !playerTwoHandRedux.isLoading) {
     history.replace('/game')
   }
-
   useEffect(() => {
     getBoard().then((resp) => {
       setBoard(resp.data.data)
     })
-    dispatch(getPlayerTwoHand())
     dispatch(setGameStatus('InProgress'))
   }, [])
 
   useEffect(() => {
-    setPlayerTwo(playerTwoHandRedux)
-    setPlayerOne(playerOneHandRedux)
+    setPlayerTwo(playerTwoHandRedux.data)
+    setPlayerOne(playerOneHandRedux.data)
   }, [playerTwoHandRedux, playerOneHandRedux])
 
   const handleCellClick = (position) => {

@@ -8,18 +8,17 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { savePokemon } from '../../../../store/pokemons'
 import {
-  selectPlayerTwoHand,
-  selectPlayerOneHand,
+  selectPlayer,
   selectGameStatus,
   resetGame,
 } from '../../../../store/board'
 function FinishPage() {
-  const playerTwoHandRedux = useSelector(selectPlayerTwoHand)
-  const playerOneHandRedux = useSelector(selectPlayerOneHand)
+  const playerTwoHandRedux = useSelector(selectPlayer(2))
+  const playerOneHandRedux = useSelector(selectPlayer(1))
   const gameStatus = useSelector(selectGameStatus)
 
   const history = useHistory()
-  if (!Object.keys(playerOneHandRedux).length) {
+  if (!playerOneHandRedux.data.length && !playerTwoHandRedux.data.length && !playerOneHandRedux.isLoading && !playerTwoHandRedux.isLoading) {
     history.replace('/game')
   }
   const [stolenCard, setStolenCard] = useState(null)
@@ -27,8 +26,9 @@ function FinishPage() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    setPlayerTwoHandState(playerTwoHandRedux)
+    setPlayerTwoHandState(playerTwoHandRedux.data)
   }, [playerTwoHandRedux])
+
   const handleCardSelect = (id) => {
     if (gameStatus !== 'Won') return
     setPlayerTwoHandState((prevState) => {
@@ -52,7 +52,7 @@ function FinishPage() {
   return (
     <div>
       <div className={s.row}>
-        {Object.values(playerOneHandRedux).map((item) => (
+        {playerOneHandRedux.data.map((item) => (
           <PokemonCard
             key={item.id}
             id={item.id}
