@@ -9,15 +9,13 @@ import {
   getPokemonsAsync,
   selectPokemonsData,
 } from '../../../../store/pokemons';
-import { setPlayerHand, selectPlayer } from '../../../../store/board';
+import { setPlayerHand } from '../../../../store/board';
 
 function StartPage() {
   const history = useHistory();
 
   const dispatch = useDispatch();
   const pokemonsRedux = useSelector(selectPokemonsData);
-  const playerOneHandRedux = useSelector(selectPlayer(1));
-  const playerTwoHandRedux = useSelector(selectPlayer(2));
   const [pokemons, setPokemons] = useState({});
   const isButtonEnabled =
     Object.values(pokemons).filter((i) => i.isSelected).length < 5;

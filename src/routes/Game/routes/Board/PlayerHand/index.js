@@ -8,7 +8,7 @@ const PlayerHand = ({ player, cards, onCardClick }) => {
   const handleCardClick = (item) => {
     setSelected(item.id);
     onCardClick && onCardClick({ ...item, player });
-  }
+  };
   return (
     <>
       {Object.values(cards).map((item) => (

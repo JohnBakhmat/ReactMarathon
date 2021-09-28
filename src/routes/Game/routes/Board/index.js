@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectPlayer,
   setGameStatus,
-  setPlayerHand,
 } from '../../../../store/board';
 
 const winCounter = (board, playerOne, playerTwo) => {
