@@ -7,6 +7,6 @@ const AboutLink = ({ path, label, children }) => {
         <label>{label}</label>
       </a>
     </div>
-  )
-}
-export default AboutLink
+  );
+};
+export default AboutLink;

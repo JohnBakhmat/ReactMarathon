@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { createPlayer } from '../services/zarApiService'
+import { createSlice } from '@reduxjs/toolkit';
+import { createPlayer } from '../services/zarApiService';
 
 const initialState = {
   // playerOneHand: {
@@ -10,44 +10,44 @@ const initialState = {
   //   data: [],
   //   isLoading: false,
   // },
-  players:{
-    "1":{
+  players: {
+    1: {
       data: [],
       isLoading: false,
     },
-    "2":{
+    2: {
       data: [],
       isLoading: false,
-    }
+    },
   },
   gameStatus: 'Starting',
   firstPlayer: 1 + Math.floor(Math.random() * 2),
-}
+};
 
 const board = createSlice({
   name: 'board',
   initialState,
   reducers: {
-    fetchPlayer:(state,action)=>({
+    fetchPlayer: (state, action) => ({
       ...state,
-      players:{
+      players: {
         ...state.players,
-        [action.payload]:{
+        [action.payload]: {
           ...state.players[action.payload],
-          isLoading: true
-        }
-      }
+          isLoading: true,
+        },
+      },
     }),
-    fetchPlayerResolve:(state,action)=>({
+    fetchPlayerResolve: (state, action) => ({
       ...state,
-      players:{
+      players: {
         ...state.players,
-        [action.payload.id]:{
+        [action.payload.id]: {
           ...state.players[action.payload.id],
-          data:action.payload.data,
-          isLoading:false,
-        }
-      }
+          data: action.payload.data,
+          isLoading: false,
+        },
+      },
     }),
 
     changeGameStatus: (state, action) => ({
@@ -57,7 +57,7 @@ const board = createSlice({
 
     resetGameResolve: () => initialState,
   },
-})
+});
 
 export const {
   fetchPlayerTwoHand,
@@ -67,32 +67,36 @@ export const {
   changeGameStatus,
   resetGameResolve,
   fetchPlayerResolve,
-  fetchPlayer
-} = board.actions
+  fetchPlayer,
+} = board.actions;
 
-export const setPlayerHand = (id,pokemons={})=>async(dispatch)=>{
-  dispatch(fetchPlayer(id))
-  let data
-  if(Object.keys(pokemons).length === 0){
-    data = (await createPlayer()).data.data.map(item=>({...item,possession:"red"}))
+export const setPlayerHand = (id, pokemons = {}) => async (dispatch) => {
+  dispatch(fetchPlayer(id));
+  let data;
+  if (Object.keys(pokemons).length === 0) {
+    data = (await createPlayer()).data.data.map((item) => ({
+      ...item,
+      possession: 'red',
+    }));
+  } else {
+    data = pokemons.map((item) => ({ ...item, possession: 'blue' }));
   }
-  else{
-    data = pokemons.map(item=>({...item,possession:"blue"}))
-  }
-  dispatch(fetchPlayerResolve({
-    id: id,
-    data:data,
-  }))
-}
+  dispatch(
+    fetchPlayerResolve({
+      id: id,
+      data: data,
+    })
+  );
+};
 
 export const setGameStatus = (status) => (dispatch) => {
-  dispatch(changeGameStatus(status))
-}
+  dispatch(changeGameStatus(status));
+};
 export const resetGame = () => (dispatch) => {
-  dispatch(resetGameResolve())
-}
+  dispatch(resetGameResolve());
+};
 
-export const selectPlayer =(id)=>(state) => state.board.players[id]
-export const selectGameStatus = (state) => state.board.gameStatus
+export const selectPlayer = (id) => (state) => state.board.players[id];
+export const selectGameStatus = (state) => state.board.gameStatus;
 
-export default board.reducer
+export default board.reducer;

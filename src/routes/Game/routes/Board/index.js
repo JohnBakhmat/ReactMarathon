@@ -1,59 +1,65 @@
-import { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import PokemonCard from '../../../../components/PokemonCard'
-import s from './style.module.css'
-import { getBoard, playerTurn } from '../../../../services/zarApiService'
-import PlayerHand from './PlayerHand'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import PokemonCard from '../../../../components/PokemonCard';
+import s from './style.module.css';
+import { getBoard, playerTurn } from '../../../../services/zarApiService';
+import PlayerHand from './PlayerHand';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  selectPlayer,setGameStatus,setPlayerHand
-} from '../../../../store/board'
+  selectPlayer,
+  setGameStatus,
+  setPlayerHand,
+} from '../../../../store/board';
 
 const winCounter = (board, playerOne, playerTwo) => {
-  let handOneCount = playerOne.length
-  let handTwoCount = playerTwo.length
+  let handOneCount = playerOne.length;
+  let handTwoCount = playerTwo.length;
   board.forEach((item) => {
     if (item.card.possession === 'red') {
-      handTwoCount++
+      handTwoCount++;
     }
     if (item.card.possession === 'blue') {
-      handOneCount++
+      handOneCount++;
     }
-  })
+  });
 
-  return [handOneCount, handTwoCount]
-}
+  return [handOneCount, handTwoCount];
+};
 
 const BoardPage = () => {
-  const dispatch = useDispatch()
-  const playerOneHandRedux = useSelector(selectPlayer(1))
-  const playerTwoHandRedux = useSelector(selectPlayer(2))
+  const dispatch = useDispatch();
+  const playerOneHandRedux = useSelector(selectPlayer(1));
+  const playerTwoHandRedux = useSelector(selectPlayer(2));
 
-  const [turns, setTurns] = useState(0)
-  const [board, setBoard] = useState([])
+  const [turns, setTurns] = useState(0);
+  const [board, setBoard] = useState([]);
 
-  const [chosenCard, setChosenCard] = useState(null)
+  const [chosenCard, setChosenCard] = useState(null);
 
-  const [playerTwo, setPlayerTwo] = useState([])
-  const [playerOne, setPlayerOne] = useState([])
+  const [playerTwo, setPlayerTwo] = useState([]);
+  const [playerOne, setPlayerOne] = useState([]);
 
-  const history = useHistory()
-  
+  const history = useHistory();
 
-  if (!playerOneHandRedux.data.length && !playerTwoHandRedux.data.length && !playerOneHandRedux.isLoading && !playerTwoHandRedux.isLoading) {
-    history.replace('/game')
+  if (
+    !playerOneHandRedux.data.length &&
+    !playerTwoHandRedux.data.length &&
+    !playerOneHandRedux.isLoading &&
+    !playerTwoHandRedux.isLoading
+  ) {
+    history.replace('/game');
   }
   useEffect(() => {
     getBoard().then((resp) => {
-      setBoard(resp.data.data)
-    })
-    dispatch(setGameStatus('InProgress'))
-  }, [])
+      setBoard(resp.data.data);
+    });
+    dispatch(setGameStatus('InProgress'));
+  }, []);
 
   useEffect(() => {
-    setPlayerTwo(playerTwoHandRedux.data)
-    setPlayerOne(playerOneHandRedux.data)
-  }, [playerTwoHandRedux, playerOneHandRedux])
+    setPlayerTwo(playerTwoHandRedux.data);
+    setPlayerOne(playerOneHandRedux.data);
+  }, [playerTwoHandRedux, playerOneHandRedux]);
 
   const handleCellClick = (position) => {
     if (chosenCard) {
@@ -61,43 +67,43 @@ const BoardPage = () => {
         position,
         card: chosenCard,
         board,
-      }
+      };
 
       if (chosenCard.player === 1) {
         setPlayerOne((prevState) =>
           prevState.filter((i) => i.id !== chosenCard.id)
-        )
+        );
       } else if (chosenCard.player === 2) {
         setPlayerTwo((prevState) =>
           prevState.filter((i) => i.id !== chosenCard.id)
-        )
+        );
       }
       playerTurn(params).then((response) => {
-        setBoard(response.data.data)
+        setBoard(response.data.data);
         setTurns((prevState) => {
-          const count = prevState + 1
-          return count
-        })
-      })
+          const count = prevState + 1;
+          return count;
+        });
+      });
     }
-  }
+  };
 
   useEffect(() => {
-    if (turns !== 9) return
-    const [scoreOne, scoreTwo] = winCounter(board, playerOne, playerTwo)
+    if (turns !== 9) return;
+    const [scoreOne, scoreTwo] = winCounter(board, playerOne, playerTwo);
 
     if (scoreOne > scoreTwo) {
-      dispatch(setGameStatus('Won'))
-      alert('You won')
+      dispatch(setGameStatus('Won'));
+      alert('You won');
     } else if (scoreOne < scoreTwo) {
-      dispatch(setGameStatus('Lost'))
-      alert('You lost!')
+      dispatch(setGameStatus('Lost'));
+      alert('You lost!');
     } else {
-      dispatch(setGameStatus('Tie'))
-      alert('Tie!')
+      dispatch(setGameStatus('Tie'));
+      alert('Tie!');
     }
-    history.push('/game/finish')
-  }, [board, playerOne, playerTwo, turns])
+    history.push('/game/finish');
+  }, [board, playerOne, playerTwo, turns]);
 
   return (
     <div className={s.root}>
@@ -131,7 +137,7 @@ const BoardPage = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BoardPage
+export default BoardPage;

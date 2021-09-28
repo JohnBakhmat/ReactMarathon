@@ -1,5 +1,5 @@
-import s from './style.module.css'
-import cn from 'classnames'
+import s from './style.module.css';
+import cn from 'classnames';
 const Layout = ({ title, children, urlBg, colorBg }) => {
   const img = urlBg
     ? {
@@ -7,10 +7,10 @@ const Layout = ({ title, children, urlBg, colorBg }) => {
         color: 'white',
         backgroundSize: 'cover',
       }
-    : {}
-  const color = colorBg ? { background: `${colorBg}` } : {}
+    : {};
+  const color = colorBg ? { background: `${colorBg}` } : {};
 
-  const bg = Object.keys(img).length > 0 ? img : color
+  const bg = Object.keys(img).length > 0 ? img : color;
 
   return (
     <section className={s.root} style={bg}>
@@ -24,6 +24,6 @@ const Layout = ({ title, children, urlBg, colorBg }) => {
         </article>
       </div>
     </section>
-  )
-}
-export default Layout
+  );
+};
+export default Layout;

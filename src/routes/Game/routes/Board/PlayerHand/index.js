@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import PokemonCard from '../../../../../components/PokemonCard'
-import s from './styles.module.css'
-import cn from 'classnames'
+import { useState } from 'react';
+import PokemonCard from '../../../../../components/PokemonCard';
+import s from './styles.module.css';
+import cn from 'classnames';
 
 const PlayerHand = ({ player, cards, onCardClick }) => {
-  const [isSelected, setSelected] = useState(null)
+  const [isSelected, setSelected] = useState(null);
 
   return (
     <>
@@ -13,8 +13,8 @@ const PlayerHand = ({ player, cards, onCardClick }) => {
           className={cn(s.hand, { [s.isSelected]: isSelected === item.id })}
           key={item.id}
           onClick={() => {
-            setSelected(item.id)
-            onCardClick && onCardClick({ ...item, player })
+            setSelected(item.id);
+            onCardClick && onCardClick({ ...item, player });
           }}
         >
           <PokemonCard
@@ -29,6 +29,6 @@ const PlayerHand = ({ player, cards, onCardClick }) => {
         </div>
       ))}
     </>
-  )
-}
-export default PlayerHand
+  );
+};
+export default PlayerHand;

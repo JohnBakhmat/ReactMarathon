@@ -1,6 +1,6 @@
-import s from './styles.module.css'
-import cn from 'classnames'
-import { Link } from 'react-router-dom'
+import s from './styles.module.css';
+import cn from 'classnames';
+import { Link } from 'react-router-dom';
 const Links = [
   {
     label: 'HOME',
@@ -18,12 +18,12 @@ const Links = [
     label: 'CONTACTS',
     to: '/contacts',
   },
-]
+];
 
 const Menu = ({ isActive, onChangeActivity }) => {
   const handleClick = () => {
-    onChangeActivity && onChangeActivity()
-  }
+    onChangeActivity && onChangeActivity();
+  };
 
   return (
     <div
@@ -45,7 +45,7 @@ const Menu = ({ isActive, onChangeActivity }) => {
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;

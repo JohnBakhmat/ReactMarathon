@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import Menu from './Menu'
-import NavBar from './NavBar'
+import { useState } from 'react';
+import Menu from './Menu';
+import NavBar from './NavBar';
 const MenuHeader = ({ bgActive }) => {
-  const [isActive, setActive] = useState(null)
+  const [isActive, setActive] = useState(null);
   const handleActivity = () => {
-    setActive(!isActive)
-  }
+    setActive(!isActive);
+  };
 
   return (
     <>
@@ -16,6 +16,6 @@ const MenuHeader = ({ bgActive }) => {
         onChangeActivity={handleActivity}
       />
     </>
-  )
-}
-export default MenuHeader
+  );
+};
+export default MenuHeader;

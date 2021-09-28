@@ -1,32 +1,32 @@
-import s from './styles.module.css'
+import s from './styles.module.css';
 
-import Header from '../../components/Header/index'
-import Layout from '../../components/Layout/index'
-import PokemonCard from '../../components/PokemonCard/index'
+import Header from '../../components/Header/index';
+import Layout from '../../components/Layout/index';
+import PokemonCard from '../../components/PokemonCard/index';
 
-import img1 from '../../assets/img1.png'
-import img2 from '../../assets/img2.jpg'
+import img1 from '../../assets/img1.png';
+import img2 from '../../assets/img2.jpg';
 
-import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectPokemonsData, getPokemonsAsync } from '../../store/pokemons'
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPokemonsData, getPokemonsAsync } from '../../store/pokemons';
 const HomePage = ({ onRedirect }) => {
-  const color = '#F79C1E'
+  const color = '#F79C1E';
   const handleRedirect = (path) => {
-    onRedirect && onRedirect(path)
-  }
-  const [pokemons, setPokemons] = useState({})
+    onRedirect && onRedirect(path);
+  };
+  const [pokemons, setPokemons] = useState({});
 
-  const dispatch = useDispatch()
-  const pokemonsRedux = useSelector(selectPokemonsData)
-
-  useEffect(() => {
-    dispatch(getPokemonsAsync())
-  }, [])
+  const dispatch = useDispatch();
+  const pokemonsRedux = useSelector(selectPokemonsData);
 
   useEffect(() => {
-    setPokemons(pokemonsRedux)
-  }, [pokemonsRedux])
+    dispatch(getPokemonsAsync());
+  }, []);
+
+  useEffect(() => {
+    setPokemons(pokemonsRedux);
+  }, [pokemonsRedux]);
 
   // const handleFlipEvent = (id) => {
   //   setPokemons((prevState) => {
@@ -91,7 +91,7 @@ const HomePage = ({ onRedirect }) => {
         </p>
       </Layout>
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

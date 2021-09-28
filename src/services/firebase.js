@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
-import firebase from 'firebase/compat/app'
+import firebase from 'firebase/compat/app';
 
-import 'firebase/compat/database'
+import 'firebase/compat/database';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDLNEG_jj29h-DJ0YwGJTNXGx7c-WEhMqA',
@@ -12,35 +12,35 @@ const firebaseConfig = {
   messagingSenderId: '204321349034',
   appId: '1:204321349034:web:413032aa758b303cdf1fd3',
   measurementId: 'G-B0M4LYHTMT',
-}
+};
 
 class Firebase {
   constructor() {
-    firebase.initializeApp(firebaseConfig)
+    firebase.initializeApp(firebaseConfig);
 
-    this.fire = firebase
-    this.database = this.fire.database()
+    this.fire = firebase;
+    this.database = this.fire.database();
   }
 
   getPokemonsOnce = async () => {
     return await this.database
       .ref('pokemons')
       .once('value')
-      .then((snapshot) => snapshot.val())
-  }
+      .then((snapshot) => snapshot.val());
+  };
   postPokemon = (key, pokemon) => {
-    this.database.ref(`pokemons/${key}`).set(pokemon)
-  }
+    this.database.ref(`pokemons/${key}`).set(pokemon);
+  };
   addPokemon = async (data) => {
-    const newKey = this.database.ref().child('pokemons').push().key
-    return await this.database.ref('pokemons/' + newKey).set(data)
-  }
+    const newKey = this.database.ref().child('pokemons').push().key;
+    return await this.database.ref('pokemons/' + newKey).set(data);
+  };
 
   getPokemonSocket = (callBack) => {
     this.database.ref('pokemons').on('value', (snapshot) => {
-      callBack(snapshot.val())
-    })
-  }
+      callBack(snapshot.val());
+    });
+  };
 }
-const FirebaseObject = new Firebase()
-export default FirebaseObject
+const FirebaseObject = new Firebase();
+export default FirebaseObject;

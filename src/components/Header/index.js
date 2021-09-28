@@ -1,12 +1,12 @@
-import s from './style.module.css'
-import { useHistory } from 'react-router-dom'
+import s from './style.module.css';
+import { useHistory } from 'react-router-dom';
 
 const Header = ({ title, descr, onRedirect }) => {
-  const history = useHistory()
+  const history = useHistory();
 
   const handleRedirect = () => {
-    history.push('/game')
-  }
+    history.push('/game');
+  };
   return (
     <header className={s.root}>
       <div className={s.forest} />
@@ -19,7 +19,7 @@ const Header = ({ title, descr, onRedirect }) => {
         <button onClick={handleRedirect}>Get Started</button>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

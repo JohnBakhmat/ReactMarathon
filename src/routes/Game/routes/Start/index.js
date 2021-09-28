@@ -1,50 +1,48 @@
-import PokemonCard from '../../../../components/PokemonCard'
-import s from './styles.module.css'
-import { useState, useEffect } from 'react'
+import PokemonCard from '../../../../components/PokemonCard';
+import s from './styles.module.css';
+import { useState, useEffect } from 'react';
 
-import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   getPokemonsAsync,
   selectPokemonsData,
-} from '../../../../store/pokemons'
-import { setPlayerHand,selectPlayer} from '../../../../store/board'
+} from '../../../../store/pokemons';
+import { setPlayerHand, selectPlayer } from '../../../../store/board';
 
 function StartPage() {
-  const history = useHistory()
+  const history = useHistory();
 
-  const dispatch = useDispatch()
-  const pokemonsRedux = useSelector(selectPokemonsData)
-  const playerOneHandRedux = useSelector(selectPlayer(1))
-  const playerTwoHandRedux = useSelector(selectPlayer(2))
-  const [pokemons, setPokemons] = useState({})
+  const dispatch = useDispatch();
+  const pokemonsRedux = useSelector(selectPokemonsData);
+  const playerOneHandRedux = useSelector(selectPlayer(1));
+  const playerTwoHandRedux = useSelector(selectPlayer(2));
+  const [pokemons, setPokemons] = useState({});
   const isButtonEnabled =
-    Object.values(pokemons).filter((i) => i.isSelected).length < 5
+    Object.values(pokemons).filter((i) => i.isSelected).length < 5;
 
   useEffect(() => {
-    dispatch(getPokemonsAsync())
-  }, [])
+    dispatch(getPokemonsAsync());
+  }, []);
 
   useEffect(() => {
-    setPokemons(pokemonsRedux)
-  }, [pokemonsRedux])
+    setPokemons(pokemonsRedux);
+  }, [pokemonsRedux]);
 
   const handleFlipEvent = (key) => {
     setPokemons((prevState) => ({
       ...prevState,
       [key]: { ...prevState[key], isSelected: !prevState[key].isSelected },
-    }))
-  }
+    }));
+  };
 
   const handleGameStart = () => {
-    const hand = Object.values(pokemons).filter(item=>item.isSelected)
-    dispatch(setPlayerHand(1,hand))
-    dispatch(setPlayerHand(2))
-    history.push('/game/board')
-    
-    
-  }
+    const hand = Object.values(pokemons).filter((item) => item.isSelected);
+    dispatch(setPlayerHand(1, hand));
+    dispatch(setPlayerHand(2));
+    history.push('/game/board');
+  };
 
   return (
     <div>
@@ -75,14 +73,14 @@ function StartPage() {
                   5 ||
                 item.isSelected
               ) {
-                handleFlipEvent(key)
+                handleFlipEvent(key);
               }
             }}
           />
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default StartPage
+export default StartPage;

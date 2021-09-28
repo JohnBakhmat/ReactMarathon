@@ -1,6 +1,6 @@
-import AboutLink from '../../components/AboutLink'
-import face from './assets/face.jpg'
-import s from './styles.module.css'
+import AboutLink from '../../components/AboutLink';
+import face from './assets/face.jpg';
+import s from './styles.module.css';
 function AboutPage() {
   return (
     <div>
@@ -18,7 +18,7 @@ function AboutPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default AboutPage
+export default AboutPage;
