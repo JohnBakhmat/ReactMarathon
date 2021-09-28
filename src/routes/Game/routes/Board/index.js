@@ -3,13 +3,15 @@ import { useHistory } from 'react-router-dom'
 import PokemonCard from '../../../../components/PokemonCard'
 import { PokemonContext } from '../../../../context/pokemonContext'
 import s from './style.module.css'
-import {
-  getBoard,
-  playerTurn,
-} from '../../../../services/zarApiService'
+import { getBoard, playerTurn } from '../../../../services/zarApiService'
 import PlayerHand from './PlayerHand'
 import { useDispatch, useSelector } from 'react-redux'
-import { getPlayerTwoHand,selectPlayerTwoHand,selectPlayerOneHand,setGameStatus } from '../../../../store/board'
+import {
+  getPlayerTwoHand,
+  selectPlayerTwoHand,
+  selectPlayerOneHand,
+  setGameStatus,
+} from '../../../../store/board'
 
 const winCounter = (board, playerOne, playerTwo) => {
   let handOneCount = playerOne.length
@@ -27,12 +29,11 @@ const winCounter = (board, playerOne, playerTwo) => {
 }
 
 const BoardPage = () => {
-  const { playerOneHand } =
-    useContext(PokemonContext)
+  const { playerOneHand } = useContext(PokemonContext)
   const dispatch = useDispatch()
   const [turns, setTurns] = useState(0)
   const [board, setBoard] = useState([])
-  
+
   const [chosenCard, setChosenCard] = useState(null)
 
   const [playerTwo, setPlayerTwo] = useState({})
@@ -60,11 +61,10 @@ const BoardPage = () => {
     dispatch(setGameStatus('InProgress'))
   }, [])
 
-
-  useEffect(()=>{
+  useEffect(() => {
     setPlayerTwo(playerTwoHandRedux)
     setPlayerOne(playerOneHandRedux)
-  },[playerTwoHandRedux,playerOneHandRedux])
+  }, [playerTwoHandRedux, playerOneHandRedux])
 
   const handleCellClick = (position) => {
     if (chosenCard) {
@@ -94,22 +94,21 @@ const BoardPage = () => {
   }
 
   useEffect(() => {
-    if (turns !== 9) return 
-      const [scoreOne, scoreTwo] = winCounter(board, playerOne, playerTwo)
+    if (turns !== 9) return
+    const [scoreOne, scoreTwo] = winCounter(board, playerOne, playerTwo)
 
-      if (scoreOne > scoreTwo) {
-        dispatch(setGameStatus('Won'))
-        alert('You won')
-      } else if (scoreOne < scoreTwo) {
-        dispatch(setGameStatus('Lost'))
-        alert('You lost!')
-      } else {
-        dispatch(setGameStatus('Tie'))
-        alert('Tie!')
-      }
-      history.push('/game/finish')
-    
-  }, [board, playerOne, playerTwo,turns])
+    if (scoreOne > scoreTwo) {
+      dispatch(setGameStatus('Won'))
+      alert('You won')
+    } else if (scoreOne < scoreTwo) {
+      dispatch(setGameStatus('Lost'))
+      alert('You lost!')
+    } else {
+      dispatch(setGameStatus('Tie'))
+      alert('Tie!')
+    }
+    history.push('/game/finish')
+  }, [board, playerOne, playerTwo, turns])
 
   return (
     <div className={s.root}>

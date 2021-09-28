@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import fb from "../services/firebase"
+import fb from '../services/firebase'
 const initialState = {
   isLoading: false,
   data: {},
@@ -12,27 +12,30 @@ const pokemons = createSlice({
   reducers: {
     fetchPokemons: (state) => ({
       ...state,
-      isLoading:true,
+      isLoading: true,
     }),
-    fetchPokemonsResolve: (state,action)=>({
+    fetchPokemonsResolve: (state, action) => ({
       ...state,
-      isLoading:false,
+      isLoading: false,
       data: action.payload,
     }),
-    fetchPokemonsReject: (state,action)=>({
+    fetchPokemonsReject: (state, action) => ({
       ...state,
-      isLoading:false,
+      isLoading: false,
       data: {},
       error: action.payload,
-
-    })
+    }),
   },
 })
 
-export const {fetchPokemons, fetchPokemonsResolve, fetchPokemonsReject} = pokemons.actions
-export const getPokemonsAsync= ()=> async(dispatch)=>{
-  dispatch(fetchPokemons());
-  const data = await fb.getPokemonsOnce();
+export const {
+  fetchPokemons,
+  fetchPokemonsResolve,
+  fetchPokemonsReject,
+} = pokemons.actions
+export const getPokemonsAsync = () => async (dispatch) => {
+  dispatch(fetchPokemons())
+  const data = await fb.getPokemonsOnce()
   dispatch(fetchPokemonsResolve(data))
 }
 export const selectPokemonsLoading = (state) => state.pokemons.isLoading

@@ -3,38 +3,39 @@ import s from './styles.module.css'
 import { useState, useEffect } from 'react'
 import { useContext } from 'react'
 import { FireBaseContext } from '../../../../context/firebaseContext'
-import { PokemonContext } from '../../../../context/pokemonContext'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import {getPokemons, getPokemonsAsync, selectPokemonsData, selectPokemonsLoading} from '../../../../store/pokemons'
-import {setPlayerOneHand} from "../../../../store/board"
+import {
+  getPokemonsAsync,
+  selectPokemonsData,
+} from '../../../../store/pokemons'
+import { setPlayerOneHand } from '../../../../store/board'
 
 function StartPage() {
   const firebase = useContext(FireBaseContext)
-  const pokemonContext = useContext(PokemonContext)
   const history = useHistory()
 
   const dispatch = useDispatch()
   const pokemonsRedux = useSelector(selectPokemonsData)
 
-  
   const [pokemons, setPokemons] = useState({})
-  const isButtonEnabled = Object.values(pokemons).filter(i=>i.isSelected).length < 5
+  const isButtonEnabled =
+    Object.values(pokemons).filter((i) => i.isSelected).length < 5
+
   useEffect(() => {
     dispatch(getPokemonsAsync())
   }, [firebase])
 
-  useEffect(()=>{
+  useEffect(() => {
     setPokemons(pokemonsRedux)
-  },[pokemonsRedux])
-  
+  }, [pokemonsRedux])
+
   const handleFlipEvent = (key) => {
     setPokemons((prevState) => ({
       ...prevState,
       [key]: { ...prevState[key], isSelected: !prevState[key].isSelected },
     }))
-    
   }
 
   const handleGameStart = () => {
@@ -67,7 +68,8 @@ function StartPage() {
             className={s.pokemonCard}
             onClickEvent={() => {
               if (
-                Object.values(pokemons).filter(i=>i.isSelected).length < 5 ||
+                Object.values(pokemons).filter((i) => i.isSelected).length <
+                  5 ||
                 item.isSelected
               ) {
                 handleFlipEvent(key)
