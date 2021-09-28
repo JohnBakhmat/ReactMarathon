@@ -26,7 +26,6 @@ const App = () => {
           <div className={cn(s.wrap, { [s.isHomePage]: paddingActive })}>
             <Switch>
               <Route path="/" exact component={HomePage} />
-              {/* <Route path="/home" component={HomePage} /> */}
               <Route path="/game" component={GamePage} />
               <Route path="/about" component={AboutPage} />
               <Route path="/contact" component={ContactPage} />
