@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import { PokemonContext } from '../../../../context/pokemonContext'
@@ -6,27 +6,27 @@ import PokemonCard from '../../../../components/PokemonCard'
 import s from './styles.module.css'
 import firebase from '../../../../services/firebase'
 import { useDispatch, useSelector } from 'react-redux'
-import {selectPlayerTwoHand} from '../../../../store/board'
+import {selectPlayerTwoHand,selectPlayerOneHand,selectGameStatus,resetGame} from '../../../../store/board'
 function FinishPage() {
-  const {
-    playerOneHand,
-    playerTwoHand,
-    savePlayerOneDeck,
-    savePlayerTwoDeck,
-    gameStatus,
-  } = useContext(PokemonContext)
+  const playerTwoHandRedux = useSelector(selectPlayerTwoHand)
+  const playerOneHandRedux = useSelector(selectPlayerOneHand)
+  const gameStatus = useSelector(selectGameStatus)
+  
   const history = useHistory()
-  if (!Object.keys(playerOneHand).length) {
+  if (!Object.keys(playerOneHandRedux).length) {
     history.replace('/game')
   }
   const [stolenCard, setStolenCard] = useState(null)
-
+  const [playerTwoHandState, setPlayerTwoHandState] = useState([])
   const dispatch = useDispatch()
-  const playerTwoHandRedux = useSelector(selectPlayerTwoHand)
+ 
 
+  useEffect(()=>{
+    setPlayerTwoHandState(playerTwoHandRedux)
+  },[playerTwoHandRedux])
   const handleCardSelect = (id) => {
     if (gameStatus !== 'Won') return
-    savePlayerTwoDeck((prevState) => {
+    setPlayerTwoHandState((prevState)=>{
       let newArray = prevState.map((i) => ({ ...i, isSelected: false }))
       newArray.find((i) => i.id === id).isSelected ^= true
       setStolenCard(newArray.find((i) => i.id === id))
@@ -38,21 +38,16 @@ function FinishPage() {
     if (gameStatus === 'Won') {
       let card = stolenCard
       card.isSelected = false
-      new firebase().addPokemon(card, () => {})
+      firebase.addPokemon(card, () => {})
     }
-    savePlayerOneDeck({})
-    savePlayerTwoDeck({})
+    dispatch(resetGame())
     history.replace('/game')
   }
-
-  // useEffect(()=>{
-  //   console.dir(stolenCard)
-  // },[stolenCard])
 
   return (
     <div>
       <div className={s.row}>
-        {Object.values(playerOneHand).map((item) => (
+        {Object.values(playerOneHandRedux).map((item) => (
           <PokemonCard
             key={item.id}
             id={item.id}
@@ -76,8 +71,7 @@ function FinishPage() {
       </button>
       <div className={s.row}>
         {
-          // Object.values(playerTwoHand)
-          Object.values(playerTwoHandRedux).map((item) => (
+          Object.values(playerTwoHandState).map((item) => (
             <PokemonCard
               key={item.id}
               id={item.id}

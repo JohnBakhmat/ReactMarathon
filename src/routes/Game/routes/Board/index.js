@@ -63,7 +63,8 @@ const BoardPage = () => {
 
   useEffect(()=>{
     setPlayerTwo(playerTwoHandRedux)
-  },[playerTwoHandRedux])
+    setPlayerOne(playerOneHandRedux)
+  },[playerTwoHandRedux,playerOneHandRedux])
 
   const handleCellClick = (position) => {
     if (chosenCard) {
@@ -93,7 +94,7 @@ const BoardPage = () => {
   }
 
   useEffect(() => {
-    if (turns === 9) {
+    if (turns !== 9) return 
       const [scoreOne, scoreTwo] = winCounter(board, playerOne, playerTwo)
 
       if (scoreOne > scoreTwo) {
@@ -107,15 +108,15 @@ const BoardPage = () => {
         alert('Tie!')
       }
       history.push('/game/finish')
-    }
-  }, [board, history, playerOne, playerTwo, setGameStatus, turns])
+    
+  }, [board, playerOne, playerTwo,turns])
 
   return (
     <div className={s.root}>
       <div className={s.playerOne}>
         <PlayerHand
           player={1}
-          cards={playerOneHandRedux}
+          cards={playerOne}
           onCardClick={(card) => setChosenCard(card)}
         />
       </div>

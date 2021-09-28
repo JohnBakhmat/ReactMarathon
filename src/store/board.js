@@ -11,7 +11,7 @@ const initialState = {
 		isLoading: false
 	},
 	gameStatus: 'Starting',
-	currentPlayer: 1+Math.floor(Math.random()*2)
+	firstPlayer: 1+Math.floor(Math.random()*2)
 }
 
 const board = createSlice({
@@ -39,25 +39,19 @@ const board = createSlice({
 		},
 		fetchPlayerOneHandResolve: (state,action)=>{
 			const copy = state;
-			let data = copy.playerOneHand.data
-			let pokemon = action.payload;
-			if(data.includes(pokemon)){
-				data = data.filter(i=>i.id!==pokemon.id)
-			}
-			else{
-				data.push(pokemon)
-			}
-			copy.playerOneHand.data = data.map(item=>({...item, possession:"blue"}))
-			copy.playerOneHand.isLoading = true
+			copy.playerOneHand.isLoading = false
+			copy.playerOneHand.data = action.payload;
 			return copy
-		}
+		},
+		resetGameResolve: ()=>initialState
 	}
 });
 
 export const {
 	fetchPlayerTwoHand,fetchPlayerOneHand,
 	fetchPlayerTwoHandResolve,fetchPlayerOneHandResolve,
-	changeGameStatus
+	changeGameStatus,
+	resetGameResolve
 } = board.actions
 
 export const getPlayerTwoHand = () => (dispatch)=>{
@@ -69,15 +63,21 @@ export const getPlayerTwoHand = () => (dispatch)=>{
 		dispatch(fetchPlayerTwoHandResolve(object))
 	})
 }
-export const setPlayerOneHand = (data)=> (dispatch)=>{
+export const setPlayerOneHand = (pokemons)=> (dispatch)=>{
 	dispatch(fetchPlayerOneHand())
+	const data = Object.values(pokemons).filter(item=>item.isSelected).map(item => ({...item, possession: 'blue'}))
 	dispatch(fetchPlayerOneHandResolve(data))
 }
 
 export const setGameStatus = (status) => (dispatch)=>{
 	dispatch(changeGameStatus(status))
 }
+export const resetGame = ()=>(dispatch)=>{
+	dispatch(resetGameResolve())
+}
 
 export const selectPlayerTwoHand = (state)=>state.board.playerTwoHand.data
 export const selectPlayerOneHand = (state)=>state.board.playerOneHand.data
+export const selectGameStatus = (state)=>state.board.gameStatus
+
 export default board.reducer

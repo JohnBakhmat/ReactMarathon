@@ -30,14 +30,15 @@ function StartPage() {
   },[pokemonsRedux])
   
   const handleFlipEvent = (key) => {
-    dispatch(setPlayerOneHand(pokemons[key]))
     setPokemons((prevState) => ({
       ...prevState,
       [key]: { ...prevState[key], isSelected: !prevState[key].isSelected },
     }))
+    
   }
 
   const handleGameStart = () => {
+    dispatch(setPlayerOneHand(pokemons))
     history.push('/game/board')
   }
 
@@ -66,7 +67,7 @@ function StartPage() {
             className={s.pokemonCard}
             onClickEvent={() => {
               if (
-                Object.keys(pokemonContext.playerOneHand).length < 5 ||
+                Object.values(pokemons).filter(i=>i.isSelected).length < 5 ||
                 item.isSelected
               ) {
                 handleFlipEvent(key)
