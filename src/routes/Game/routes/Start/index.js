@@ -1,8 +1,7 @@
 import PokemonCard from '../../../../components/PokemonCard'
 import s from './styles.module.css'
 import { useState, useEffect } from 'react'
-import { useContext } from 'react'
-import { FireBaseContext } from '../../../../context/firebaseContext'
+
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
@@ -13,7 +12,6 @@ import {
 import { setPlayerOneHand } from '../../../../store/board'
 
 function StartPage() {
-  const firebase = useContext(FireBaseContext)
   const history = useHistory()
 
   const dispatch = useDispatch()
@@ -25,7 +23,7 @@ function StartPage() {
 
   useEffect(() => {
     dispatch(getPokemonsAsync())
-  }, [firebase])
+  }, [])
 
   useEffect(() => {
     setPokemons(pokemonsRedux)

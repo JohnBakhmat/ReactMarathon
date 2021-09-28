@@ -1,7 +1,6 @@
-import { useContext, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import PokemonCard from '../../../../components/PokemonCard'
-import { PokemonContext } from '../../../../context/pokemonContext'
 import s from './style.module.css'
 import { getBoard, playerTurn } from '../../../../services/zarApiService'
 import PlayerHand from './PlayerHand'
@@ -29,8 +28,9 @@ const winCounter = (board, playerOne, playerTwo) => {
 }
 
 const BoardPage = () => {
-  const { playerOneHand } = useContext(PokemonContext)
   const dispatch = useDispatch()
+  const playerTwoHandRedux = useSelector(selectPlayerTwoHand)
+  const playerOneHandRedux = useSelector(selectPlayerOneHand)
   const [turns, setTurns] = useState(0)
   const [board, setBoard] = useState([])
 
@@ -38,14 +38,13 @@ const BoardPage = () => {
 
   const [playerTwo, setPlayerTwo] = useState({})
   const [playerOne, setPlayerOne] = useState(() => {
-    return Object.values(playerOneHand).map((item) => ({
+    return Object.values(playerOneHandRedux).map((item) => ({
       ...item,
       possession: 'blue',
     }))
   })
 
-  const playerTwoHandRedux = useSelector(selectPlayerTwoHand)
-  const playerOneHandRedux = useSelector(selectPlayerOneHand)
+  
 
   const history = useHistory()
 

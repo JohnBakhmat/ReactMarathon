@@ -38,7 +38,9 @@ export const getPokemonsAsync = () => async (dispatch) => {
   const data = await fb.getPokemonsOnce()
   dispatch(fetchPokemonsResolve(data))
 }
+export const savePokemon = (card) => async () => {
+  await fb.addPokemon(card)
+}
 export const selectPokemonsLoading = (state) => state.pokemons.isLoading
 export const selectPokemonsData = (state) => state.pokemons.data
-
 export default pokemons.reducer

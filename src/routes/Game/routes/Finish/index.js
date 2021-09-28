@@ -4,8 +4,9 @@ import { useState } from 'react'
 
 import PokemonCard from '../../../../components/PokemonCard'
 import s from './styles.module.css'
-import firebase from '../../../../services/firebase'
 import { useDispatch, useSelector } from 'react-redux'
+
+import { savePokemon } from '../../../../store/pokemons'
 import {
   selectPlayerTwoHand,
   selectPlayerOneHand,
@@ -42,7 +43,7 @@ function FinishPage() {
     if (gameStatus === 'Won') {
       let card = stolenCard
       card.isSelected = false
-      firebase.addPokemon(card, () => {})
+      dispatch(savePokemon(card))
     }
     dispatch(resetGame())
     history.replace('/game')

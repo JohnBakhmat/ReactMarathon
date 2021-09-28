@@ -31,12 +31,9 @@ class Firebase {
   postPokemon = (key, pokemon) => {
     this.database.ref(`pokemons/${key}`).set(pokemon)
   }
-  addPokemon = (data, callBack) => {
+  addPokemon = async (data) => {
     const newKey = this.database.ref().child('pokemons').push().key
-    this.database
-      .ref('pokemons/' + newKey)
-      .set(data)
-      .then(() => callBack())
+    return await this.database.ref('pokemons/' + newKey).set(data)
   }
 
   getPokemonSocket = (callBack) => {
