@@ -5,17 +5,17 @@ import cn from 'classnames';
 
 const PlayerHand = ({ player, cards, onCardClick }) => {
   const [isSelected, setSelected] = useState(null);
-
+  const handleCardClick = (item) => {
+    setSelected(item.id);
+    onCardClick && onCardClick({ ...item, player });
+  }
   return (
     <>
       {Object.values(cards).map((item) => (
         <div
           className={cn(s.hand, { [s.isSelected]: isSelected === item.id })}
           key={item.id}
-          onClick={() => {
-            setSelected(item.id);
-            onCardClick && onCardClick({ ...item, player });
-          }}
+          onClick={handleCardClick(item)}
         >
           <PokemonCard
             name={item.name}
