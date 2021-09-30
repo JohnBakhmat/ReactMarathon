@@ -21,7 +21,7 @@ const initialState = {
     },
   },
   gameStatus: 'Starting',
-  firstPlayer: 1 + Math.floor(Math.random() * 2),
+  firstPlayer: (1 + Math.floor(Math.random() * 2)),
 };
 
 const board = createSlice({
@@ -98,5 +98,6 @@ export const resetGame = () => (dispatch) => {
 
 export const selectPlayer = (id) => (state) => state.board.players[id];
 export const selectGameStatus = (state) => state.board.gameStatus;
+export const getFirstPlayer = (state) => state.board.firstPlayer;
 
 export default board.reducer;
