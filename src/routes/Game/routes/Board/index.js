@@ -5,7 +5,15 @@ import s from './style.module.css';
 import { getBoard, playerTurn } from '../../../../services/zarApiService';
 import PlayerHand from './PlayerHand';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectPlayer, setGameStatus } from '../../../../store/board';
+import {
+  selectPlayer,
+  setGameStatus,getFirstPlayer,selectGameStatus
+} from '../../../../store/board';
+
+
+
+import MatchResult from "../../../../components/MatchResult"
+import TurnIndicator from "../../../../components/TurnIndicator"
 
 const winCounter = (board, playerOne, playerTwo) => {
   let handOneCount = playerOne.length;
@@ -26,7 +34,11 @@ const BoardPage = () => {
   const dispatch = useDispatch();
   const playerOneHandRedux = useSelector(selectPlayer(1));
   const playerTwoHandRedux = useSelector(selectPlayer(2));
+  const firstPlayer = useSelector(getFirstPlayer);
+  const gameStatus = useSelector(selectGameStatus);
 
+
+  const [currentPlayer, setCurrentPlayer] = useState(firstPlayer)
   const [turns, setTurns] = useState(0);
   const [board, setBoard] = useState([]);
 
@@ -58,7 +70,7 @@ const BoardPage = () => {
   }, [playerTwoHandRedux, playerOneHandRedux]);
 
   const handleCellClick = (position) => {
-    if (chosenCard) {
+    if (chosenCard && chosenCard.player === currentPlayer) {
       const params = {
         position,
         card: chosenCard,
@@ -74,6 +86,7 @@ const BoardPage = () => {
           prevState.filter((i) => i.id !== chosenCard.id)
         );
       }
+      setCurrentPlayer((prevState)=>(prevState===1?2:1))
       playerTurn(params).then((response) => {
         setBoard(response.data.data);
         setTurns((prevState) => {
@@ -90,19 +103,22 @@ const BoardPage = () => {
 
     if (scoreOne > scoreTwo) {
       dispatch(setGameStatus('Won'));
-      alert('You won');
     } else if (scoreOne < scoreTwo) {
       dispatch(setGameStatus('Lost'));
-      alert('You lost!');
     } else {
       dispatch(setGameStatus('Tie'));
-      alert('Tie!');
     }
-    history.push('/game/finish');
+    setTimeout(()=>{
+      history.push('/game/finish');
+    },1000)
   }, [board, playerOne, playerTwo, turns]);
 
   return (
     <div className={s.root}>
+      {
+        gameStatus !== "InProgress" && <MatchResult/>
+      }
+      <TurnIndicator side={currentPlayer}/>
       <div className={s.playerOne}>
         <PlayerHand
           player={1}
