@@ -5,10 +5,7 @@ import s from './style.module.css';
 import { getBoard, playerTurn } from '../../../../services/zarApiService';
 import PlayerHand from './PlayerHand';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectPlayer,
-  setGameStatus,
-} from '../../../../store/board';
+import { selectPlayer, setGameStatus } from '../../../../store/board';
 
 const winCounter = (board, playerOne, playerTwo) => {
   let handOneCount = playerOne.length;
