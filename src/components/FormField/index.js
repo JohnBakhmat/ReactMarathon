@@ -1,5 +1,5 @@
 import s from './style.module.css'
-const FormField = ({label, type,setState,isRequired=false})=>{
+const FormField = ({label,name='a', type,setState,isRequired=false})=>{
 	const handleChange = (event)=>{
 		setState && setState(prevState=>({
 			...prevState,
@@ -7,12 +7,12 @@ const FormField = ({label, type,setState,isRequired=false})=>{
 		}))
 	}
 	return (
-		<>
+		<div className={s.root}>
 			<input type={type} className={s.input} required={isRequired} onChange={handleChange}/>
-			{/* <span className={s.highlight}></span>
+			<span className={s.highlight}></span>
 			<span className={s.bar}></span>
-			<label className={s.label}>{label}</label> */}
-		</>
+			<label className={s.label}>{label}</label>
+		</div>
 	)
 }
 export default FormField

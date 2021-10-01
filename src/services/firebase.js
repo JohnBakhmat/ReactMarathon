@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+import axios from 'axios';
 import firebase from 'firebase/compat/app';
 
 import 'firebase/compat/database';
@@ -41,6 +42,22 @@ class Firebase {
       callBack(snapshot.val());
     });
   };
+}
+export const userSignUp = ({email,password})=>{
+  const body = {
+    email,
+    password,
+    returnSecureToken:true
+  }
+  return axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${firebaseConfig.apiKey}`,body)
+}
+export const userLogin = ({email,password})=>{
+  const body = {
+    email,
+    password,
+    returnSecureToken:true
+  }
+  return axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${firebaseConfig.apiKey}`,body)
 }
 const FirebaseObject = new Firebase();
 export default FirebaseObject;

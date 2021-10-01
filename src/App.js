@@ -6,11 +6,12 @@ import ContactPage from './routes/ContactPage';
 import MenuHeader from './components/MenuHeader';
 import Footer from './components/Footer';
 import s from './styles.module.css';
-
+import {NotificationContainer} from 'react-notifications'
 import cn from 'classnames';
-
+import 'react-notifications/lib/notifications.css'
 import { useLocation, Route, Switch, Redirect } from 'react-router-dom';
 import GamePage from './routes/Game';
+import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
   const location = useLocation('/');
@@ -18,6 +19,8 @@ const App = () => {
     location.pathname === '/' || location.pathname === '/game/board';
 
   return (
+  <>
+  
     <Switch>
       <Route path="/404" component={NotFound} />
       <Route>
@@ -26,8 +29,8 @@ const App = () => {
           <div className={cn(s.wrap, { [s.isHomePage]: paddingActive })}>
             <Switch>
               <Route path="/" exact component={HomePage} />
-              <Route path="/game" component={GamePage} />
-              <Route path="/about" component={AboutPage} />
+              <PrivateRoute path="/game" component={GamePage} />
+              <PrivateRoute path="/about" component={AboutPage} />
               <Route path="/contact" component={ContactPage} />
               <Route render={() => <Redirect to="/404" />} />
             </Switch>
@@ -36,6 +39,8 @@ const App = () => {
         </>
       </Route>
     </Switch>
+    <NotificationContainer/>
+    </>
   );
 };
 

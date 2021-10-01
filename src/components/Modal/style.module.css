@@ -4,11 +4,13 @@
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(252, 231, 86, 0.75);
+  background: rgba(252, 161, 86, 0.1);
+  backdrop-filter: blur(10px);
   visibility: hidden;
   opacity: 0;
   transition: all 0.25s ease-in-out;
   z-index: 100000;
+  
 }
 
 .root.open {
@@ -27,6 +29,7 @@
   background: #fafafa;
   opacity: 0;
   transition: all 0.5s ease-in-out;
+  border-radius: 30px;
 }
 
 .root.open .modal {
@@ -35,13 +38,17 @@
 }
 
 .head {
+  border-radius:15px 15px 0 0;
   width: 100%;
   height: 64px;
   overflow: hidden;
   background: #01bce5;
   position: relative;
   padding: 12px 52px 12px 24px;
-  font-size: 30px;
+  font-size: 2.5rem;
+  font-family: 'Pocket Monk';
+  letter-spacing: 5px;
+  font-weight: 100;
 }
 
 .btnClose {
