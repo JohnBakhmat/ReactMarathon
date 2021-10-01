@@ -43,21 +43,27 @@ class Firebase {
     });
   };
 }
-export const userSignUp = ({email,password})=>{
+export const userSignUp = ({ email, password }) => {
   const body = {
     email,
     password,
-    returnSecureToken:true
-  }
-  return axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${firebaseConfig.apiKey}`,body)
-}
-export const userLogin = ({email,password})=>{
+    returnSecureToken: true,
+  };
+  return axios.post(
+    `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${firebaseConfig.apiKey}`,
+    body
+  );
+};
+export const userLogin = ({ email, password }) => {
   const body = {
     email,
     password,
-    returnSecureToken:true
-  }
-  return axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${firebaseConfig.apiKey}`,body)
-}
+    returnSecureToken: true,
+  };
+  return axios.post(
+    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${firebaseConfig.apiKey}`,
+    body
+  );
+};
 const FirebaseObject = new Firebase();
 export default FirebaseObject;
