@@ -31,6 +31,7 @@ export const {
 
 export const selectUserLoading = (state)=> state.user.isLoading
 export const selectUser = (state)=> state.user.data
+export const selectLocalId = (state)=> state.user.data?.localId
 
 export const getUserAsync = () => async (dispatch) => {
 	const idToken = localStorage.getItem('idToken')
