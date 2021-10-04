@@ -77,5 +77,11 @@ export const postPokemons = (data, localId, idToken) => {
   }
 };
 
+export const getUserInfo= (idToken)=>{
+  const body = {
+    idToken
+  };
+  return axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseConfig.apiKey}`,body)
+}
 const FirebaseObject = new Firebase();
 export default FirebaseObject;

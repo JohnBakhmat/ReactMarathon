@@ -12,11 +12,19 @@ import 'react-notifications/lib/notifications.css';
 import { useLocation, Route, Switch, Redirect } from 'react-router-dom';
 import GamePage from './routes/Game';
 import PrivateRoute from './components/PrivateRoute';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getUserAsync } from './store/user'
 
 const App = () => {
   const location = useLocation('/');
   const paddingActive =
     location.pathname === '/' || location.pathname === '/game/board';
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(getUserAsync())
+  },[])
+
 
   return (
     <>
