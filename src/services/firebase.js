@@ -83,5 +83,8 @@ export const getUserInfo= (idToken)=>{
   };
   return axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseConfig.apiKey}`,body)
 }
+export const getPokemonsOnce=(localId)=>{
+ return axios.get(`https://jb-react-marathon-default-rtdb.firebaseio.com/${localId}/pokemons.json`)
+}
 const FirebaseObject = new Firebase();
 export default FirebaseObject;

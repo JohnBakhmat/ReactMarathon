@@ -13,19 +13,23 @@ import { useLocation, Route, Switch, Redirect } from 'react-router-dom';
 import GamePage from './routes/Game';
 import PrivateRoute from './components/PrivateRoute';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUserAsync } from './store/user'
-
+import { selectUserLoading } from './store/user';
 const App = () => {
   const location = useLocation('/');
   const paddingActive =
     location.pathname === '/' || location.pathname === '/game/board';
   const dispatch = useDispatch()
+
+  const isUserLoading = useSelector(selectUserLoading)
   useEffect(()=>{
     dispatch(getUserAsync())
   },[])
 
-
+  if(isUserLoading){
+    return "Loading..."
+  }
   return (
     <>
       <Switch>

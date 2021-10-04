@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import fb from '../services/firebase';
+import fb, { getPokemonsOnce } from '../services/firebase';
+import { selectLocalId } from './user';
 const initialState = {
   isLoading: false,
   data: {},
@@ -30,10 +31,13 @@ const pokemons = createSlice({
 
 export const { fetchPokemons, fetchPokemonsResolve, fetchPokemonsReject } =
   pokemons.actions;
-export const getPokemonsAsync = () => async (dispatch) => {
+export const getPokemonsAsync = () => async (dispatch,getState) => {
   dispatch(fetchPokemons());
-  const data = await fb.getPokemonsOnce();
-  dispatch(fetchPokemonsResolve(data));
+  const localId = selectLocalId(getState())
+  getPokemonsOnce(localId).then((response)=>{
+    console.dir(response)
+    dispatch(fetchPokemonsResolve(response.data));
+  }).catch(error=>console.dir(error))
 };
 export const savePokemon = (card) => async () => {
   await fb.addPokemon(card);

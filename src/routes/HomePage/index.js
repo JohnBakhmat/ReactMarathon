@@ -60,7 +60,7 @@ const HomePage = ({ onRedirect }) => {
       </Layout>
       <Layout title="Cards" colorBg={color}>
         <div className={s.section}>
-          {Object.entries(pokemons).map(([key, item]) => (
+          {/* {Object.entries(pokemons).map(([key, item]) => (
             <PokemonCard
               key={key}
               firebasekey={key}
@@ -74,7 +74,7 @@ const HomePage = ({ onRedirect }) => {
               isSelected={item.isSelected}
               className={s.pokemonCard}
             />
-          ))}
+          ))} */}
         </div>
       </Layout>
       <Layout title="Layout3 title" urlBg={img2}>
