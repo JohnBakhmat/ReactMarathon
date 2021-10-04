@@ -43,6 +43,7 @@ class Firebase {
     });
   };
 }
+
 export const userSignUp = ({ email, password }) => {
   const body = {
     email,
@@ -54,6 +55,7 @@ export const userSignUp = ({ email, password }) => {
     body
   );
 };
+
 export const userLogin = ({ email, password }) => {
   const body = {
     email,
@@ -65,5 +67,15 @@ export const userLogin = ({ email, password }) => {
     body
   );
 };
+
+export const postPokemons = (data, localId, idToken) => {
+  for (const pokemon of data) {
+    axios.post(
+      `https://jb-react-marathon-default-rtdb.firebaseio.com/${localId}/pokemons.json?auth=${idToken}`,
+      JSON.stringify(pokemon)
+    ).catch(error=>console.error(error));
+  }
+};
+
 const FirebaseObject = new Firebase();
 export default FirebaseObject;

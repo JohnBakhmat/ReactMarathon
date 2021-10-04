@@ -3,8 +3,10 @@ import Menu from './Menu';
 import NavBar from './NavBar';
 import Modal from '../../components/Modal';
 import LoginForm from '../LoginForm';
-import { userSignUp, userLogin } from '../../services/firebase';
+import { userSignUp, userLogin, postPokemons } from '../../services/firebase';
 import { NotificationManager } from 'react-notifications';
+import { getStartingDeck } from '../../services/zarApiService';
+
 const MenuHeader = ({ bgActive }) => {
   const [isActive, setActive] = useState(null);
   const [isModalActive, setModalActive] = useState(false);
@@ -31,8 +33,15 @@ const MenuHeader = ({ bgActive }) => {
     } else if (modalTitle === 'Register') {
       userSignUp(values)
         .then(({ data }) => {
+          const idToken = data.idToken;
+          const localId = data.localId;
           NotificationManager.success('Success');
-          localStorage.setItem('idToken', data.idToken);
+          localStorage.setItem('idToken', idToken);
+
+          getStartingDeck().then((response) => {
+            console.dir(response.data.data);
+            postPokemons(response.data.data, localId, idToken)
+          });
         })
         .catch((error) => {
           console.dir(error.response.data.error.message);

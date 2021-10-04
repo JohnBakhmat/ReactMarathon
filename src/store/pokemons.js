@@ -28,11 +28,8 @@ const pokemons = createSlice({
   },
 });
 
-export const {
-  fetchPokemons,
-  fetchPokemonsResolve,
-  fetchPokemonsReject,
-} = pokemons.actions;
+export const { fetchPokemons, fetchPokemonsResolve, fetchPokemonsReject } =
+  pokemons.actions;
 export const getPokemonsAsync = () => async (dispatch) => {
   dispatch(fetchPokemons());
   const data = await fb.getPokemonsOnce();
