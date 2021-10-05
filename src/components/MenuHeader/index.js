@@ -8,8 +8,10 @@ import { NotificationManager } from 'react-notifications';
 import { getStartingDeck } from '../../services/zarApiService';
 import { useDispatch } from 'react-redux';
 import { getUserUpdateAsync } from '../../store/user';
+import { useHistory } from 'react-router';
 
 const MenuHeader = ({ bgActive }) => {
+  const history = useHistory()
   const [isActive, setActive] = useState(null);
   const [isModalActive, setModalActive] = useState(false);
   const [modalTitle, setModalTitle] = useState('Login');
@@ -20,6 +22,9 @@ const MenuHeader = ({ bgActive }) => {
   const handleClickLogin = () => {
     setModalActive((prevState) => !prevState);
   };
+  const handleClickUserIcon = ()=>{
+    history.push('/user')
+  }
   const handleSubmitLogin = (values) => {
     console.log(values);
     if (modalTitle === 'Login') {
@@ -60,6 +65,7 @@ const MenuHeader = ({ bgActive }) => {
         bgActive={bgActive}
         onClickHamburger={handleActivity}
         onClickLogin={handleClickLogin}
+        onClickUserIcon={handleClickUserIcon}
       />
       <Modal
         onCloseModal={handleClickLogin}

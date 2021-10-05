@@ -10,6 +10,7 @@ const NavBar = ({
   bgActive = false,
   onClickHamburger,
   onClickLogin,
+  onClickUserIcon
 }) => {
 
   const handleClickHamburger = () => {
@@ -18,6 +19,9 @@ const NavBar = ({
   const handleClickLogin = () => {
     onClickLogin && onClickLogin();
   };
+  const handleClickUserIcon = ()=>{
+    onClickUserIcon && onClickUserIcon()
+  }
 
   const localId = useSelector(selectLocalId)
   const isLoadingUser = useSelector(selectUserLoading)
@@ -43,7 +47,8 @@ const NavBar = ({
           </div>)
           }
 
-          {(!isLoadingUser && localId)&&(<div className={s.loginWrap}>
+          {(!isLoadingUser && localId)&&(
+          <div className={s.loginWrap} onClick={handleClickUserIcon}>
             <UserSVG />
           </div>)
           }

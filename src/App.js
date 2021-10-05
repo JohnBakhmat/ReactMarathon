@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserAsync } from './store/user'
 import { selectUserLoading } from './store/user';
+import ProfilePage from './routes/ProfilePage';
 const App = () => {
   const location = useLocation('/');
   const paddingActive =
@@ -42,6 +43,7 @@ const App = () => {
                 <Route path="/" exact component={HomePage} />
                 <PrivateRoute path="/game" component={GamePage} />
                 <PrivateRoute path="/about" component={AboutPage} />
+                <PrivateRoute path="/user" component={ProfilePage} />
                 <Route path="/contact" component={ContactPage} />
                 <Route render={() => <Redirect to="/404" />} />
               </Switch>
