@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import fb, { getPokemonsOnce } from '../services/firebase';
+import fb, { getPokemonsOnce, postPokemons } from '../services/firebase';
 import { selectLocalId } from './user';
 const initialState = {
   isLoading: false,
@@ -39,8 +39,12 @@ export const getPokemonsAsync = () => async (dispatch,getState) => {
     dispatch(fetchPokemonsResolve(response.data));
   }).catch(error=>console.dir(error))
 };
-export const savePokemon = (card) => async () => {
-  await fb.addPokemon(card);
+export const savePokemon = (card) => async (dispatch,getState) => {
+  const localId = selectLocalId(getState())
+  const idToken = localStorage.getItem('idToken')
+  if(idToken){
+    postPokemons([card], localId, idToken)
+  }
 };
 export const selectPokemonsLoading = (state) => state.pokemons.isLoading;
 export const selectPokemonsData = (state) => state.pokemons.data;

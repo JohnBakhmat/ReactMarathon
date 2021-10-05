@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { getUserInfo } from '../services/firebase';
 const initialState = {
-	isLoading: true,
+	isLoading: false,
 	data: {}
 }
 
@@ -33,10 +33,9 @@ export const selectUserLoading = (state) => state.user.isLoading
 export const selectUser = (state) => state.user.data
 export const selectLocalId = (state) => state.user.data?.localId
 
-export const getUserAsync = () => async (dispatch) => {
+export const getUserUpdateAsync = () => async (dispatch) => {
 	const idToken = localStorage.getItem('idToken')
 	if(idToken){
-		dispatch(fetchUser);
 		getUserInfo(idToken)
 		.then(response =>{
 			console.log(response.data.users)
@@ -52,6 +51,10 @@ export const getUserAsync = () => async (dispatch) => {
 		dispatch(removeUser());
 	}
 	
+}
+export const getUserAsync = ()=> (dispatch)=>{
+	dispatch(fetchUser());
+	dispatch(getUserUpdateAsync())
 }
 
 export default user.reducer

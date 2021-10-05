@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import {
   getPokemonsAsync,
   selectPokemonsData,
+  selectPokemonsLoading,
 } from '../../../../store/pokemons';
 import { setPlayerHand } from '../../../../store/board';
 
@@ -15,10 +16,12 @@ function StartPage() {
   const history = useHistory();
 
   const dispatch = useDispatch();
+
   const pokemonsRedux = useSelector(selectPokemonsData);
+  const pokemonsLoadingRedux = useSelector(selectPokemonsLoading)
+
   const [pokemons, setPokemons] = useState({});
-  const isButtonEnabled =
-    Object.values(pokemons).filter((i) => i.isSelected).length < 5;
+  
 
   useEffect(() => {
     dispatch(getPokemonsAsync());
@@ -27,7 +30,6 @@ function StartPage() {
   useEffect(() => {
     setPokemons(pokemonsRedux);
   }, [pokemonsRedux]);
-
   const handleFlipEvent = (key) => {
     setPokemons((prevState) => ({
       ...prevState,
@@ -41,7 +43,10 @@ function StartPage() {
     dispatch(setPlayerHand(2));
     history.push('/game/board');
   };
-
+  if((pokemonsLoadingRedux && pokemonsRedux === null) || !pokemons){
+    return "Loading..."
+  }
+  const isButtonEnabled = Object.values(pokemons).filter((i) => i.isSelected).length < 5;
   return (
     <div>
       <button
