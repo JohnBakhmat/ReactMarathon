@@ -11,13 +11,15 @@ const ProfilePage = () => {
 			<h1 className={s.header}>User info</h1>
 			<table className={s.table}>
 				<thead className={s.row}>
-					<th>Field</th>
-					<th>Value</th>
+					<tr>
+						<th>Field</th>
+						<th>Value</th>
+					</tr>
 				</thead>
 				<tbody>
-					{Object.entries(userData).map((item)=>{
+					{Object.entries(userData).map((item,key)=>{
 						return (
-						<tr className={s.row}>
+						<tr key={key} className={s.row}>
 							<td>{item[0]}</td>
 							<td>{JSON.stringify(item[1])}</td>
 						</tr>

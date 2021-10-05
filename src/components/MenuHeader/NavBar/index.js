@@ -3,6 +3,7 @@ import Logo from '../../Logo/index';
 import cn from 'classnames';
 import { ReactComponent as LoginSVG } from './assets/login.svg';
 import { ReactComponent as UserSVG } from './assets/user.svg';
+import { ReactComponent as LogoutSVG } from './assets/logout.svg';
 import { useSelector } from 'react-redux';
 import { selectLocalId, selectUserLoading } from '../../../store/user';
 const NavBar = ({
@@ -10,7 +11,8 @@ const NavBar = ({
   bgActive = false,
   onClickHamburger,
   onClickLogin,
-  onClickUserIcon
+  onClickUserIcon,
+  onClickLogout
 }) => {
 
   const handleClickHamburger = () => {
@@ -21,6 +23,9 @@ const NavBar = ({
   };
   const handleClickUserIcon = ()=>{
     onClickUserIcon && onClickUserIcon()
+  }
+  const handleClickLogout = ()=>{
+    onClickLogout && onClickLogout()
   }
 
   const localId = useSelector(selectLocalId)
@@ -48,9 +53,15 @@ const NavBar = ({
           }
 
           {(!isLoadingUser && localId)&&(
-          <div className={s.loginWrap} onClick={handleClickUserIcon}>
-            <UserSVG />
-          </div>)
+          <div className={s.loginLogout}>
+            <div className={s.loginWrap} onClick={handleClickUserIcon}>
+              <UserSVG />
+            </div>
+            <div className={s.loginWrap} onClick={handleClickLogout}>
+              <LogoutSVG/>
+            </div>
+          </div>
+          )
           }
           <div
             onClick={handleClickHamburger}

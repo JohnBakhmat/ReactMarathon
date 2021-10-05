@@ -7,7 +7,7 @@ import { userSignUp, userLogin, postPokemons } from '../../services/firebase';
 import { NotificationManager } from 'react-notifications';
 import { getStartingDeck } from '../../services/zarApiService';
 import { useDispatch } from 'react-redux';
-import { getUserUpdateAsync } from '../../store/user';
+import { getUserUpdateAsync, removeUser } from '../../store/user';
 import { useHistory } from 'react-router';
 
 const MenuHeader = ({ bgActive }) => {
@@ -24,6 +24,11 @@ const MenuHeader = ({ bgActive }) => {
   };
   const handleClickUserIcon = ()=>{
     history.push('/user')
+  }
+  const handleClickLogout = ()=>{
+    localStorage.removeItem('idToken')
+    dispatch(removeUser())
+    history.replace('/')
   }
   const handleSubmitLogin = (values) => {
     console.log(values);
@@ -66,6 +71,7 @@ const MenuHeader = ({ bgActive }) => {
         onClickHamburger={handleActivity}
         onClickLogin={handleClickLogin}
         onClickUserIcon={handleClickUserIcon}
+        onClickLogout={handleClickLogout}
       />
       <Modal
         onCloseModal={handleClickLogin}
