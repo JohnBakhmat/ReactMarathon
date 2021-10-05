@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import fb, { getPokemonsOnce, postPokemons } from '../services/firebase';
+import { getPokemonsOnce, postPokemons } from '../services/firebase';
 import { selectLocalId } from './user';
 const initialState = {
   isLoading: false,
