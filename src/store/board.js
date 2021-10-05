@@ -21,7 +21,7 @@ const initialState = {
     },
   },
   gameStatus: 'Starting',
-  firstPlayer: (1 + Math.floor(Math.random() * 2)),
+  firstPlayer: 1 + Math.floor(Math.random() * 2),
 };
 
 const board = createSlice({
@@ -70,24 +70,26 @@ export const {
   fetchPlayer,
 } = board.actions;
 
-export const setPlayerHand = (id, pokemons = {}) => async (dispatch) => {
-  dispatch(fetchPlayer(id));
-  let data;
-  if (Object.keys(pokemons).length === 0) {
-    data = (await createPlayer()).data.data.map((item) => ({
-      ...item,
-      possession: 'red',
-    }));
-  } else {
-    data = pokemons.map((item) => ({ ...item, possession: 'blue' }));
-  }
-  dispatch(
-    fetchPlayerResolve({
-      id: id,
-      data: data,
-    })
-  );
-};
+export const setPlayerHand =
+  (id, pokemons = {}) =>
+  async (dispatch) => {
+    dispatch(fetchPlayer(id));
+    let data;
+    if (Object.keys(pokemons).length === 0) {
+      data = (await createPlayer()).data.data.map((item) => ({
+        ...item,
+        possession: 'red',
+      }));
+    } else {
+      data = pokemons.map((item) => ({ ...item, possession: 'blue' }));
+    }
+    dispatch(
+      fetchPlayerResolve({
+        id: id,
+        data: data,
+      })
+    );
+  };
 
 export const setGameStatus = (status) => (dispatch) => {
   dispatch(changeGameStatus(status));

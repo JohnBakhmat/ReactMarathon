@@ -43,6 +43,7 @@ class Firebase {
     });
   };
 }
+
 export const userSignUp = ({ email, password }) => {
   const body = {
     email,
@@ -54,6 +55,7 @@ export const userSignUp = ({ email, password }) => {
     body
   );
 };
+
 export const userLogin = ({ email, password }) => {
   const body = {
     email,
@@ -63,6 +65,32 @@ export const userLogin = ({ email, password }) => {
   return axios.post(
     `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${firebaseConfig.apiKey}`,
     body
+  );
+};
+
+export const postPokemons = (data, localId, idToken) => {
+  for (const pokemon of data) {
+    axios
+      .post(
+        `https://jb-react-marathon-default-rtdb.firebaseio.com/${localId}/pokemons.json?auth=${idToken}`,
+        JSON.stringify(pokemon)
+      )
+      .catch((error) => console.error(error));
+  }
+};
+
+export const getUserInfo = (idToken) => {
+  const body = {
+    idToken,
+  };
+  return axios.post(
+    `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseConfig.apiKey}`,
+    body
+  );
+};
+export const getPokemonsOnce = (localId) => {
+  return axios.get(
+    `https://jb-react-marathon-default-rtdb.firebaseio.com/${localId}/pokemons.json`
   );
 };
 const FirebaseObject = new Firebase();

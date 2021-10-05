@@ -12,12 +12,25 @@ import 'react-notifications/lib/notifications.css';
 import { useLocation, Route, Switch, Redirect } from 'react-router-dom';
 import GamePage from './routes/Game';
 import PrivateRoute from './components/PrivateRoute';
-
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserAsync } from './store/user';
+import { selectUserLoading } from './store/user';
+import ProfilePage from './routes/ProfilePage';
 const App = () => {
   const location = useLocation('/');
   const paddingActive =
     location.pathname === '/' || location.pathname === '/game/board';
+  const dispatch = useDispatch();
 
+  const isUserLoading = useSelector(selectUserLoading);
+  useEffect(() => {
+    dispatch(getUserAsync());
+  }, []);
+
+  if (isUserLoading) {
+    return 'Loading...';
+  }
   return (
     <>
       <Switch>
@@ -30,6 +43,7 @@ const App = () => {
                 <Route path="/" exact component={HomePage} />
                 <PrivateRoute path="/game" component={GamePage} />
                 <PrivateRoute path="/about" component={AboutPage} />
+                <PrivateRoute path="/user" component={ProfilePage} />
                 <Route path="/contact" component={ContactPage} />
                 <Route render={() => <Redirect to="/404" />} />
               </Switch>

@@ -1,0 +1,31 @@
+.table {
+  table-layout: fixed;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  border-collapse: collapse;
+  border: 2px solid purple;
+}
+table,
+th,
+td {
+  border: 1px dotted rgb(78, 78, 78);
+  word-break: break-all;
+}
+thead th:nth-child(1) {
+  width: 30%;
+}
+thead th:nth-child(2) {
+  width: 60%;
+}
+td {
+  padding: 3px;
+}
+.row {
+  font-size: 20px;
+  text-transform: capitalize;
+}
+.header {
+  font-size: 50px;
+  font-family: 'Consolas';
+}

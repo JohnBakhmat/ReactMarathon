@@ -7,13 +7,13 @@ import PlayerHand from './PlayerHand';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectPlayer,
-  setGameStatus,getFirstPlayer,selectGameStatus
+  setGameStatus,
+  getFirstPlayer,
+  selectGameStatus,
 } from '../../../../store/board';
 
-
-
-import MatchResult from "../../../../components/MatchResult"
-import TurnIndicator from "../../../../components/TurnIndicator"
+import MatchResult from '../../../../components/MatchResult';
+import TurnIndicator from '../../../../components/TurnIndicator';
 
 const winCounter = (board, playerOne, playerTwo) => {
   let handOneCount = playerOne.length;
@@ -37,8 +37,7 @@ const BoardPage = () => {
   const firstPlayer = useSelector(getFirstPlayer);
   const gameStatus = useSelector(selectGameStatus);
 
-
-  const [currentPlayer, setCurrentPlayer] = useState(firstPlayer)
+  const [currentPlayer, setCurrentPlayer] = useState(firstPlayer);
   const [turns, setTurns] = useState(0);
   const [board, setBoard] = useState([]);
 
@@ -86,7 +85,7 @@ const BoardPage = () => {
           prevState.filter((i) => i.id !== chosenCard.id)
         );
       }
-      setCurrentPlayer((prevState)=>(prevState===1?2:1))
+      setCurrentPlayer((prevState) => (prevState === 1 ? 2 : 1));
       playerTurn(params).then((response) => {
         setBoard(response.data.data);
         setTurns((prevState) => {
@@ -108,17 +107,15 @@ const BoardPage = () => {
     } else {
       dispatch(setGameStatus('Tie'));
     }
-    setTimeout(()=>{
+    setTimeout(() => {
       history.push('/game/finish');
-    },1000)
+    }, 1000);
   }, [board, playerOne, playerTwo, turns]);
 
   return (
     <div className={s.root}>
-      {
-        gameStatus !== "InProgress" && <MatchResult/>
-      }
-      <TurnIndicator side={currentPlayer}/>
+      {gameStatus !== 'InProgress' && <MatchResult />}
+      <TurnIndicator side={currentPlayer} />
       <div className={s.playerOne}>
         <PlayerHand
           player={1}

@@ -2,7 +2,7 @@ import s from './styles.module.css';
 
 import Header from '../../components/Header/index';
 import Layout from '../../components/Layout/index';
-import PokemonCard from '../../components/PokemonCard/index';
+
 
 import img1 from '../../assets/img1.png';
 import img2 from '../../assets/img2.jpg';
@@ -15,7 +15,7 @@ const HomePage = ({ onRedirect }) => {
   const handleRedirect = (path) => {
     onRedirect && onRedirect(path);
   };
-  const [pokemons, setPokemons] = useState({});
+  const [, setPokemons] = useState({});
 
   const dispatch = useDispatch();
   const pokemonsRedux = useSelector(selectPokemonsData);
@@ -60,7 +60,7 @@ const HomePage = ({ onRedirect }) => {
       </Layout>
       <Layout title="Cards" colorBg={color}>
         <div className={s.section}>
-          {Object.entries(pokemons).map(([key, item]) => (
+          {/* {Object.entries(pokemons).map(([key, item]) => (
             <PokemonCard
               key={key}
               firebasekey={key}
@@ -74,7 +74,7 @@ const HomePage = ({ onRedirect }) => {
               isSelected={item.isSelected}
               className={s.pokemonCard}
             />
-          ))}
+          ))} */}
         </div>
       </Layout>
       <Layout title="Layout3 title" urlBg={img2}>

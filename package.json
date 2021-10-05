@@ -23,7 +23,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "prettier . -w --config ./.prettierrc && react-scripts start",
+    "start": "react-scripts start",
     "lint": "prettier . -w --config ./.prettierrc",
     "build": "react-scripts build",
     "test": "react-scripts test",
