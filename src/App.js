@@ -14,22 +14,22 @@ import GamePage from './routes/Game';
 import PrivateRoute from './components/PrivateRoute';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserAsync } from './store/user'
+import { getUserAsync } from './store/user';
 import { selectUserLoading } from './store/user';
 import ProfilePage from './routes/ProfilePage';
 const App = () => {
   const location = useLocation('/');
   const paddingActive =
     location.pathname === '/' || location.pathname === '/game/board';
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const isUserLoading = useSelector(selectUserLoading)
-  useEffect(()=>{
-    dispatch(getUserAsync())
-  },[])
+  const isUserLoading = useSelector(selectUserLoading);
+  useEffect(() => {
+    dispatch(getUserAsync());
+  }, []);
 
-  if(isUserLoading){
-    return "Loading..."
+  if (isUserLoading) {
+    return 'Loading...';
   }
   return (
     <>

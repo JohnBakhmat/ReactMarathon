@@ -7,9 +7,10 @@ const service = axios.create({
   },
 });
 
-
 const getStartingDeck = () => {
-  return axios.get('https://reactmarathon-api.herokuapp.com/api/pokemons/starter');
+  return axios.get(
+    'https://reactmarathon-api.herokuapp.com/api/pokemons/starter'
+  );
 };
 const getBoard = () => {
   return service.get('/board');

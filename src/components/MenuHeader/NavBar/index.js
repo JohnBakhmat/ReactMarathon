@@ -12,24 +12,23 @@ const NavBar = ({
   onClickHamburger,
   onClickLogin,
   onClickUserIcon,
-  onClickLogout
+  onClickLogout,
 }) => {
-
   const handleClickHamburger = () => {
     onClickHamburger && onClickHamburger();
   };
   const handleClickLogin = () => {
     onClickLogin && onClickLogin();
   };
-  const handleClickUserIcon = ()=>{
-    onClickUserIcon && onClickUserIcon()
-  }
-  const handleClickLogout = ()=>{
-    onClickLogout && onClickLogout()
-  }
+  const handleClickUserIcon = () => {
+    onClickUserIcon && onClickUserIcon();
+  };
+  const handleClickLogout = () => {
+    onClickLogout && onClickLogout();
+  };
 
-  const localId = useSelector(selectLocalId)
-  const isLoadingUser = useSelector(selectUserLoading)
+  const localId = useSelector(selectLocalId);
+  const isLoadingUser = useSelector(selectUserLoading);
 
   return (
     <nav
@@ -44,25 +43,22 @@ const NavBar = ({
           LOGO
         </p>
         <div className={s.loginAndMenu}>
-
-          {
-          (!isLoadingUser && !localId)&&(
-          <div className={s.loginWrap} onClick={handleClickLogin}>
-            <LoginSVG />
-          </div>)
-          }
-
-          {(!isLoadingUser && localId)&&(
-          <div className={s.loginLogout}>
-            <div className={s.loginWrap} onClick={handleClickUserIcon}>
-              <UserSVG />
+          {!isLoadingUser && !localId && (
+            <div className={s.loginWrap} onClick={handleClickLogin}>
+              <LoginSVG />
             </div>
-            <div className={s.loginWrap} onClick={handleClickLogout}>
-              <LogoutSVG/>
+          )}
+
+          {!isLoadingUser && localId && (
+            <div className={s.loginLogout}>
+              <div className={s.loginWrap} onClick={handleClickUserIcon}>
+                <UserSVG />
+              </div>
+              <div className={s.loginWrap} onClick={handleClickLogout}>
+                <LogoutSVG />
+              </div>
             </div>
-          </div>
-          )
-          }
+          )}
           <div
             onClick={handleClickHamburger}
             className={cn(s.menuButton, { [s.active]: isActive === true })}

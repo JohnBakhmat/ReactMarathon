@@ -18,10 +18,9 @@ function StartPage() {
   const dispatch = useDispatch();
 
   const pokemonsRedux = useSelector(selectPokemonsData);
-  const pokemonsLoadingRedux = useSelector(selectPokemonsLoading)
+  const pokemonsLoadingRedux = useSelector(selectPokemonsLoading);
 
   const [pokemons, setPokemons] = useState({});
-  
 
   useEffect(() => {
     dispatch(getPokemonsAsync());
@@ -43,10 +42,11 @@ function StartPage() {
     dispatch(setPlayerHand(2));
     history.push('/game/board');
   };
-  if((pokemonsLoadingRedux && pokemonsRedux === null) || !pokemons){
-    return "Loading..."
+  if ((pokemonsLoadingRedux && pokemonsRedux === null) || !pokemons) {
+    return 'Loading...';
   }
-  const isButtonEnabled = Object.values(pokemons).filter((i) => i.isSelected).length < 5;
+  const isButtonEnabled =
+    Object.values(pokemons).filter((i) => i.isSelected).length < 5;
   return (
     <div>
       <button

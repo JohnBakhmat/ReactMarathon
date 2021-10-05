@@ -31,19 +31,21 @@ const pokemons = createSlice({
 
 export const { fetchPokemons, fetchPokemonsResolve, fetchPokemonsReject } =
   pokemons.actions;
-export const getPokemonsAsync = () => async (dispatch,getState) => {
+export const getPokemonsAsync = () => async (dispatch, getState) => {
   dispatch(fetchPokemons());
-  const localId = selectLocalId(getState())
-  getPokemonsOnce(localId).then((response)=>{
-    console.dir(response)
-    dispatch(fetchPokemonsResolve(response.data));
-  }).catch(error=>console.dir(error))
+  const localId = selectLocalId(getState());
+  getPokemonsOnce(localId)
+    .then((response) => {
+      console.dir(response);
+      dispatch(fetchPokemonsResolve(response.data));
+    })
+    .catch((error) => console.dir(error));
 };
-export const savePokemon = (card) => async (dispatch,getState) => {
-  const localId = selectLocalId(getState())
-  const idToken = localStorage.getItem('idToken')
-  if(idToken){
-    postPokemons([card], localId, idToken)
+export const savePokemon = (card) => async (dispatch, getState) => {
+  const localId = selectLocalId(getState());
+  const idToken = localStorage.getItem('idToken');
+  if (idToken) {
+    postPokemons([card], localId, idToken);
   }
 };
 export const selectPokemonsLoading = (state) => state.pokemons.isLoading;

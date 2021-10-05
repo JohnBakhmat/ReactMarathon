@@ -7,6 +7,6 @@ export default configureStore({
   reducer: {
     pokemons: pokemonReducer,
     board: boardReducer,
-    user: userReducer
+    user: userReducer,
   },
 });

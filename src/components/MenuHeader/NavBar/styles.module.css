@@ -98,13 +98,13 @@
   height: 100%;
   cursor: pointer;
 }
-.loginWrap svg path{
+.loginWrap svg path {
   fill: white;
   transition: fill ease-in-out 0.25s;
 }
 .loginWrap:hover svg path {
   fill: #f300b4;
 }
-.loginLogout{
+.loginLogout {
   display: flex;
 }

@@ -70,21 +70,28 @@ export const userLogin = ({ email, password }) => {
 
 export const postPokemons = (data, localId, idToken) => {
   for (const pokemon of data) {
-    axios.post(
-      `https://jb-react-marathon-default-rtdb.firebaseio.com/${localId}/pokemons.json?auth=${idToken}`,
-      JSON.stringify(pokemon)
-    ).catch(error=>console.error(error));
+    axios
+      .post(
+        `https://jb-react-marathon-default-rtdb.firebaseio.com/${localId}/pokemons.json?auth=${idToken}`,
+        JSON.stringify(pokemon)
+      )
+      .catch((error) => console.error(error));
   }
 };
 
-export const getUserInfo= (idToken)=>{
+export const getUserInfo = (idToken) => {
   const body = {
-    idToken
+    idToken,
   };
-  return axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseConfig.apiKey}`,body)
-}
-export const getPokemonsOnce=(localId)=>{
- return axios.get(`https://jb-react-marathon-default-rtdb.firebaseio.com/${localId}/pokemons.json`)
-}
+  return axios.post(
+    `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseConfig.apiKey}`,
+    body
+  );
+};
+export const getPokemonsOnce = (localId) => {
+  return axios.get(
+    `https://jb-react-marathon-default-rtdb.firebaseio.com/${localId}/pokemons.json`
+  );
+};
 const FirebaseObject = new Firebase();
 export default FirebaseObject;

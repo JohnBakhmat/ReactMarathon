@@ -11,25 +11,25 @@ import { getUserUpdateAsync, removeUser } from '../../store/user';
 import { useHistory } from 'react-router';
 
 const MenuHeader = ({ bgActive }) => {
-  const history = useHistory()
+  const history = useHistory();
   const [isActive, setActive] = useState(null);
   const [isModalActive, setModalActive] = useState(false);
   const [modalTitle, setModalTitle] = useState('Login');
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleActivity = () => {
     setActive(!isActive);
   };
   const handleClickLogin = () => {
     setModalActive((prevState) => !prevState);
   };
-  const handleClickUserIcon = ()=>{
-    history.push('/user')
-  }
-  const handleClickLogout = ()=>{
-    localStorage.removeItem('idToken')
-    dispatch(removeUser())
-    history.replace('/')
-  }
+  const handleClickUserIcon = () => {
+    history.push('/user');
+  };
+  const handleClickLogout = () => {
+    localStorage.removeItem('idToken');
+    dispatch(removeUser());
+    history.replace('/');
+  };
   const handleSubmitLogin = (values) => {
     console.log(values);
     if (modalTitle === 'Login') {
@@ -37,7 +37,7 @@ const MenuHeader = ({ bgActive }) => {
         .then(({ data }) => {
           NotificationManager.success('Success');
           localStorage.setItem('idToken', data.idToken);
-          dispatch(getUserUpdateAsync())
+          dispatch(getUserUpdateAsync());
         })
         .catch((error) => {
           console.dir(error.response.data.error.message);
@@ -53,7 +53,7 @@ const MenuHeader = ({ bgActive }) => {
 
           getStartingDeck().then((response) => {
             console.dir(response.data.data);
-            postPokemons(response.data.data, localId, idToken)
+            postPokemons(response.data.data, localId, idToken);
           });
         })
         .catch((error) => {
