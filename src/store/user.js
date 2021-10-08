@@ -34,7 +34,6 @@ export const getUserUpdateAsync = () => async (dispatch) => {
   if (idToken) {
     getUserInfo(idToken)
       .then((response) => {
-        console.log(response.data.users);
         dispatch(updateUser(response.data.users[0]));
       })
       .catch((error) => {

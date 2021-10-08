@@ -21,7 +21,8 @@ const initialState = {
     },
   },
   gameStatus: 'Starting',
-  firstPlayer: 1 + Math.floor(Math.random() * 2),
+  firstPlayer: 2
+  // 1 + Math.floor(Math.random() * 2),
 };
 
 const board = createSlice({
@@ -71,7 +72,7 @@ export const {
 } = board.actions;
 
 export const setPlayerHand =
-  (id, pokemons = {}) =>
+  (id, pokemons = {}, possession='blue') =>
   async (dispatch) => {
     dispatch(fetchPlayer(id));
     let data;
@@ -81,7 +82,7 @@ export const setPlayerHand =
         possession: 'red',
       }));
     } else {
-      data = pokemons.map((item) => ({ ...item, possession: 'blue' }));
+      data = pokemons.map((item) => ({ ...item, possession: possession }));
     }
     dispatch(
       fetchPlayerResolve({
