@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PokemonCard from '../../../../components/PokemonCard';
 import s from './style.module.css';
-import { getBoard, playerTurn,gameStart, gameProceed } from '../../../../services/zarApiService';
+import {
+  getBoard,
+  gameStart,
+  gameProceed,
+} from '../../../../services/zarApiService';
 import PlayerHand from './PlayerHand';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -49,7 +53,7 @@ const BoardPage = () => {
   const [chosenCard, setChosenCard] = useState(null);
   const [playerTwo, setPlayerTwo] = useState([]);
   const [playerOne, setPlayerOne] = useState([]);
-  const [serverBoard, setServerBoard] = useState([0,0,0,0,0,0,0,0,0])
+  const [serverBoard, setServerBoard] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
   if (
     !playerOneHandRedux.data.length &&
@@ -59,162 +63,171 @@ const BoardPage = () => {
   ) {
     history.replace('/game');
   }
-  
+
   useEffect(() => {
     getBoard().then((resp) => {
       setBoard(resp.data.data);
     });
 
     gameStart({
-      pokemons:Object.values(pokemonsSelector)
-    }).then(response=>{
-      let data = response.data.data
-      
-      dispatch(setPlayerHand(2,data,'red'))
-
-
-      setPlayerTwo(()=>data.map(item =>({
-        ...item,
-        possession: 'red'
-      })))
-
-      
-      
-    }).catch(error =>{
-      console.error(error)
+      pokemons: Object.values(pokemonsSelector),
     })
+      .then((response) => {
+        let data = response.data.data;
+
+        dispatch(setPlayerHand(2, data, 'red'));
+
+        setPlayerTwo(() =>
+          data.map((item) => ({
+            ...item,
+            possession: 'red',
+          }))
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     dispatch(setGameStatus('InProgress'));
-    
   }, []);
 
   useEffect(() => {
     setPlayerOne(playerOneHandRedux.data);
     setPlayerTwo(playerTwoHandRedux.data);
-    
   }, [playerTwoHandRedux, playerOneHandRedux]);
-  
-  useEffect(()=>{
-    if(firstPlayer === 2 && turns === 0 && playerOne.length && playerTwo.length){
-      handleAiStart()
-    }
-  },[playerOne,playerTwo])
 
-  const handleAiStart = ()=>{
+  useEffect(() => {
+    if (
+      firstPlayer === 2 &&
+      turns === 0 &&
+      playerOne.length &&
+      playerTwo.length
+    ) {
+      handleAiStart();
+    }
+  }, [playerOne, playerTwo]);
+
+  const handleAiStart = () => {
     const params = {
       currentPlayer: 'p2',
       hands: {
         p1: playerOne,
-        p2: playerTwo
+        p2: playerTwo,
       },
       move: null,
-      board: serverBoard
-    }
+      board: serverBoard,
+    };
     setCurrentPlayer((prevState) => (prevState === 1 ? 2 : 1));
     setTurns((prevState) => {
-            const count = prevState + 1;
-            return count;
-          });
-    gameProceed(params).then(({data})=>{
-      // setBoard(returnBoard(data.oldBoard))
-      
-      if(data.move !== null){
-        const idAi = data.move.poke.id;
-        setTimeout(()=>{
-          setPlayerTwo(prevState => prevState.map(item =>{
-            if(item.id === idAi){
-              return {
-                ...item,
-                isActive: true
-              }
-            }
-            return item
-          }))
-        },1000)
+      const count = prevState + 1;
+      return count;
+    });
+    gameProceed(params)
+      .then(({ data }) => {
+        // setBoard(returnBoard(data.oldBoard))
 
-        setTimeout(() => {
-          setPlayerTwo(()=>data.hands.p2.pokes.map(item=>item.poke))
-          setServerBoard(data.board)
-          setBoard(returnBoard(data.board))
+        if (data.move !== null) {
+          const idAi = data.move.poke.id;
+          setTimeout(() => {
+            setPlayerTwo((prevState) =>
+              prevState.map((item) => {
+                if (item.id === idAi) {
+                  return {
+                    ...item,
+                    isActive: true,
+                  };
+                }
+                return item;
+              })
+            );
+          }, 1000);
 
-          
-          
-
-        }, 1500);
-      }
-    }).catch(error=>console.error(error))
-  }
+          setTimeout(() => {
+            setPlayerTwo(() => data.hands.p2.pokes.map((item) => item.poke));
+            setServerBoard(data.board);
+            setBoard(returnBoard(data.board));
+          }, 1500);
+        }
+      })
+      .catch((error) => console.error(error));
+  };
 
   const handleCellClick = (position) => {
-
-    if ((typeof chosenCard === 'object') && (chosenCard && chosenCard.player === currentPlayer)) {
-      
-
-      if(chosenCard.player === 1){
-        setPlayerOne(prevState => prevState.filter(item => item.id !== chosenCard.id))
+    if (
+      typeof chosenCard === 'object' &&
+      chosenCard &&
+      chosenCard.player === currentPlayer
+    ) {
+      if (chosenCard.player === 1) {
+        setPlayerOne((prevState) =>
+          prevState.filter((item) => item.id !== chosenCard.id)
+        );
       }
 
-      setBoard(prevState => prevState.map(item=>{
-        if(item.position === position){
-          return {
-            ...item,
-            card:chosenCard
+      setBoard((prevState) =>
+        prevState.map((item) => {
+          if (item.position === position) {
+            return {
+              ...item,
+              card: chosenCard,
+            };
           }
-        }
 
-        return item;
-
-      }))
+          return item;
+        })
+      );
       const params = {
         currentPlayer: `p${currentPlayer}`,
         hands: {
           p1: playerOne,
-          p2: playerTwo
+          p2: playerTwo,
         },
         move: {
-          poke: {...chosenCard},
-          position: position
+          poke: { ...chosenCard },
+          position: position,
         },
-        board: serverBoard
-      }
-      console.dir(params)
-      gameProceed(params).then(({data})=>{
-        console.log(data)
-        setCurrentPlayer((prevState) => (prevState === 1 ? 2 : 1));
-        setTurns((prevState) => {
-          const count = prevState + 1;
-          return count;
-        });
-        setBoard(returnBoard(data.oldBoard))
-        
-        if(data.move !== null){
-          const idAi = data.move.poke.id;
-          setTimeout(()=>{
-            setPlayerTwo(prevState => prevState.map(item =>{
-              if(item.id === idAi){
-                return {
-                  ...item,
-                  isActive: true
-                }
-              }
-              return item
-            }))
-          },1000)
+        board: serverBoard,
+      };
+      console.dir(params);
+      gameProceed(params)
+        .then(({ data }) => {
+          console.log(data);
+          setCurrentPlayer((prevState) => (prevState === 1 ? 2 : 1));
+          setTurns((prevState) => {
+            const count = prevState + 1;
+            return count;
+          });
+          setBoard(returnBoard(data.oldBoard));
 
-          setTimeout(() => {
-            setPlayerTwo(()=>data.hands.p2.pokes.map(item=>item.poke))
-            setServerBoard(data.board)
-            setBoard(returnBoard(data.board))
+          if (data.move !== null) {
+            const idAi = data.move.poke.id;
+            setTimeout(() => {
+              setPlayerTwo((prevState) =>
+                prevState.map((item) => {
+                  if (item.id === idAi) {
+                    return {
+                      ...item,
+                      isActive: true,
+                    };
+                  }
+                  return item;
+                })
+              );
+            }, 1000);
 
-            
-            setCurrentPlayer((prevState) => (prevState === 1 ? 2 : 1));
-            setTurns((prevState) => {
-              const count = prevState + 1;
-              return count;
-            });
+            setTimeout(() => {
+              setPlayerTwo(() => data.hands.p2.pokes.map((item) => item.poke));
+              setServerBoard(data.board);
+              setBoard(returnBoard(data.board));
 
-          }, 1500);
-        }
-      }).catch(error=>console.error(error))
+              setCurrentPlayer((prevState) => (prevState === 1 ? 2 : 1));
+              setTurns((prevState) => {
+                const count = prevState + 1;
+                return count;
+              });
+            }, 1500);
+          }
+        })
+        .catch((error) => console.error(error));
     }
   };
 
@@ -235,7 +248,7 @@ const BoardPage = () => {
 
   return (
     <div className={s.root}>
-      {gameStatus !== 'InProgress' && <MatchResult type={gameStatus}/>}
+      {gameStatus !== 'InProgress' && <MatchResult type={gameStatus} />}
       <TurnIndicator side={currentPlayer} />
       <div className={s.playerOne}>
         <PlayerHand

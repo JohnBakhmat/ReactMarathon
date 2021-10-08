@@ -21,7 +21,7 @@ const initialState = {
     },
   },
   gameStatus: 'Starting',
-  firstPlayer: 2
+  firstPlayer: 2,
   // 1 + Math.floor(Math.random() * 2),
 };
 
@@ -72,7 +72,7 @@ export const {
 } = board.actions;
 
 export const setPlayerHand =
-  (id, pokemons = {}, possession='blue') =>
+  (id, pokemons = {}, possession = 'blue') =>
   async (dispatch) => {
     dispatch(fetchPlayer(id));
     let data;
