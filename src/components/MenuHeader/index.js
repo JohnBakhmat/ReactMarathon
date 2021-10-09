@@ -9,7 +9,7 @@ import { getStartingDeck } from '../../services/zarApiService';
 import { useDispatch } from 'react-redux';
 import { getUserUpdateAsync, removeUser } from '../../store/user';
 import { useHistory } from 'react-router';
-import { getAuth, signInWithPopup,GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup } from "firebase/auth";
 import GoogleProvider from '../../services/googleAuthService';
 
 const MenuHeader = ({ bgActive }) => {
