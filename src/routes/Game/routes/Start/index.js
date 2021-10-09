@@ -39,7 +39,7 @@ function StartPage() {
   const handleGameStart = () => {
     const hand = Object.values(pokemons).filter((item) => item.isSelected);
     dispatch(setPlayerHand(1, hand));
-    dispatch(setPlayerHand(2));
+    // dispatch(setPlayerHand(2));
     history.push('/game/board');
   };
   if ((pokemonsLoadingRedux && pokemonsRedux === null) || !pokemons) {

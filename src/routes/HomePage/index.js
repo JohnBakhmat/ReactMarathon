@@ -3,7 +3,6 @@ import s from './styles.module.css';
 import Header from '../../components/Header/index';
 import Layout from '../../components/Layout/index';
 
-
 import img1 from '../../assets/img1.png';
 import img2 from '../../assets/img2.jpg';
 

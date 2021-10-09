@@ -31,7 +31,6 @@ const MenuHeader = ({ bgActive }) => {
     history.replace('/');
   };
   const handleSubmitLogin = (values) => {
-    console.log(values);
     if (modalTitle === 'Login') {
       userLogin(values)
         .then(({ data }) => {
@@ -52,7 +51,6 @@ const MenuHeader = ({ bgActive }) => {
           localStorage.setItem('idToken', idToken);
 
           getStartingDeck().then((response) => {
-            console.dir(response.data.data);
             postPokemons(response.data.data, localId, idToken);
           });
         })

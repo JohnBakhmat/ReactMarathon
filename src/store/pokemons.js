@@ -36,7 +36,6 @@ export const getPokemonsAsync = () => async (dispatch, getState) => {
   const localId = selectLocalId(getState());
   getPokemonsOnce(localId)
     .then((response) => {
-      console.dir(response);
       dispatch(fetchPokemonsResolve(response.data));
     })
     .catch((error) => console.dir(error));

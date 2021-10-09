@@ -9,13 +9,13 @@ const MatchResult = ({ type }) => {
 
   useEffect(() => {
     switch (type) {
-      case 'win':
+      case 'Won':
         setUrl(YouWin);
         break;
-      case 'lose':
+      case 'Lost':
         setUrl(YouLose);
         break;
-      case 'draw':
+      case 'Draw':
         setUrl(Draw);
         break;
       default:
