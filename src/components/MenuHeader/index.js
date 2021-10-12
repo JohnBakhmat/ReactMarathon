@@ -9,6 +9,8 @@ import { getStartingDeck } from '../../services/zarApiService';
 import { useDispatch } from 'react-redux';
 import { getUserUpdateAsync, removeUser } from '../../store/user';
 import { useHistory } from 'react-router';
+import { getAuth, signInWithPopup } from "firebase/auth";
+import GoogleProvider from '../../services/googleAuthService';
 
 const MenuHeader = ({ bgActive }) => {
   const history = useHistory();
@@ -30,6 +32,34 @@ const MenuHeader = ({ bgActive }) => {
     dispatch(removeUser());
     history.replace('/');
   };
+  const handleGoogleLogin = ()=>{
+    const auth = getAuth();
+    signInWithPopup(auth, GoogleProvider)
+    .then((result) => {
+          // const credential = GoogleAuthProvider.credentialFromResult(result);
+          console.dir(result)
+          const idToken = result.user.accessToken;
+          const localId = result.user.uid;
+          localStorage.setItem('idToken', idToken);
+
+          
+
+          if((result.user.metadata.lastLoginAt - result.user.metadata.createdAt) <= 5) {
+            console.log((result.user.lastLoginAt - result.user.createdAt))
+            getStartingDeck().then((response) => {
+              postPokemons(response.data.data, localId, idToken);
+              dispatch(getUserUpdateAsync());
+            });
+          }
+          dispatch(getUserUpdateAsync());
+          
+        })
+        .catch((error) => {
+          console.error(error);
+          // NotificationManager.error(error.response.data.error.message, 'Title');// This will give you all the information needed to further debug any errors
+        })
+  }
+
   const handleSubmitLogin = (values) => {
     if (modalTitle === 'Login') {
       userLogin(values)
@@ -78,6 +108,7 @@ const MenuHeader = ({ bgActive }) => {
       >
         <LoginForm
           onSubmitForm={handleSubmitLogin}
+          onGoogleLogin={handleGoogleLogin}
           setModalTitle={setModalTitle}
         />
       </Modal>
