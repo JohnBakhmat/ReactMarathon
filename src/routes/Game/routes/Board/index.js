@@ -15,12 +15,14 @@ import {
   getFirstPlayer,
   selectGameStatus,
   setPlayerHand,
+  logTheTurn,
 } from '../../../../store/board';
 
 import MatchResult from '../../../../components/MatchResult';
 import TurnIndicator from '../../../../components/TurnIndicator';
 import { selectPokemonsData } from '../../../../store/pokemons';
 import { returnBoard } from '../../../../utils';
+import Analysis from './Analysis';
 
 const winCounter = (board, playerOne, playerTwo) => {
   let handOneCount = playerOne.length;
@@ -36,7 +38,10 @@ const winCounter = (board, playerOne, playerTwo) => {
 
   return [handOneCount, handTwoCount];
 };
-
+const getPower = (pokemon) => {
+  const { top, bottom, left, right } = pokemon.values;
+  return Math.max(top, bottom, left, right);
+};
 const BoardPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -191,6 +196,14 @@ const BoardPage = () => {
       gameProceed(params)
         .then(({ data }) => {
           console.log(data);
+          dispatch(
+            logTheTurn(
+              `Player: ${currentPlayer}, Position: ${position}, Card Power: ${getPower(
+                chosenCard
+              )}`
+            )
+          );
+
           setCurrentPlayer((prevState) => (prevState === 1 ? 2 : 1));
           setTurns((prevState) => {
             const count = prevState + 1;
@@ -215,10 +228,17 @@ const BoardPage = () => {
             }, 1000);
 
             setTimeout(() => {
+              console.log('THIS', data);
               setPlayerTwo(() => data.hands.p2.pokes.map((item) => item.poke));
               setServerBoard(data.board);
               setBoard(returnBoard(data.board));
-
+              dispatch(
+                logTheTurn(
+                  `Player: ${2}, Position: ${
+                    data.move.position + 1
+                  }, Card Power: ${getPower(data.move.poke)}`
+                )
+              );
               setCurrentPlayer((prevState) => (prevState === 1 ? 2 : 1));
               setTurns((prevState) => {
                 const count = prevState + 1;
@@ -247,39 +267,43 @@ const BoardPage = () => {
   }, [board, playerOne, playerTwo, turns]);
 
   return (
-    <div className={s.root}>
-      {gameStatus !== 'InProgress' && <MatchResult type={gameStatus} />}
-      <TurnIndicator side={currentPlayer} />
-      <div className={s.playerOne}>
-        <PlayerHand
-          player={1}
-          cards={playerOne}
-          onCardClick={(card) => setChosenCard(card)}
-        />
+    <>
+      <div className={s.root}>
+        {gameStatus !== 'InProgress' && <MatchResult type={gameStatus} />}
+        <TurnIndicator side={currentPlayer} />
+        <div className={s.playerOne}>
+          <PlayerHand
+            player={1}
+            cards={playerOne}
+            onCardClick={(card) => setChosenCard(card)}
+          />
+        </div>
+        <div className={s.board}>
+          {board.map((item) => (
+            <div
+              key={item.position}
+              className={s.boardPlate}
+              onClick={() => !item.card && handleCellClick(item.position)}
+            >
+              {item.card ? (
+                <PokemonCard {...item.card} isActive minimize />
+              ) : (
+                item.position
+              )}
+            </div>
+          ))}
+        </div>
+        <div className={s.playerTwo}>
+          <PlayerHand
+            player={2}
+            cards={playerTwo}
+            onCardClick={(card) => setChosenCard(card)}
+          />
+        </div>
       </div>
-      <div className={s.board}>
-        {board.map((item) => (
-          <div
-            key={item.position}
-            className={s.boardPlate}
-            onClick={() => !item.card && handleCellClick(item.position)}
-          >
-            {item.card ? (
-              <PokemonCard {...item.card} isActive minimize />
-            ) : (
-              item.position
-            )}
-          </div>
-        ))}
-      </div>
-      <div className={s.playerTwo}>
-        <PlayerHand
-          player={2}
-          cards={playerTwo}
-          onCardClick={(card) => setChosenCard(card)}
-        />
-      </div>
-    </div>
+
+      <Analysis></Analysis>
+    </>
   );
 };
 

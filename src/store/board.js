@@ -21,7 +21,8 @@ const initialState = {
     },
   },
   gameStatus: 'Starting',
-  firstPlayer: 2,
+  gameLog: [],
+  firstPlayer: 1,
   // 1 + Math.floor(Math.random() * 2),
 };
 
@@ -55,7 +56,10 @@ const board = createSlice({
       ...state,
       gameStatus: action.payload,
     }),
-
+    logGameStatus: (state, action) => ({
+      ...state,
+      gameLog: [...state.gameLog, action.payload],
+    }),
     resetGameResolve: () => initialState,
   },
 });
@@ -69,6 +73,7 @@ export const {
   resetGameResolve,
   fetchPlayerResolve,
   fetchPlayer,
+  logGameStatus,
 } = board.actions;
 
 export const setPlayerHand =
@@ -98,9 +103,13 @@ export const setGameStatus = (status) => (dispatch) => {
 export const resetGame = () => (dispatch) => {
   dispatch(resetGameResolve());
 };
+export const logTheTurn = (turn) => (dispatch) => {
+  dispatch(logGameStatus(turn));
+};
 
 export const selectPlayer = (id) => (state) => state.board.players[id];
 export const selectGameStatus = (state) => state.board.gameStatus;
+export const selectGameLog = (state) => state.board.gameLog;
 export const getFirstPlayer = (state) => state.board.firstPlayer;
 
 export default board.reducer;

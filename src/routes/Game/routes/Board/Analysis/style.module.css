@@ -1,0 +1,13 @@
+.root {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  font-size: 2rem;
+  min-height: 200px;
+}
+.root h1 {
+  grid-column: span 3;
+  text-align: center;
+  /* background: #000; */
+}
